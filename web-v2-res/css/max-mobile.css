@@ -1,0 +1,10 @@
+/* 
+ * 560px以上
+ * 840px以下
+ * 移动端样式
+*/
+@media screen and (min-width: 560px) and (max-width: 840px) {
+    .tl-rtc-app-right-p2p-channel-content-list-user-item{
+        width: 20%;
+    }
+}

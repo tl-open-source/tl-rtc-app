@@ -1,0 +1,9 @@
+/* 
+ * 1500px以上
+ * 超宽屏幕
+ */
+ @media screen and (min-width: 1500px){
+    .tl-rtc-body{
+        left: calc((100% - var(--body-max-width)) / 2);
+    }
+}
