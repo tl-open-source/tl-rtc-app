@@ -1,0 +1,642 @@
+
+[v-cloak] {
+    visibility: hidden !important; 
+}
+
+
+/** vconsole样式修改 **/
+.vc-switch{
+    right: 10px !important;
+    bottom: 100px !important;
+}
+
+.layui-laydate{
+    border-radius: 8px !important;
+}
+
+.layui-form-select dl dd.layui-this{
+    background-color: var(--skin-body-background);
+    color: var(--skin-body-color);
+}
+
+.layui-form-select dl{
+    background-color: var(--skin-body-background);
+}
+
+.layui-layedit i{
+    color: var(--skin-body-color) !important;
+}
+
+.tl-rtc-app-close-i{
+    color: var(--skin-body-color) !important;
+}
+
+.tl-rtc-app-max-i{
+    color: var(--skin-body-color) !important;
+    font-weight: bold;
+    background: unset;
+}
+
+.layui-layer-prompt{
+    border-radius: 8px !important;
+}
+
+.layui-layer-dialog{
+    border-radius: 8px !important;
+}
+
+.layui-layer-page .layui-layer-content{
+    overflow: unset !important;
+}
+
+.layui-layer-loading{
+    background: unset !important;
+}
+
+.layedit-tool-history{
+    scale: 1.3;
+}
+
+.layedit-tool-voice{
+    scale: 1.3;
+}
+
+.layui-layer-prompt, .layui-layer-dialog, .layui-layer-page{
+    background: var(--skin-body-background) !important;
+    color: var(--skin-body-color) !important;
+}
+
+.layui-layer-prompt .layui-layer-title,
+.layui-layer-dialog .layui-layer-title,
+.layui-layer-page .layui-layer-title{
+    color: var(--skin-body-color) !important;
+}
+
+.layui-layer-prompt .layui-layer-title,
+.layui-layer-dialog .layui-layer-title,
+.layui-layer-page .layui-layer-title{
+    border-bottom: 1px solid var(--skin-body-border-color);
+}
+
+.layui-layer-prompt .layui-layer-input{
+    background: var(--skin-body-background) !important;
+    border: 1px solid var(--skin-body-border-color) !important;
+    color: var(--skin-body-color) !important;
+}
+
+/***********************************************************************************
+************************************************************************************
+                                侧边栏 start
+************************************************************************************
+************************************************************************************/
+::-webkit-scrollbar{
+    width: 0.1px;
+    height: 4px;
+    background-color: var(--skin-body-background)
+}
+::-webkit-scrollbar-track{
+    border-radius: 10px;
+    background-color: var(--skin-body-background)
+}
+::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.2);
+    background-color: var(--skin-body-background)
+}
+/***********************************************************************************
+************************************************************************************
+                                侧边栏 end
+************************************************************************************
+************************************************************************************/
+
+
+/***********************************************************************************
+************************************************************************************
+                                聊天表情包 start
+************************************************************************************
+************************************************************************************/
+.layui-util-face ul li img{
+    width: 100%;
+    margin-top: -2px;
+}
+
+.layui-tl-img{
+    width: 100px;
+}
+
+.layui-util-face .layui-layer-content{
+    border-radius: 8px !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .2) !important;
+    overflow: hidden;
+}
+
+.layui-util-face ul{
+    width: 248px;
+    border-radius: 8px;
+    padding: 5px 10px 5px;
+    border: unset;
+    box-shadow: unset;
+    transition: transform 0.3s;
+}
+
+.tl-rtc-app-face-search{
+    margin: 0px;
+    padding: 10px;
+}
+
+.tl-rtc-app-face-search input{
+    width: 100%;
+    height: 28px;
+    font-size: 11px;
+    border-radius: 4px;
+    border: 1px solid var(--skin-body-border-color);
+    background: var(--skin-face-search-input-background);
+    color: var(--skin-face-search-input-color);
+    border-color: var(--skin-face-search-input-background);
+    letter-spacing: 1px;
+    border-width: 0.5px;
+}
+
+.tl-rtc-app-face-tab{
+    padding: 5px;
+    line-height: 25px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+
+.tl-rtc-app-face-tab span{
+    padding: 2px 5px;
+    cursor: pointer;
+    width: calc(25% - 10px);
+    background: var(--skin-face-tab-background);
+    color: var(--skin-face-tab-color);
+}
+
+.tl-rtc-app-face-tab span:hover{
+    background: var(--skin-face-tab-hover-background);
+    color: var(--skin-face-tab-hover-color);
+    border-radius: 4px;
+}
+
+.tl-rtc-app-face-search-content{
+    height: 105px;
+    overflow-y: auto;
+}
+
+#text-face-ul{
+    font-size: 11px;
+}
+
+.tl-rtc-app-face-search-content-title{
+    padding: 5px 10px 0;
+    font-size: 10px;
+    color: #999;
+    color: var(--skin-face-content-title-color);
+}
+
+.tl-rtc-app-face-layer{
+    background: var(--skin-body-background) !important;
+    color: var(--skin-body-color) !important;
+}
+
+.tl-rtc-app-face-layer .layui-layer-title{
+    color: var(--skin-body-color) !important;
+    border-bottom: 1px solid var(--skin-body-border-color) !important;
+    border-radius: 6px;
+}
+
+.tl-rtc-app-face-layer .layui-layer-content{
+    background: unset !important;
+    border: 1px solid var(--skin-body-border-color) !important;
+}
+
+.tl-rtc-app-face-layer ul{
+    background: unset !important;
+}
+
+.tl-rtc-app-face-layer ul li{
+    border: 1px solid var(--skin-body-border-color) !important;
+    color: var(--skin-body-color) !important;
+}
+
+.tl-rtc-app-face-layer ul li:hover{
+    background-color: var(--skin-face-item-hover-background);
+    color: var(--skin-face-item-hover-color);
+}
+
+
+/***********************************************************************************
+************************************************************************************
+                                聊天表情包 end
+************************************************************************************
+************************************************************************************/
+
+
+
+
+/***********************************************************************************
+************************************************************************************
+                                输入内容编辑器 start
+************************************************************************************
+************************************************************************************/
+.layui-layedit{
+    border: none;
+    border-top-width: 0px;
+    border-top-style: outset;
+    border-top-color: #c4eee0;
+}
+
+.layui-layedit-tool{
+    border-bottom-style: none;
+}
+
+.layui-layedit-iframe iframe{
+    user-select: none;
+}
+
+.layedit-tool-history, .layedit-tool-voice{
+    font-size: 15px !important;
+}
+
+.layedit-tool-face{
+    font-size: 20px !important;
+}
+
+.layedit-tool-print-cut svg{
+    width: 21px !important;
+    height: 30px !important;
+    margin-right: 7px !important;
+    fill: var(--skin-body-color) !important;
+}
+
+.layedit-tool-record svg{
+    width: 18px !important;
+    height: 30px !important;
+    margin-right: 7px !important;
+    fill: var(--skin-body-color) !important;
+}
+
+.layedit-tool-draw svg{
+    width: 19px !important;
+    height: 30px !important;
+    margin-right: 7px !important;
+    fill: var(--skin-body-color) !important;
+}
+
+.layedit-tool-code svg{
+    width: 19px !important;
+    height: 30px !important;
+    margin-right: 7px !important;
+    fill: var(--skin-body-color) !important;
+}
+
+.layedit-tool-face svg{
+    width: 19px !important;
+    height: 30px !important;
+    fill: var(--skin-body-color) !important;
+}
+/***********************************************************************************
+************************************************************************************
+                                输入内容编辑器 end
+************************************************************************************
+************************************************************************************/
+
+
+
+/***********************************************************************************
+************************************************************************************
+                                折叠面板 start
+************************************************************************************
+************************************************************************************/
+.layui-collapse{
+    border: none;
+}
+
+.layui-colla-title{
+    background-color: unset;
+    padding: 0 0px 0 35px;
+    transition: color 0.3s;
+    color: unset;
+}
+
+.layui-colla-content, .layui-colla-item{
+    border: none;
+}
+
+.layui-colla-content{
+    color: unset;
+}
+
+.layui-colla-content {
+    padding: 0px !important;
+}
+/***********************************************************************************
+************************************************************************************
+                                折叠面板 end
+************************************************************************************
+************************************************************************************/
+
+
+/***********************************************************************************
+************************************************************************************
+                                form表单 start
+************************************************************************************
+************************************************************************************/
+.layui-form-switch{
+    margin-top: unset !important;
+    height: 18px !important;
+    line-height: 18px !important; 
+    min-width: 28px !important;
+}
+
+.layui-form-switch i{
+    width: 12px !important;
+    height: 12px !important;   
+}
+
+.layui-form-onswitch i{
+    margin-left: -16px !important;
+    /* background: var(--skin-body-color); */
+}
+
+.layui-form-onswitch{
+    /* border-color: var(--skin-body-background) !important;
+    background-color: var(--skin-body-background) !important; */
+}
+
+.layui-form-checkbox[lay-skin=primary] i{
+    border-radius: 50%;
+}
+
+.layui-form-checked[lay-skin=primary] i{
+    border-color: var(--skin-body-color) !important;
+    /* background-color: var(--skin-body-background) !important; */
+}
+/***********************************************************************************
+************************************************************************************
+                                form表单 end
+************************************************************************************
+************************************************************************************/
+
+
+/***********************************************************************************
+************************************************************************************
+                                颜色选择器 start
+************************************************************************************
+************************************************************************************/
+.layui-colorpicker.layui-colorpicker-xs{
+    width: 18px;
+    height: 18px;
+    line-height: 16px;
+}
+
+.layui-colorpicker{
+    padding: 3px 15px;
+    transition: padding 0.3s;
+}
+
+.layui-colorpicker .layui-icon-edit{
+    transition: all 0.3s;
+}
+
+.layui-colorpicker-main{
+    border: unset;
+    border-radius: 8px;
+}
+
+.layui-colorpicker-basis{
+    width: auto;
+}
+
+.layui-colorpicker-trigger-span{
+    border: unset;
+    background: unset;
+}
+/***********************************************************************************
+************************************************************************************
+                                颜色选择器 end
+************************************************************************************
+************************************************************************************/
+
+
+
+/***********************************************************************************
+************************************************************************************
+                                自定义右键菜单 start
+************************************************************************************
+************************************************************************************/
+.custom-context-menu {
+    position: absolute;
+    background-color: var(--skin-body-background) !important;
+    border: 1px solid var(--skin-body-border-color) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    color: var(--skin-body-color) !important;
+    width: 140px;
+    padding: 4px 0;
+    z-index: 1000;
+    user-select: none;
+    border-radius: 4px;
+}
+
+.custom-context-menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.custom-context-menu ul li {
+    padding: 5px 10px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 13px;
+    transition: background-color 0s;
+}
+
+.custom-context-menu ul li:hover {
+    background-color: var(--skin-body-color) !important;
+    color: var(--skin-body-background) !important;
+}
+
+.custom-context-menu ul li:not(:last-child) {
+    border-bottom: 1px solid var(--skin-body-border-color);
+}
+
+.custom-context-menu ul li.disabled {
+    color: #d8d5d58a;
+    cursor: not-allowed;
+}
+
+.layui-menu-body-title svg{
+    margin-right: 5px;
+}
+
+.layui-menu-body-title>.layui-icon{
+    font-size: 12px;
+}
+
+.layui-menu-body-panel{
+    position: absolute;
+    background-color: var(--skin-body-background);
+    border: 1px solid var(--skin-body-border-color);
+    width: 140px;
+    padding: 0;
+    z-index: 1000;
+    user-select: none;
+    margin-left: 0px;
+    top: -1px;
+}
+
+.layui-menu-body-panel-left{
+    margin-right: 0px;
+}
+
+.layui-menu-body-panel ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.layui-menu-body-panel ul li {
+    padding: 5px 10px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 13px;
+    transition: background-color 0.2s;
+}
+
+.layui-menu-body-panel ul li:hover {
+    background-color: var(--skin-body-background) !important;
+}
+
+.layui-menu-body-panel ul li:not(:last-child) {
+    border-bottom: 1px solid var(--skin-body-border-color);
+}
+
+.layui-menu-body-panel ul li.disabled {
+    color: #d8d5d58a;
+    cursor: not-allowed;
+}
+
+.layui-menu{
+    background: var(--skin-body-background) !important;   
+}
+
+.layui-menu li{
+    line-height: 20px;
+    margin: 0;
+    width: 100%;
+    color: var(--skin-body-color) !important;
+}
+/***********************************************************************************
+************************************************************************************
+                                自定义右键菜单 end
+************************************************************************************
+************************************************************************************/
+
+
+
+/***********************************************************************************
+************************************************************************************
+                                layer消息提示 start
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-layer-msg{
+    background: var(--skin-layer-msg-background) !important;
+    color: var(--skin-layer-msg-color) !important;
+    font-size: 14px !important;
+    scale: 0.9 !important;
+    font-weight: bold !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 40px #00000026 !important;
+    min-width: unset !important;
+}
+
+.tl-rtc-app-layer-msg .layui-layer-content{
+    line-height: 18px !important;
+    letter-spacing: 1px !important;
+    display: flex !important;
+    padding: 12px 15px !important;
+    flex-direction: row !important;
+
+    display: flex !important;
+    align-content: center !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.tl-rtc-app-layer-msg .layui-layer-content .tl-toast-msg-success{
+    color: var(--skin-layer-msg-success-color) !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    margin-right: 5px !important;
+}
+
+.tl-rtc-app-layer-msg  .layui-layer-content .tl-toast-msg-warning{
+    color: var(--skin-layer-msg-warning-color) !important;
+    font-weight: bold !important;
+    font-size: 20px !important;
+    margin-right: 5px !important;
+}
+
+.tl-rtc-app-layer-msg .layui-layer-content .tl-toast-msg-error{
+    color: var(--skin-layer-msg-error-color) !important;
+    font-weight: bold !important;
+    font-size: 20px !important;
+    margin-right: 5px !important;
+}
+/***********************************************************************************
+************************************************************************************
+                                layer消息提示 end
+************************************************************************************
+************************************************************************************/
+
+
+
+/***********************************************************************************
+************************************************************************************
+                                layer-tips start
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-layer-tips .layui-layer-content{
+    background: var(--skin-layer-tips-background) !important;
+    color: var(--skin-layer-tips-color) !important;
+}
+
+.tl-rtc-app-layer-tips .layui-layer-content{
+    border-radius: 4px !important;
+}
+
+.tl-rtc-app-layer-tips .layui-layer-TipsG.layui-layer-TipsR{
+    border-right-color: var(--skin-layer-tips-background) !important;
+    border-bottom-color: var(--skin-layer-tips-background) !important;
+}
+
+.tl-rtc-app-layer-tips .layui-layer-TipsG.layui-layer-TipsB{
+    border-right-color: var(--skin-layer-tips-background) !important;
+}
+
+.tl-rtc-app-layer-tips .layui-layer-TipsG.layui-layer-TipsT{
+    border-right-color: var(--skin-layer-tips-background) !important;
+}
+
+/***********************************************************************************
+************************************************************************************
+                                layer-tips end
+************************************************************************************
+************************************************************************************/
+
+
+.layui-form-radio {
+    display: unset !important;
+    vertical-align: unset !important;
+    line-height: unset !important;
+    margin: unset !important;
+    padding-right: unset !important;
+    cursor: pointer;
+    font-size: unset !important;
+}
+

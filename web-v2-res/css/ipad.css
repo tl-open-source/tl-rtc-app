@@ -1,0 +1,75 @@
+/* 
+ * 701px ~ 850px [100%]
+ * 841px ~ 990px [80%]
+ * 平板端/pc样式
+ */
+ @media screen and (min-width: 841px) and (max-width: 990px){
+    html{
+        --body-width: 100%;
+        --body-height: 100%;
+
+        --sidebar-width: 50px;
+        --left-width: 270px;
+    }
+
+    .tl-rtc-body{
+        border-radius: unset;
+    }
+
+    #tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-channel-item-content{
+        width: 50%;
+    }
+
+    #tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-channel-item-other{
+        width: 30%;
+    }
+
+    #tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-form{
+        padding: 20px 45px 20px;
+    }
+    
+    #tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-img{
+        width: 20%;
+    }
+
+    #tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-content{
+        width: 45%;
+    }
+
+    #tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-other{
+        width: 35%;
+    }
+
+    .tl-rtc-app-left-sidebar-item-dog{
+        position: absolute;
+        margin-top: -28px;
+        transition: right .3s;
+        right: 1px;
+        line-height: 14px;
+        height: 14px;
+        border-radius: 4px;
+        font-size: 11px;
+        scale: .9;
+    }
+}
+
+/* 
+ * 851px ~ 999px [100%]
+ * 991px ~ 1150px [80%]
+ * 平板端/pc样式
+ */
+@media screen and (min-width: 991px) and (max-width: 1150px){
+    html{
+        --body-width: 100%;
+        --body-height: 100%;
+    }
+
+    .tl-rtc-body{
+        border-radius: unset;
+    }
+
+    #tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-form{
+        padding: 20px 70px 20px;
+    }
+}
+
