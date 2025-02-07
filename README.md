@@ -1,27 +1,62 @@
-![TL-RTC-APP Logo](web-v2-res/image/tlrtcapp-logo.svg)
+<p align="center">
+  <img src="web-v2-res/image/tlrtcapp-logo.svg" alt="TL-RTC-APP Logo">
+</p>
 
-### 安装步骤
+### Preview
 
-1. 克隆仓库：
+<img src="web-v2-res/image/homepage.png" alt="homepage">
+
+## Prerequisites
+
+1. Install Node.js environment
+
+2. Install MySQL environment
+
+3. Install Redis environment
+
+## Installation Steps
+
+1. Clone the repository:
+
     ```bash
     git clone https://github.com/tl-open-source/tl-rtc-app.git
     ```
-2. 进入项目目录：
+2. Navigate to the project directory:
+
     ```bash
     cd tl-rtc-app
     ```
-3. 安装依赖：
+3. Install dependencies:
+
     ```bash
     npm install
     ```
 
-### 使用说明
-1. 启动应用：
+## Usage Instructions
+1. Start the application - Api
+
     ```bash
-    npm start
+    npm run http-api
+
+    or
+
+    npm run https-api
     ```
-2. 打开浏览器并访问 `http://localhost:9096`。
 
+2. Start the application - Socket
 
-### 许可证
-该项目根据 MIT 许可证授权。有关详细信息，请参阅 [LICENSE](LICENSE) 文件。
+    ```bash
+    npm run http-socket
+
+    or
+
+    npm run https-socket
+    ```
+
+3. Open your browser and visit `http://localhost:9096`.
+
+## License
+This project is licensed under the MIT License. For more details, please refer to the [LICENSE](LICENSE) file.
+
+## Disclaimer
+For more details, please refer to the [DISCLAIMER](DISCLAIMER) file.
