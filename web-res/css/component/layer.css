@@ -1,0 +1,49 @@
+
+.layui-layer-loading{
+    background: unset !important;
+}
+
+.tl-rtc-app-close-i{
+    color: var(--skin-body-color) !important;
+}
+
+.tl-rtc-app-max-i{
+    color: var(--skin-body-color) !important;
+    font-weight: bold;
+    background: unset;
+}
+
+.layui-layer-prompt{
+    border-radius: 8px !important;
+}
+
+.layui-layer-dialog{
+    border-radius: 8px !important;
+}
+
+.layui-layer-page .layui-layer-content{
+    overflow: unset !important;
+}
+
+.layui-layer-prompt, .layui-layer-dialog, .layui-layer-page{
+    background: var(--skin-body-background) !important;
+    color: var(--skin-body-color) !important;
+}
+
+.layui-layer-prompt .layui-layer-title,
+.layui-layer-dialog .layui-layer-title,
+.layui-layer-page .layui-layer-title{
+    color: var(--skin-body-color) !important;
+}
+
+.layui-layer-prompt .layui-layer-title,
+.layui-layer-dialog .layui-layer-title,
+.layui-layer-page .layui-layer-title{
+    border-bottom: 1px solid var(--skin-body-border-color);
+}
+
+.layui-layer-prompt .layui-layer-input{
+    background: var(--skin-body-background) !important;
+    border: 1px solid var(--skin-body-border-color) !important;
+    color: var(--skin-body-color) !important;
+}

@@ -2,8 +2,8 @@ const { fields } = require('../../tables/tl_company')
 const TlCompanyDao = require('../../dao/tl_company_dao')
 const TlCompanyDef = fields.Def
 const TableName = fields.Name
-const TableFields = Object.keys(fields.Def).map(key => fields.Def[key])
 const { tlConsoleError, tlConsole } = require("../../../src/utils/utils");
+const { Op } = require('sequelize')
 
 
 /**
@@ -76,7 +76,7 @@ const deleteInfoById = async function ({ id }) {
     // 参数校验
     if (!id) {
         tlConsoleError(TableName, "请求service参数id为空")
-        return {}
+        return 0
     }
 
     const info = await TlCompanyDao.deleteInfo({
@@ -85,7 +85,7 @@ const deleteInfoById = async function ({ id }) {
 
     if (info === null) {
         tlConsoleError(TableName, "请求dao异常")
-        return {}
+        return 0
     }
 
     return info
@@ -123,24 +123,6 @@ const updateInfoById = async function ({ id }, data) {
 /**
  * 获取企业列表
  * @param {*} fields
- */
-const getList = async function ({ }, fields) {
-    const infoList = await TlCompanyDao.getList({
-
-    }, fields, [
-        [TlCompanyDef.createdAt, "DESC"]
-    ]);
-
-    if (infoList === null) {
-        return []
-    }
-
-    return infoList
-}
-
-/**
- * 获取企业列表
- * @param {*} fields
  * @param {*} page
  * @param {*} pageSize
  */
@@ -171,7 +153,9 @@ const getListForPage = async function ({ }, fields, page, pageSize) {
     }
 
     const infoList = await TlCompanyDao.getListForPage({
-
+        id: {
+            [Op.gt]: 0
+        }
     }, fields, [
         [TlCompanyDef.createdAt, "DESC"]
     ], page, pageSize);
@@ -184,9 +168,106 @@ const getListForPage = async function ({ }, fields, page, pageSize) {
 }
 
 /**
+ * 通过关键字获取企业列表
+ * @param {*} keyword 
+ * @param {*} fields 
+ * @param {*} page 
+ * @param {*} pageSize 
+ * @returns 
+ */
+const getListByKeywordForPage = async function ({ keyword }, fields, page, pageSize) {
+    if(keyword === null || keyword === undefined){
+        tlConsoleError(TableName, "请求service参数keyword为空")
+        return []
+    }
+
+    if(!page){
+        tlConsoleError(TableName, "请求service参数page为空")
+        return []
+    }
+
+    if(!pageSize){
+        tlConsoleError(TableName, "请求service参数pageSize为空")
+        return []
+    }
+
+    if(page <= 0){
+        tlConsoleError(TableName, "请求service参数page不合法")
+        return []
+    }
+
+    if(pageSize <= 0){
+        tlConsoleError(TableName, "请求service参数pageSize不合法")
+        return []
+    }
+
+    if(pageSize > 1000){
+        tlConsoleError(TableName, "请求service参数pageSize过大")
+        return []
+    }
+
+    const infoList = await TlCompanyDao.getListForPage({
+        [TlCompanyDef.name]: {
+            [Op.like]: `%${keyword}%`
+        }
+    }, fields, [
+        [TlCompanyDef.createdAt, "DESC"]
+    ], page, pageSize);
+
+    if (infoList === null) {
+        return []
+    }
+
+    return infoList
+}
+
+/**
+ * 获取企业总数 
+ * @returns 
+ */
+const getCount = async function ({  }) {
+    const count = await TlCompanyDao.getCount({
+        [TlCompanyDef.id]: {
+            [Op.gt]: 0
+        }
+    });
+
+    if (count === null) {
+        return 0
+    }
+
+    return count
+}
+
+/**
+ * 通过关键字获取企业总数
+ * @param {*} keyword
+ * @returns
+ **/
+const getCountByKeyword = async function ({ keyword }) {
+    if(!keyword){
+        tlConsoleError(TableName, "请求service参数keyword为空")
+        return 0
+    }
+
+    const count = await TlCompanyDao.getCount({
+        [TlCompanyDef.name]: {
+            [Op.like]: `%${keyword}%`
+        }
+    });
+
+    if (count === null) {
+        return 0
+    }
+
+    return count
+}
+
+/**
  * 获取企业信息
  * @param {*} id
  * @param {*} fields
+ * @returns
  */
 const getInfoById = async function ({ id }, fields) {
     // 参数校验
@@ -197,29 +278,6 @@ const getInfoById = async function ({ id }, fields) {
 
     const info = await TlCompanyDao.getInfo({
         [TlCompanyDef.id]: id
-    }, fields)
-
-    if (info === null) {
-        return {}
-    }
-
-    return info
-}
-
-/**
- * 获取企业信息
- * @param {*} name
- * @param {*} fields
- */
-const getInfoByName = async function ({ name }, fields) {
-    // 参数校验
-    if (!name) {
-        tlConsoleError(TableName, "请求service参数name为空")
-        return {}
-    }
-
-    const info = await TlCompanyDao.getInfo({
-        [TlCompanyDef.name]: name
     }, fields)
 
     if (info === null) {
@@ -253,15 +311,47 @@ const getInfoByCode = async function ({ code }, fields) {
     return info
 }
 
+/**
+ * 通过id列表获取企业列表
+ * @param {*} idList
+ * @param {*} fields
+ * @returns
+ */
+const getListByIdList = async function ({ idList }, fields) {
+    // 参数校验
+    if (!idList) {
+        tlConsoleError(TableName, "请求service参数idList为空")
+        return []
+    }
+
+    const infoList = await TlCompanyDao.getList({
+        [TlCompanyDef.id]: {
+            [Op.in]: idList
+        }
+    }, fields, [
+        [TlCompanyDef.createdAt, "DESC"]
+    ]);
+
+    if (infoList === null) {
+        return []
+    }
+
+    return infoList
+}
+
 
 module.exports = {
     addInfo,
     deleteInfoById,
     updateInfoById,
     getInfoById,
-    getInfoByName,
     getInfoByCode,
 
-    getList,
-    getListForPage
+    getListByIdList,
+
+    getListForPage,
+    getListByKeywordForPage,
+
+    getCount,
+    getCountByKeyword
 }

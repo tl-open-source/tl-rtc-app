@@ -1,18 +1,6 @@
 <p align="center">
-  <img src="web-v2-res/image/tlrtcapp-logo.svg" alt="TL-RTC-APP Logo">
+  <img src="web-res/image/tlrtcapp-logo.svg" alt="TL-RTC-APP Logo">
 </p>
-
-### 预览
-
-<img src="web-v2-res/image/homepage.png" alt="homepage">
-
-### 准备
-
-1. 安装nodejs环境
-
-2. 安装mysql环境
-
-3. 安装redis环境
 
 ### 安装步骤
 
@@ -35,27 +23,13 @@
     ```
 
 ### 使用说明
-1. 启动应用 - Api
+1. 启动应用：
 
     ```bash
-    npm run http-api
-
-    或者
-
-    npm run https-api
-    ```
-
-2. 启动应用 - Socket
-
-    ```bash
-    npm run http-socket
-
-    或者
-
-    npm run https-socket
+    npm start
     ```
    
-3. 打开浏览器并访问 `http://localhost:9096`。
+2. 打开浏览器并访问 `http://localhost:9096`。
 
 
 ### 许可证

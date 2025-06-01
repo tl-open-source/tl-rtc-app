@@ -21,19 +21,14 @@ const tl_user_friend_fields = {
         NORMAL : 1, //正常
     },
     Flag: {
-        
+        IS_ADD_BY_SEARCH_NAME: 0x1, //通过搜索用户名添加
+        IS_ADD_BY_SEARCH_PHONE: 0x2, //通过搜索手机号添加
+        IS_ADD_BY_SEARCH_EMAIL: 0x4, //通过搜索邮箱添加
+        IS_ADD_BY_INVITE: 0x8, //通过邀请添加
     },
     FriendType: {
         NORMAL: 1, //普通好友
-        SPECIAL: 2, //特别关注
     },
-    Origin: {
-        SEARCH_NAME: '1', //搜索用户名添加
-        SEARCH_PHONE: '2', //搜索手机号添加
-        SEARCH_EMAIL: '3', //搜索邮箱添加
-        INVITE_QR: '4', //二维码邀请添加
-        INVITE_LINK: '5', //链接邀请添加
-    }
 }
 
 const tl_user_friend_model = function(DataTypes){
@@ -56,8 +51,8 @@ const tl_user_friend_model = function(DataTypes){
             },
             origin: {
                 type: DataTypes.STRING,
-                comment: '来源',
-                defaultValue: 0,
+                comment: '好友来源信息',
+                defaultValue: '',
             },
             user_id: {
                 type: DataTypes.INTEGER,

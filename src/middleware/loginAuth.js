@@ -1,12 +1,10 @@
 const { 
-    tlConsoleApiIcon, tlConsole, tlConsoleError,
-    tlResponseArgsError, tlResponseForbidden, tlResponseSvrError, 
-    tlResponseTimeout, tlResponseNotFound, tlResponseSuccess
+    tlConsole, tlResponseForbidden, 
 } = require("../utils/utils");
 const {
     LOGIN : {
         LOGIN_TOKEN_KEY,
-        WEBSITE_LOGIN_TOKEN_KEY
+        SYSTEM_LOGIN_TOKEN_KEY
     }
 } = require('../utils/constant');
 const userSessionService = require('../service/user/tl_user_session_service')
@@ -18,27 +16,18 @@ const loginAuthIngoreApi = [
 
     // 登录
     '/api/web/user-login/login-state',
-    '/api/web/user-login/website-login-state',
+    '/api/web/user-login/system-login-state',
     '/api/web/user-login/login-by-account',
-    '/api/web/user-login/login-by-mobile',
     '/api/web/user-login/login-by-email',
-    '/api/web/user-login/login-by-code',
-    '/api/web/user-login/login-by-wechat',
-    '/api/web/user-login/login-by-qq',
-    '/api/web/user-login/login-by-qy-wechat',
-    '/api/web/user-login/login-by-fp',
-    '/api/web/user-login/login-by-website',
+    '/api/web/user-login/login-by-system',
 
     // 注册
     '/api/web/user-register/register-by-account',
-    '/api/web/user-register/register-by-mobile',
     '/api/web/user-register/register-by-email',
-    '/api/web/user-register/get-email-code',
-    '/api/web/user-register/register-website-user',
 
     // 退出
     '/api/web/user-logout/logout',
-    '/api/web/user-logout/website-logout',
+    '/api/web/user-logout/system-logout',
 ]
 
 
@@ -62,16 +51,21 @@ const loginAuthHandler = async function(request, response, next) {
         }
     }
 
-    const isWebsite = request.url.includes("/website-")
-
     let tokenKey = LOGIN_TOKEN_KEY
-    if(isWebsite){
-        tokenKey = WEBSITE_LOGIN_TOKEN_KEY
+    
+    const isSystem = request.url.includes("/system-")
+    if(isSystem){
+        tokenKey = SYSTEM_LOGIN_TOKEN_KEY
     }
 
-    const { [tokenKey]: token } = request.cookies;
+    let { [tokenKey]: token } = request.cookies;
     if (!token) {
-        return response.json(tlResponseForbidden("不在线, 请先登录"))
+        // 如果没有token，尝试从请求头中获取
+        token = request.headers[tokenKey];
+        if (!token) {
+            // 如果请求头中也没有token，返回401
+            return response.json(tlResponseForbidden("不在线, 请先登录"))
+        }
     }
         
     const {
@@ -86,11 +80,7 @@ const loginAuthHandler = async function(request, response, next) {
         loginUserMobile
     } = await userSessionService.getUserInfoByToken({token})
 
-    if(isWebsite){
-        tlConsole("website login check:", request.url, token, loginUserCompanyId, loginUserId)
-    }else{
-        tlConsole("login check:", request.url, token, loginUserCompanyId, loginUserId)
-    }
+    tlConsole("login check:", request.url, token, loginUserCompanyId, loginUserId)
 
     if (!loginUserCompanyId) {
         return response.json(tlResponseForbidden("不在线, 请先登录"))

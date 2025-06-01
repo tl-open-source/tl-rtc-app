@@ -1,5 +1,5 @@
 const {
-	tlConsole, tlResponseSvrError, tlConsoleError, tlResponseArgsError, checkRequestParams
+	tlResponseSvrError, tlConsoleError, tlResponseArgsError, checkRequestParams
 } = require("../../../utils/utils");
 const express = require('express');
 const router = express.Router();
@@ -10,6 +10,9 @@ const {
         LOGIN_TOKEN_KEY
     }
 } = require('../../../utils/constant');
+const {
+    contentFilter, objectContentFilter
+} = require('../../../utils/sensitive/content')
 
 
 /**
@@ -40,44 +43,7 @@ router.post('/register-by-account', async function(request, response) {
         }
 
         const result = await bizUserRegister.userRegisterByAccount({
-            account, password, invite_code
-        });
-        response.json(result);
-    } catch (error) {
-        tlConsoleError(error)
-        response.json(tlResponseSvrError());
-    }
-});
-
-/**
- * #controller post /api/web/user-register/register-by-mobile
- * #desc 通过手机号注册
- * @param {*} request
- * @param {*} response
- */
-router.post('/register-by-mobile', async function(request, response) {
-	try {
-        const { mobile, code, invite_code } = request.body;
-        const { [LOGIN_TOKEN_KEY]: token  } = request.cookies;
-
-        if(token){
-            const loginResult = await bizUserLoginState.userIsLogin({
-                token
-            });
-            if(loginResult.success){
-                return response.json(loginResult)
-            }
-        }
-
-        if (!checkRequestParams({
-            mobile, code, invite_code
-        })) {
-            response.json(tlResponseArgsError("请求参数非法"));
-            return;
-        }
-
-        const result = await bizUserRegister.userRegisterByMobile({
-            mobile, code, invite_code
+            account: contentFilter(account), password, invite_code
         });
         response.json(result);
     } catch (error) {
@@ -152,35 +118,24 @@ router.post('/get-email-code', async function(request, response) {
 
 
 /**
- * #controller post /api/web/user-register/register-website-user
- * #desc 注册官网用户
+ * #controller post /api/web/user-register/reset-by-email
+ * #desc 重置邮箱用户密码
  * @param {*} request
  * @param {*} response
  */
-router.post('/register-website-user', async function(request, response) {
+router.post('/reset-by-email', async function(request, response) {
     try {
-        const { code, email, password } = request.body;
-        const { [LOGIN_TOKEN_KEY]: token  } = request.cookies;
-
-        if(token){
-            const loginResult = await bizUserLoginState.userIsLogin({
-                token
-            });
-
-            if(loginResult.success){
-                return response.json(loginResult)
-            }
-        }
+        const { code, email, invite_code } = request.body;
 
         if (!checkRequestParams({
-            code, email, password
+            code, email, invite_code
         })) {
             response.json(tlResponseArgsError("请求参数非法"));
             return;
         }
 
-        const result = await bizUserRegister.registerWebsiteUser({
-            code, email, password
+        const result = await bizUserRegister.resetPasswordByEmail({
+            code, email, invite_code
         });
         response.json(result);
     } catch (error) {
@@ -188,5 +143,6 @@ router.post('/register-website-user', async function(request, response) {
         response.json(tlResponseSvrError());
     }
 });
+
 
 module.exports = router

@@ -4,8 +4,8 @@ const TlChannelDef = fields.Def
 const TlChannelType = fields.Type
 const TlChannelStatus = fields.Status
 const TableName = fields.Name
-const TableFields = Object.keys(fields.Def).map(key => fields.Def[key])
 const { tlConsoleError, tlConsole } = require("../../../src/utils/utils");
+const { Op } = require('sequelize')
 
 
 /**
@@ -88,6 +88,27 @@ const getInfoById = async function({companyId, id}){
 }
 
 /**
+ * getInfoByIdNoCompanyId 接口
+ * @param {*} id 
+ */
+const getInfoByIdNoCompanyId = async function({id}){
+    if(!id){
+        tlConsoleError(TableName, "请求service参数id为空")
+        return {}
+    }
+
+    const info = await TlChannelDao.getInfo({
+        [TlChannelDef.id]: id,
+    })
+
+    if(info == null){
+        return {}
+    }
+
+    return info
+}
+
+/**
  * getListByIdList 接口
  * @param {*} companyId
  * @param {*} idList 
@@ -106,6 +127,30 @@ const getListByIdList = async function({companyId, idList}, fields){
 
     const list = await TlChannelDao.getList({
         [TlChannelDef.companyId]: companyId,
+        [TlChannelDef.id]: idList
+    }, fields, [
+        [TlChannelDef.createdAt, "DESC"]
+    ])
+
+    if(list == null){
+        return []
+    }
+
+    return list
+}
+
+/**
+ * getListByIdListNoCompanyId 接口
+ * @param {*} idList 
+ * @param {*} fields
+ */
+const getListByIdListNoCompanyId = async function({ idList }, fields){
+    if(!idList){
+        tlConsoleError(TableName, "请求service参数idList为空")
+        return []
+    }
+
+    const list = await TlChannelDao.getList({
         [TlChannelDef.id]: idList
     }, fields, [
         [TlChannelDef.createdAt, "DESC"]
@@ -221,12 +266,12 @@ const deleteInfoById = async function({companyId, id}){
     // 参数校验
     if(!id){
         tlConsoleError(TableName, "请求service参数id为空")
-        return {}
+        return 0
     }
 
     if(!companyId){
         tlConsoleError(TableName, "请求service参数companyId为空")
-        return {}
+        return 0
     }
 
     const info = await TlChannelDao.deleteInfo({
@@ -236,10 +281,155 @@ const deleteInfoById = async function({companyId, id}){
 
     if(info === null){
         tlConsoleError(TableName, "请求dao异常")
-        return {}
+        return 0
     }
 
     return info
+}
+
+/**
+ * getListForPage 接口
+ * @param {*} fields
+ * @param {*} page
+ * @param {*} pageSize
+ */
+const getListForPage = async function({ }, fields, page, pageSize){
+    if(!page){
+        tlConsoleError(TableName, "请求service参数page为空")
+        return []
+    }
+
+    if(!pageSize){
+        tlConsoleError(TableName, "请求service参数pageSize为空")
+        return []
+    }
+
+    if(page <= 0){
+        tlConsoleError(TableName, "请求service参数page不合法")
+        return []
+    }
+
+    if(pageSize <= 0){
+        tlConsoleError(TableName, "请求service参数pageSize不合法")
+        return []
+    }
+
+    if(pageSize > 1000){
+        tlConsoleError(TableName, "请求service参数pageSize过大")
+        return []
+    }
+
+    const list = await TlChannelDao.getListForPage({
+        [TlChannelDef.id]: {
+            [Op.gte]: 0
+        }
+    }, fields, [
+        [TlChannelDef.createdAt, "DESC"]
+    ], page, pageSize)
+
+    if(list == null){
+        return []
+    }
+
+    return list
+}
+
+/**
+ * getListByKeywordForPage 接口
+ * @param {*} keyword 
+ * @param {*} fields 
+ * @param {*} page 
+ * @param {*} pageSize 
+ * @returns 
+ */
+const getListByKeywordForPage = async function({ keyword }, fields, page, pageSize){
+    if(!keyword){
+        tlConsoleError(TableName, "请求service参数keyword为空")
+        return []
+    }
+
+    if(!page){
+        tlConsoleError(TableName, "请求service参数page为空")
+        return []
+    }
+
+    if(!pageSize){
+        tlConsoleError(TableName, "请求service参数pageSize为空")
+        return []
+    }
+
+    if(page <= 0){
+        tlConsoleError(TableName, "请求service参数page不合法")
+        return []
+    }
+
+    if(pageSize <= 0){
+        tlConsoleError(TableName, "请求service参数pageSize不合法")
+        return []
+    }
+
+    if(pageSize > 1000){
+        tlConsoleError(TableName, "请求service参数pageSize过大")
+        return []
+    }
+
+    const list = await TlChannelDao.getListForPage({
+        [TlChannelDef.name]: {
+            [Op.like]: `%${keyword}%`
+        }
+    }, fields, [
+        [TlChannelDef.createdAt, "DESC"]
+    ], page, pageSize)
+
+    if(list == null){
+        return []
+    }
+
+    return list
+}
+
+
+/**
+ * getCount 接口
+ * @returns 
+ */
+const getCount = async function({ }){
+    const count = await TlChannelDao.getCount({
+        [TlChannelDef.id]: {
+            [Op.gte]: 0
+        }
+    })
+
+    if(count === null){
+        return 0
+    }
+
+    return count
+}
+
+
+/**
+ * getCountByKeyword 接口
+ * @param {*} keyword
+ * @returns 
+ */
+const getCountByKeyword = async function({ keyword }){
+    if(!keyword){
+        tlConsoleError(TableName, "请求service参数keyword为空")
+        return 0
+    }
+
+    const count = await TlChannelDao.getCount({
+        [TlChannelDef.name]: {
+            [Op.like]: `%${keyword}%`
+        }
+    })
+
+    if(count === null){
+        return 0
+    }
+
+    return count
 }
 
 
@@ -248,7 +438,15 @@ module.exports = {
     updateInfoById, 
     deleteInfoById, 
     getInfoById,
+    getInfoByIdNoCompanyId,
     
     getListByIdList, 
-    getListByIdListForPage
+    getListByIdListNoCompanyId,
+    getListByIdListForPage,
+
+    getListForPage,
+    getListByKeywordForPage,
+
+    getCount,
+    getCountByKeyword
 }

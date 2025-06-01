@@ -1,0 +1,262 @@
+/* 
+ * 700px以下 [100%]
+ * 840px以下 [80%]
+ * 移动端样式
+*/
+@media screen and (max-width: 840px){
+    html {
+        box-sizing: border-box;
+        background-color: #f6f6f6;
+    
+        --body-width: 100%;
+        --body-height: 100%;
+
+        --sidebar-width: 50px;
+        --left-width: 270px;
+
+        --mobile-sidebar-height: 60px;
+        --right-channel-content-top: 6%;
+        --right-channel-content-body: 74%;
+        --right-channel-editor-height: 20%;
+    }
+    
+    /***********************************************************************************
+    ************************************************************************************
+                                    主界面布局 start
+    ************************************************************************************
+    ************************************************************************************/
+    #tl-rtc-app{
+        display: unset;
+    }
+    
+    .tl-rtc-body{
+        border-radius: unset;
+    }
+    
+    #tl-rtc-app .tl-rtc-app-left{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+
+    #tl-rtc-app .tl-rtc-app-left.login-page{
+        height: 100%;
+    }
+    
+    #tl-rtc-app .tl-rtc-app-right{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 3;
+    }
+
+    #tl-rtc-app .tl-rtc-app-left-sidebar{
+        width: calc(var(--body-width) - 40px);
+        margin-left: 20px;
+        height: var(--mobile-sidebar-height);
+        position: absolute;
+        bottom: 30px;
+        z-index: 2;
+        border-radius: 30px;
+        backdrop-filter: blur( 13.5px );
+        -webkit-backdrop-filter: blur( 13.5px );
+    }
+
+    #tl-rtc-app .tl-rtc-app-left-sidebar .tl-rtc-app-left-sidebar-item:first-child{
+        margin-top: 0px;
+    }
+
+    #tl-rtc-app .tl-rtc-app-left-sidebar .tl-rtc-app-left-sidebar-tool{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        height: var(--mobile-sidebar-height);
+        border-radius: 30px;
+    }
+
+    #tl-rtc-app .tl-rtc-app-left-sidebar .tl-rtc-app-left-sidebar-item{
+        margin-top: unset;
+        width: 100%;
+        height: var(--mobile-sidebar-height);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+        flex-direction: column;
+    }
+
+    #tl-rtc-app .tl-rtc-app-left-sidebar .tl-rtc-app-left-sidebar-bottom{
+        display: none;
+    }
+    
+    #tl-rtc-app .tl-rtc-app-left-sidebar .tl-rtc-app-left-sidebar-logo{
+        display: none;
+    }
+    
+    #tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-channel-item-img{
+        width: 60px;
+    }
+
+    #tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-channel-item-content{
+        width: calc(75% - 60px);
+    }
+
+    #tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-channel-item-other{
+        width: 25%;
+    }
+
+    #tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact{
+        height: calc(100% - var(--left-contact-top) - var(--mobile-sidebar-height));
+    }
+
+    #tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-img{
+        width: 60px;
+    }
+
+    #tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-content{
+        width: calc(75% - 60px);
+    }
+
+    #tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-other{
+        width: 25%;
+    }
+
+    #tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-top-more{
+        max-width: 220px;
+    }
+
+    #tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-top-nickname{
+        max-width: calc(100% - 220px);
+        min-width: 100px;
+    }
+
+    #tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-top-nickname svg{
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    #tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body{
+        padding: 10px;
+    }
+    
+    #tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-form{
+        padding: 20px 10px 20px;
+    }
+
+    .tl-rtc-app-right-channel-file-shade-content-body{
+        width: 100%;
+    }
+
+    .tl-rtc-app-right-setting-content-normal,
+    .tl-rtc-app-right-setting-content-message,
+    .tl-rtc-app-right-setting-content-account,
+    .tl-rtc-app-right-setting-content-skin,
+    .tl-rtc-app-right-setting-content-authority,
+    .tl-rtc-app-right-setting-content-collect,
+    .tl-rtc-app-right-setting-content-recycle,
+    .tl-rtc-app-right-setting-content-other
+    {
+        padding: 5px 0px;
+    }
+
+    .tl-rtc-app-right-setting-content .goBack{
+        top: 17px;
+        left: 15px;
+    }
+
+    .tl-rtc-app-right-setting-content{
+        font-size: 13px;
+    }
+
+    .tl-rtc-app-right-cloud-content{
+        padding: 5px 10px;
+    }
+
+    .tl-rtc-app-right-cloud-content .goBack{
+        top: 18px;
+        left: 15px;
+    }
+
+    .tl-rtc-app-right-meeting-content .goBack{
+        top: 18px;
+        left: 15px;
+    }
+
+    .tl-rtc-app-right-dates-content .goBack{
+        top: 18px;
+        left: 15px;
+    }
+
+    #tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-body-item-info-self{
+        width: calc(100% - 28px);
+        margin-left: 28px;
+    }
+
+    #tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-body-item-info{
+        width: calc(100% - 28px);
+        margin-right: 28px;
+    }
+
+    .tl-rtc-app-right-p2p-channel-content-list-user-item{
+        width: 25%;
+    }
+
+    .tl-rtc-app-setting-list .tl-rtc-app-setting-list-item{
+        padding: 0px 20px 0 25px;
+    }
+
+    #tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-setting-content-top{
+        margin-left: 30px;
+    }
+
+    #tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-top{
+        margin-left: 30px;
+    }
+
+    .layui-colorpicker{
+        padding: 3px 5px;
+    }
+
+    .tl-rtc-app-right-channel-content-search-message-panel-header-tools-item-content .layui-badge{
+        padding: 2px 6px;
+    }
+
+    .tl-rtc-app-left-sidebar-item-dog{
+        position: absolute;
+        margin-top: -30px;
+        transition: right .3s;
+        right: 3px;
+        line-height: 14px;
+        height: 14px;
+        border-radius: 4px;
+        font-size: 11px;
+        scale: .9;
+    }
+
+    .tl-rtc-app-cloud-file-qrcode-section img{
+        width: 200px;
+        height: 200px;
+        padding: 30px;
+    }
+    
+    .tl-rtc-app-right-channel-content-body-quick-message-content-block{
+        width: 100% !important;
+    }
+
+    .tl-rtc-app-right-channel-content-body-at-user-content-block{
+        width: 100% !important;
+    }
+
+    .tl-rtc-app-right-channel-content-body-reply-content-block{
+        width: calc(100% - 20px) !important;
+    }
+    /***********************************************************************************
+    ************************************************************************************
+                                    主界面布局 end 
+    ************************************************************************************
+    ************************************************************************************/
+}

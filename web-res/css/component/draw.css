@@ -1,0 +1,201 @@
+/***********************************************************************************
+************************************************************************************
+                                画一画 start
+************************************************************************************
+************************************************************************************/
+#tl-rtc-app-mouse-draw svg{
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    padding: 2px;
+    margin-left: 5px;
+    border-radius: 6px;
+}
+
+#tl-rtc-app-mouse-draw svg:hover{
+    background: white;  
+}
+
+#tl-rtc-app-mouse-draw svg-active{
+    background: white;  
+}
+
+#tl-rtc-app-mouse-draw{
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    position: absolute;
+}
+
+#tl-rtc-app-mouse-draw .layui-colorpicker{
+    padding: 3px 5px;
+    transition: padding .3s;
+    margin-left: 5px;
+}
+
+#tl-rtc-app-mouse-draw .layui-colorpicker i{
+    color: #000 !important;
+    padding: 0 !important;
+    margin-left: 0 !important;
+    background: unset !important;
+}
+
+.tl-rtc-app-mouse-draw-body{
+    padding: 15px 10px;
+    user-select: none;
+}
+
+.tl-rtc-app-mouse-draw-layer .layui-layer-title{
+    user-select: none;
+}
+
+.tl-rtc-app-mouse-draw-body-item{
+    padding: 5px;
+    display: inline-flex;
+    font-weight: 300;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+}
+
+.tl-rtc-app-mouse-draw-body-item i{
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 5px;
+    border-radius: 6px;
+    color: #000;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.tl-rtc-app-mouse-draw-canvas-button{
+    position: absolute;
+    bottom: 0px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    float: right;
+    right: 0px;
+}
+
+.tl-rtc-app-mouse-draw-canvas-button button{
+    border-radius: 6px;
+    width: auto;
+    height: 35px;
+    opacity: .7;
+    line-height: 33px;
+    font-size: 12px;
+    padding: 0 10px;
+    margin: 20px;
+    z-index: 3;
+}
+
+.tl-rtc-app-mouse-draw-body-item .tl-rtc-app-mouse-draw-stroke-color{
+    margin: unset !important;
+}
+
+.tl-rtc-app-mouse-draw-body-item .layui-colorpicker{
+    padding: unset !important;
+}
+
+.tl-rtc-app-mouse-draw-body-item i:hover{
+    background: white;  
+}
+
+.tl-rtc-app-mouse-draw-body-item i-active{
+    background: white;  
+}
+
+#tl-rtc-app-mouse-draw-line-size-txt, #tl-rtc-app-mouse-draw-div-size-txt{
+    position: relative;
+    top: 3px;
+    margin-left: 5px;
+    font-size: 20px;
+    margin-top: -2px;
+    font-weight: 900;
+    color: black !important;
+    cursor: pointer;
+}
+
+.tl-rtc-app-mouse-draw-body-item i:hover{
+    color: #5280d7;
+}
+
+#tl-rtc-app-mouse-draw-stroke-color{
+    margin-left: 3px;
+    margin-top: -8px;
+}
+
+.tl-rtc-app-mouse-draw-body-item:disabled{
+    color: #4c53d91f;
+    cursor: no-drop;
+}
+
+.tl-rtc-app-mouse-draw-canvas-line{
+    cursor: url("./../image/drawline.png") 5 24, auto;
+}
+
+.tl-rtc-app-mouse-draw-canvas-delete{
+    cursor: url("./../image/drawdelete.png") 15 20, auto;
+}
+
+.tl-rtc-app-mouse-draw-canvas-circle{
+    cursor: url("./../image/drawcircle.png") 5 24, auto;
+}
+
+.tl-rtc-app-mouse-draw-canvas-circle-fill{
+    cursor: url("./../image/drawcirclefill.png") 5 24, auto;
+}
+
+.tl-rtc-app-mouse-draw-canvas-rectangle{
+    cursor: url("./../image/drawrectangle.png") 5 24, auto;
+}
+
+.tl-rtc-app-mouse-draw-canvas-rectangle-fill{
+    cursor: url("./../image/drawrectanglefill.png") 5 24, auto;
+}
+
+.tl-rtc-app-mouse-draw-canvas-hexagon{
+    cursor: url("./../image/drawhexagon.png") 5 24, auto;
+}
+
+.tl-rtc-app-mouse-draw-canvas-hexagon-fill{
+    cursor: url("./../image/drawhexagonfill.png") 5 24, auto;
+}
+
+.tl-rtc-app-mouse-draw-canvas-triangle{
+    cursor: url("./../image/drawtriangle.png") 5 24, auto;
+}
+
+.tl-rtc-app-mouse-draw-canvas-triangle-fill{
+    cursor: url("./../image/drawtrianglefill.png") 5 24, auto;
+}
+
+.tl-rtc-app-mouse-draw-canvas-rhomboid{
+    cursor: url("./../image/drawrhomboid.png") 5 24, auto;
+}
+
+.tl-rtc-app-mouse-draw-canvas-rhomboid-fill{
+    cursor: url("./../image/drawrhomboidfill.png") 5 24, auto;
+}
+
+.tl-rtc-app-mouse-draw-canvas-star{
+    cursor: url("./../image/drawstar.png") 5 24, auto;
+}
+
+.tl-rtc-app-mouse-draw-canvas-star-fill{
+    cursor: url("./../image/drawstarfill.png") 5 24, auto;
+}
+
+.tl-rtc-app-mouse-draw-canvas-text{
+    cursor: url("./../image/drawtext.png") 5 24, auto;
+}
+/***********************************************************************************
+************************************************************************************
+                                画一画 end
+************************************************************************************
+************************************************************************************/

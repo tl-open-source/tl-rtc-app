@@ -1,0 +1,201 @@
+/***********************************************************************************
+************************************************************************************
+                                频道更多列表 start
+************************************************************************************
+************************************************************************************/
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more{
+    position: absolute;
+    right: 0;
+    transform: translateX(300px);
+    height: calc(100% - var(--right-channel-content-top));
+    width: 260px;
+    top: var(--right-channel-content-top);
+    background: var(--skin-channel-content-more-background);
+    border-top: 1px solid var(--skin-body-border-color);
+    border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+    transition: transform 0.3s;
+    box-shadow: var(--skin-channel-content-more-shadow);
+    user-select: none;
+    --webkit-user-select: none;
+    z-index: 1001;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list{
+    text-align: center;
+    padding: 0 20px 0px 20px;
+    height: calc(100% - 1px);
+    overflow-y: auto;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-item{
+    line-height: 45px;
+    padding: 5px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--skin-channel-content-more-list-item-border-color);
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-item:hover{
+    color: var(--skin-channel-content-more-list-item-hover-color);
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-item-title{
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-item-title svg{
+    width: 14px;
+    height: 14px;
+    margin-left: 3px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-item-oper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-item-oper svg{
+    margin-left: 5px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-item-oper-channel-name{
+    color: var(--skin-channel-content-more-list-item-oper-channel-name-color);
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+    max-width: 100px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-user-list{
+    line-height: 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    padding-bottom: 5px;
+    text-align: center;
+    border-bottom: 1px solid var(--skin-channel-content-more-list-item-border-color);
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-user-item-oper{
+    padding: 10px 0 0;
+    border-radius: 4px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-user-item-oper:hover{
+    background: var(--skin-channel-content-more-list-user-item-oper-hover-background);
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-user-item-oper svg{
+    scale: 1.9;
+    margin-top: 11px;
+    fill: var(--skin-channel-content-more-list-user-item-oper-hover-fill-color);
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-user-item-oper svg:hover{
+    animation: rotate 0.3s;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-user-title{
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid var(--skin-channel-content-more-list-item-border-color);
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-user-item-username{
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-channel-content-more-list-user-item-avatar{
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+}
+
+#group-more-swiper-scrollbar{
+    min-width: 20px !important;
+    max-width: 40px !important;
+    width: 5% !important;
+    margin-left: 50% !important;
+    height: 3px !important;
+}
+
+.tl-rtc-app-layer-channel-share{
+    background: var(--skin-body-background) !important;
+    color: var(--skin-body-color) !important;
+}
+
+
+.tl-rtc-app-layer-channel-share .layui-layer-title{
+    color: var(--skin-body-color) !important;
+    border-color: var(--skin-body-border-color) !important;
+    border-radius: 6px;
+}
+
+.tl-rtc-app-layer-channel-share #tl-rtc-app-channel-share-image{
+    text-align: center;
+    user-select: none;
+}
+
+.tl-rtc-app-layer-channel-share #tl-rtc-app-channel-share-image img{
+    width: 70%;
+    height: 70%;
+    margin-left: 15%;
+    margin-top: 7%;
+    -webkit-user-drag: none;
+}
+
+.tl-rtc-app-layer-channel-share .tl-rtc-app-channel-share-tools{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8%;
+}
+
+.tl-rtc-app-layer-channel-share .tl-rtc-app-channel-share-tools-item{
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin: 0 10px;
+    border: 1px solid var(--skin-body-border-color);
+}
+/***********************************************************************************
+************************************************************************************
+                                频道更多列表 end
+************************************************************************************
+************************************************************************************/

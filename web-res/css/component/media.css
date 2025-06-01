@@ -1,0 +1,226 @@
+/***********************************************************************************
+************************************************************************************
+                                音视频样式 start
+************************************************************************************
+************************************************************************************/
+#tl-rtc-app-video-media-list{
+    display: flex;
+    position: absolute;
+    top: 0;
+    flex-direction: column;
+}
+
+#tl-rtc-app-video-self-media-item{
+    width: 100%;
+    height: 100%;
+}
+
+.tl-rtc-app-video-other-media-item{
+    width: 30%;
+    height: 30%;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    box-shadow: var(--skin-video-other-item-shadow);
+}
+
+#tl-rtc-app-video-tool-list{
+    display: flex;
+    position: absolute;
+    bottom: 30px;
+    cursor: pointer;
+    left: 0;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    z-index: 100000;
+}
+
+#tl-rtc-app-video-tool-list svg{
+    width: 25px;
+    height: 25px;
+    fill: var(--skin-media-video-tool-list-svg-fill-color);
+    padding: 10px;
+    border-radius: 50%;
+    margin: 0px 15px 0px 15px;
+    background: var(--skin-media-video-tool-list-svg-background);
+    transition: all 0.3s;
+}
+
+#tl-rtc-app-video-tool-list svg:hover{
+    fill: var(--skin-media-video-tool-list-svg-hover-fill-color);
+    background: var(--skin-media-video-tool-list-svg-hover-background);
+}
+
+#tl-rtc-app-video-mkf-close-tool, #tl-rtc-app-video-ysq-close-tool{
+    background: var(--skin-media-video-tool-list-ysq-close-background) !important;
+}
+
+#tl-rtc-app-video-call-status{
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    top: 20px;
+    color: black;
+    font-weight: bold;
+    font-family: system-ui;
+    z-index: 100000;
+}
+
+#tl-rtc-app-video-call-avatar{
+    text-align: center;
+    height: 0;
+}
+
+#tl-rtc-app-video-call-avatar img{
+    width: 50%;
+    margin-top: 70px;
+    border-radius: 3px;
+}
+/***********************************************************************************
+************************************************************************************
+                                音视频样式 end
+************************************************************************************
+************************************************************************************/
+
+
+
+/***********************************************************************************
+************************************************************************************
+                                音视频邀请弹窗 start 
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-popup-invite{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: inherit;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+}
+
+.tl-rtc-app-popup-invite .tl-rtc-app-popup-invite-img{
+    width: 20%;
+}
+
+.tl-rtc-app-popup-invite .tl-rtc-app-popup-invite-img img{
+    width: 36px;
+    height: 36px;
+    border-radius: 3px;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.tl-rtc-app-popup-invite .tl-rtc-app-popup-invite-svg{
+    width: 40%;
+}
+
+.tl-rtc-app-popup-invite .tl-rtc-app-popup-invite-svg #acceptInvite{
+    fill: #fcfffc;
+    width: 22px;
+    height: 22px;
+    background: #27c445;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.tl-rtc-app-popup-invite .tl-rtc-app-popup-invite-svg #acceptInvite:hover{
+    fill: #c5cfc5;
+    background: #49d263;
+}
+
+.tl-rtc-app-popup-invite .tl-rtc-app-popup-invite-svg #rejectInvite{
+    fill: #fef6f6;
+    width: 22px;
+    height: 22px;
+    background: #ce6868;
+    padding: 8px;
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.tl-rtc-app-popup-invite .tl-rtc-app-popup-invite-svg #rejectInvite:hover{
+    fill: #decdcd;
+}
+
+.tl-rtc-app-popup-invite .tl-rtc-app-popup-invite-text{
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+    width: 40%;
+    text-align: left;
+}
+/***********************************************************************************
+************************************************************************************
+                                音视频邀请弹窗 end 
+************************************************************************************
+************************************************************************************/
+
+
+
+
+
+/***********************************************************************************
+************************************************************************************
+                                本地录制 start
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-record-stop-div{
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    line-height: 30px;
+    font-size: 13px;
+    z-index: 19891020;
+}
+
+.tl-rtc-app-record-stop-body{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    line-height: 28px;
+    border-radius: 4px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: bold;
+}
+
+.tl-rtc-app-record-stop-body svg{
+    scale: 1.2;
+    padding: 0 10px;
+}
+
+.tl-rtc-app-record-stop-svg{
+    animation: tl-rtc-app-record-stop-svg 1s infinite;
+}
+
+@keyframes tl-rtc-app-record-stop-svg{
+    0%{
+        transform: scale(1.2);
+    }
+    50%{
+        transform: scale(1);
+    }
+    100%{
+        transform: scale(1.2);
+    }
+}
+/***********************************************************************************
+************************************************************************************
+                                本地录制 end
+************************************************************************************
+************************************************************************************/
+

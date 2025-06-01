@@ -1,0 +1,66 @@
+/***********************************************************************************
+************************************************************************************
+                                设置中心 - 消息设置 start 
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-right-setting-content-message{
+    overflow-y: auto;
+    height: calc(100% - 55px);
+}
+
+.tl-rtc-app-right-setting-content-message .tl-rtc-app-right-setting-content-message-block{
+    padding: 10px;
+}
+
+.tl-rtc-app-right-setting-content-message .tl-rtc-app-right-setting-content-message-block-title{
+    font-size: 13px;
+    font-weight: bold;
+    user-select: none;
+    padding-left: 10px;
+}
+
+.tl-rtc-app-right-setting-content-message .tl-rtc-app-right-setting-content-message-block-content{
+    padding: 10px;
+    background: var(--skin-setting-content-block-background);
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.tl-rtc-app-right-setting-content-message .tl-rtc-app-right-setting-content-message-block-content
+.tl-rtc-app-right-setting-content-message-block-item{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    border-bottom: 1px solid var(--skin-body-border-color);
+    line-height: 25px;
+}
+
+.tl-rtc-app-right-setting-content-message .tl-rtc-app-right-setting-content-message-block-content
+.tl-rtc-app-right-setting-content-message-block-item:last-child{
+    border-bottom: 0px;
+}
+
+.tl-rtc-app-right-setting-content-message .tl-rtc-app-right-setting-content-message-block-content
+.tl-rtc-app-right-setting-content-message-block-item-title{
+    width: 60%;
+    user-select: none;
+}
+
+.tl-rtc-app-right-setting-content-message .tl-rtc-app-right-setting-content-message-block-item-oper{
+    width: 40%;
+    text-align: right;
+}
+
+.tl-rtc-app-right-setting-content-message .tl-rtc-app-right-setting-content-message-block-item-oper input{
+    height: 33px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+/***********************************************************************************
+************************************************************************************
+                                设置中心 - 消息设置 end 
+************************************************************************************
+************************************************************************************/

@@ -1,4 +1,3 @@
-const {socketClientEvent} = require("../event");
 const userSessionService = require('../../service/user/tl_user_session_service')
 const cache = require('../../utils/cache/cache')
 

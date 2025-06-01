@@ -1,0 +1,79 @@
+
+/***********************************************************************************
+************************************************************************************
+                                macos样式弹窗 start 
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-notification-container{
+    position: fixed;
+    top: 10px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    transition: right .45s;
+}
+
+.tl-rtc-app-notification {
+    background-color: #fff;
+    box-shadow: 0 20px 32px -8px rgba(9,30,66,0.25), 0 0 1px rgba(9,30,66,0.31);
+    transition: opacity .45s;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 10px;
+    height: 32px;
+    width: 240px;
+    display: inline-flex;
+    flex-direction: initial;
+    align-items: center;
+    opacity: 0;
+}
+
+.tl-rtc-app-notification-content{
+    color: #000000b0;
+    margin-left: 10px;
+    word-break: break-all;
+}
+
+.tl-rtc-app-notification-icon{
+    margin-left: -20px;
+}
+
+.tl-rtc-app-notification-icon i{
+    font-size: 22px;
+    color: #77b7e8;
+}
+
+.tl-rtc-app-notification-title{
+    font-weight: bold;
+}
+
+.tl-rtc-app-notification-close{
+    position: relative;
+    top: -34px;
+    left: -23px;
+    line-height: 12px;
+    background: white;
+    border-radius: 50%;
+    padding: 3px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tl-rtc-app-notification-close i{
+    font-size: 12px;
+}
+
+.tl-rtc-app-notification-content-msg{
+    font-size: 12px;
+    height: 18px;
+    margin-top: 5px;
+    width: 230px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+}
+/***********************************************************************************
+************************************************************************************
+                                macos样式弹窗 end 
+************************************************************************************
+************************************************************************************/

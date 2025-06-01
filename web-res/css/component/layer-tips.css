@@ -1,0 +1,32 @@
+/***********************************************************************************
+************************************************************************************
+                                layer-tips start
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-layer-tips .layui-layer-content{
+    background: var(--skin-layer-tips-background) !important;
+    color: var(--skin-layer-tips-color) !important;
+}
+
+.tl-rtc-app-layer-tips .layui-layer-content{
+    border-radius: 4px !important;
+}
+
+.tl-rtc-app-layer-tips .layui-layer-TipsG.layui-layer-TipsR{
+    border-right-color: var(--skin-layer-tips-background) !important;
+    border-bottom-color: var(--skin-layer-tips-background) !important;
+}
+
+.tl-rtc-app-layer-tips .layui-layer-TipsG.layui-layer-TipsB{
+    border-right-color: var(--skin-layer-tips-background) !important;
+}
+
+.tl-rtc-app-layer-tips .layui-layer-TipsG.layui-layer-TipsT{
+    border-right-color: var(--skin-layer-tips-background) !important;
+}
+
+/***********************************************************************************
+************************************************************************************
+                                layer-tips end
+************************************************************************************
+************************************************************************************/

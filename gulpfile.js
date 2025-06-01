@@ -1,5 +1,8 @@
 'use strict';
 
+const {
+    replaceVarsMap
+} = require('./gulp-obfuscator');
 const pkg = require('./package.json');
 const gulp = require('gulp');
 
@@ -43,15 +46,19 @@ const argv = minimist(process.argv.slice(2), {
 });
 
 // 输出目录
-const dest = ({
-    dist: './dist'
+const web_dest = ({
+    dist: './web-dist'
 }[argv.dest || 'dist'] || argv.dest) + (argv.vs ? '/' + pkg.version : '');
+
+const system_dest = ({
+    dist: './system-dist'
+}[argv.dist || 'dist'] || argv.dist) + (argv.vs ? '/' + pkg.version : '');
 
 
 // lib-entry-sdk.min.js
-const entry_js = () => {
+const web_entry_js = () => {
     return gulp.src([
-        './web-v2-res/js/tl_rtc_entry.js',
+        './web-res/js/tl_rtc_entry.js',
     ])
     .pipe(babel())
     .pipe(uglifyEs({
@@ -63,6 +70,12 @@ const entry_js = () => {
     }))
     .pipe(replace('  ', ''))
     .pipe(replace('\n', ''))
+    .pipe(replace(
+        new RegExp(Object.keys(replaceVarsMap).join('|'), 'g'),
+        function(matched) {
+            return replaceVarsMap[matched];
+        }
+    ))
     .pipe(replace(
         'lib-basic-sdk.min.js', 'lib-basic-sdk.min.' + fileVersion + '.js'
     ))
@@ -74,7 +87,7 @@ const entry_js = () => {
     ))
     .pipe(concat('lib-entry-sdk.min.' + fileVersion + '.js', { newLine: ' ' }))
     .pipe(header.apply(null, config.comment))
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(web_dest))
     .pipe(gzip({
         append: true,
         gzipOptions: {
@@ -82,14 +95,13 @@ const entry_js = () => {
             memLevel: 9
         }
     }))
-    .pipe(gulp.dest(dest));
+    .pipe(gulp.dest(web_dest));
 };
-
 
 // lib-basic-sdk.min.js
-const basic_js = () => {
+const web_basic_js = () => {
     return gulp.src([
-        './web-v2-res/js/basic/*.js',
+        './web-res/js/basic/*.js',
     ])
     .pipe(babel())
     .pipe(uglifyEs({
@@ -101,9 +113,15 @@ const basic_js = () => {
     }))
     .pipe(replace('  ', ''))
     .pipe(replace('\n', ''))
+    .pipe(replace(
+        new RegExp(Object.keys(replaceVarsMap).join('|'), 'g'),
+        function(matched) {
+            return replaceVarsMap[matched];
+        }
+    ))
     .pipe(concat('lib-basic-sdk.min.' + fileVersion + '.js', { newLine: ';' }))
     .pipe(header.apply(null, config.comment))
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(web_dest))
     .pipe(gzip({
         append: true,
         gzipOptions: {
@@ -111,14 +129,13 @@ const basic_js = () => {
             memLevel: 9
         }
     }))
-    .pipe(gulp.dest(dest));
+    .pipe(gulp.dest(web_dest));
 };
 
-
 // lib-component-sdk.min.js
-const component_js = () => {
+const web_component_js = () => {
     return gulp.src([
-        './web-v2-res/js/component/*.js',
+        './web-res/js/component/*.js',
     ])
     .pipe(babel())
     .pipe(uglifyEs({
@@ -130,9 +147,15 @@ const component_js = () => {
     }))
     .pipe(replace('  ', ''))
     .pipe(replace('\n', ''))
+    .pipe(replace(
+        new RegExp(Object.keys(replaceVarsMap).join('|'), 'g'),
+        function(matched) {
+            return replaceVarsMap[matched];
+        }
+    ))
     .pipe(concat('lib-component-sdk.min.' + fileVersion + '.js', { newLine: ' ' }))
     .pipe(header.apply(null, config.comment))
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(web_dest))
     .pipe(gzip({
         append: true,
         gzipOptions: {
@@ -140,64 +163,70 @@ const component_js = () => {
             memLevel: 9
         }
     }))
-    .pipe(gulp.dest(dest));
+    .pipe(gulp.dest(web_dest));
 };
 
 // lib-module-sdk.min.js
-const module_js = () => {
+const web_module_js = () => {
     return gulp.src([
         // sidebar模块
-        './web-v2-res/js/module/sidebar/logo.js',
-        './web-v2-res/js/module/sidebar/tool.js',
-        './web-v2-res/js/module/sidebar/bottom.js',
-        './web-v2-res/js/module/sidebar/sidebar.js',
+        './web-res/js/module/sidebar/hovertips.js',
+        './web-res/js/module/sidebar/logo.js',
+        './web-res/js/module/sidebar/tool.js',
+        './web-res/js/module/sidebar/bottom.js',
+        './web-res/js/module/sidebar/sidebar.js',
 
         // channel模块
-        './web-v2-res/js/module/channel/top.js',
-        './web-v2-res/js/module/channel/list.js',
-        './web-v2-res/js/module/channel/channel.js',
+        './web-res/js/module/channel/top.js',
+        './web-res/js/module/channel/list.js',
+        './web-res/js/module/channel/channel.js',
         // channel-content模块
-        './web-v2-res/js/module/channel/content/body.js',
-        './web-v2-res/js/module/channel/content/more.js',
-        './web-v2-res/js/module/channel/content/invite.js',
-        './web-v2-res/js/module/channel/content/tool.js',
-        './web-v2-res/js/module/channel/content/textarea.js',
-        './web-v2-res/js/module/channel/content.js',
+        './web-res/js/module/channel/content/search.js',
+        './web-res/js/module/channel/content/body.js',
+        './web-res/js/module/channel/content/more.js',
+        './web-res/js/module/channel/content/invite.js',
+        './web-res/js/module/channel/content/tool.js',
+        './web-res/js/module/channel/content/textarea.js',
+        './web-res/js/module/channel/content.js',
 
         // login模块
-        './web-v2-res/js/module/login/mobile.js',
-        './web-v2-res/js/module/login/list.js',
-        './web-v2-res/js/module/login/login.js',
+        './web-res/js/module/login/mobile.js',
+        './web-res/js/module/login/list.js',
+        './web-res/js/module/login/login.js',
         // login-content模块
-        './web-v2-res/js/module/login/content/mobile.js',
-        './web-v2-res/js/module/login/content/account.js',
-        './web-v2-res/js/module/login/content/email.js',
-        './web-v2-res/js/module/login/content.js',
+        './web-res/js/module/login/content/account.js',
+        './web-res/js/module/login/content/email.js',
+        './web-res/js/module/login/content.js',
 
         // contact模块
-        './web-v2-res/js/module/contact/list.js',
-        './web-v2-res/js/module/contact/top.js',
-        './web-v2-res/js/module/contact/contact.js',
+        './web-res/js/module/contact/list.js',
+        './web-res/js/module/contact/top.js',
+        './web-res/js/module/contact/contact.js',
         // contact-content模块
-        './web-v2-res/js/module/contact/content/group.js',
-        './web-v2-res/js/module/contact/content/apply.js',
-        './web-v2-res/js/module/contact/content/friend.js',
-        './web-v2-res/js/module/contact/content/search.js',
-        './web-v2-res/js/module/contact/content.js',
+        './web-res/js/module/contact/content/group.js',
+        './web-res/js/module/contact/content/apply_user.js',
+        './web-res/js/module/contact/content/apply_group.js',
+        './web-res/js/module/contact/content/friend.js',
+        './web-res/js/module/contact/content/search_user.js',
+        './web-res/js/module/contact/content/search_group.js',
+        './web-res/js/module/contact/content.js',
 
         //setting模块
-        './web-v2-res/js/module/setting/list.js',
-        './web-v2-res/js/module/setting/setting.js',
+        './web-res/js/module/setting/list.js',
+        './web-res/js/module/setting/setting.js',
         //setting-content模块
-        './web-v2-res/js/module/setting/content/account.js',
-        './web-v2-res/js/module/setting/content/other.js',
-        './web-v2-res/js/module/setting/content.js',
+        './web-res/js/module/setting/content/normal.js',
+        './web-res/js/module/setting/content/account.js',
+        './web-res/js/module/setting/content/message.js',
+        './web-res/js/module/setting/content/skin.js',
+        './web-res/js/module/setting/content/other.js',
+        './web-res/js/module/setting/content.js',
 
         //blank模块
-        './web-v2-res/js/module/blank/content.js',
+        './web-res/js/module/blank/content.js',
 
         //主模块
-        './web-v2-res/js/tl_rtc_app.js',
+        './web-res/js/tl_rtc_app.js',
     ])
     .pipe(babel())
     .pipe(uglifyEs({
@@ -209,9 +238,15 @@ const module_js = () => {
     }))
     .pipe(replace('  ', ''))
     .pipe(replace('\n', ''))
+    .pipe(replace(
+        new RegExp(Object.keys(replaceVarsMap).join('|'), 'g'),
+        function(matched) {
+            return replaceVarsMap[matched];
+        }
+    ))
     .pipe(concat('lib-module-sdk.min.' + fileVersion + '.js', { newLine: ' ' }))
     .pipe(header.apply(null, config.comment))
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(web_dest))
     .pipe(gzip({
         append: true,
         gzipOptions: {
@@ -219,29 +254,34 @@ const module_js = () => {
             memLevel: 9
         }
     }))
-    .pipe(gulp.dest(dest));
+    .pipe(gulp.dest(web_dest));
 };
 
-
-// js
-const js = gulp.parallel(
-    basic_js, entry_js, component_js, module_js
-);
-
-// css
-const css = () => {
+// lib-css-sdk.min.css
+const web_css = () => {
     return gulp.src([
-        './web-v2-res/css/comm.css',
-        './web-v2-res/css/pc.css',
-        './web-v2-res/css/ipad.css',
-        './web-v2-res/css/mobile.css',
-        './web-v2-res/css/max.css',
-        './web-v2-res/css/max-mobile.css',
+        // 基础
+        './web-res/css/pc.css',
+
+        // 组件样式
+        './web-res/css/*/*.css',
+
+        // 媒体查询样式
+        './web-res/css/max.css',
+        './web-res/css/ipad.css',
+        './web-res/css/max-mobile.css',
+        './web-res/css/mobile.css',
     ])
     .pipe(cleanCSS())
+    .pipe(replace(
+        new RegExp(Object.keys(replaceVarsMap).join('|'), 'g'),
+        function(matched) {
+            return replaceVarsMap[matched];
+        }
+    ))
     .pipe(concat('lib-css-sdk.min.' + fileVersion + '.css', { newLine: '\n' }))
     .pipe(header.apply(null, config.comment))
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(web_dest))
     .pipe(gzip({
         append: true,
         gzipOptions: {
@@ -249,15 +289,20 @@ const css = () => {
             memLevel: 9
         }
     }))
-    .pipe(gulp.dest(dest));
+    .pipe(gulp.dest(web_dest));
 };
 
-
 // html
-const html = () => {
+const web_html = () => {
     return gulp.src([
-        './web-v2-res/*.{html,json}',
+        './web-res/*.html',
     ])
+    .pipe(replace(
+        new RegExp(Object.keys(replaceVarsMap).join('|'), 'g'),
+        function(matched) {
+            return replaceVarsMap[matched];
+        }
+    ))
     .pipe(replace(
         'lib-entry-sdk.min.js', 'lib-entry-sdk.min.' + fileVersion + '.js'
     ))
@@ -277,7 +322,7 @@ const html = () => {
         collapseWhitespace: true,
         removeComments: true,
     }))
-    .pipe(gulp.dest(dest))
+    .pipe(gulp.dest(web_dest))
     .pipe(gzip({
         append: true,
         gzipOptions: {
@@ -285,16 +330,15 @@ const html = () => {
             memLevel: 9
         }
     }))
-    .pipe(gulp.dest(dest));
+    .pipe(gulp.dest(web_dest));
 };
 
 // image
-const image = () => {
+const web_image = () => {
     return gulp.src([
-        './web-v2-res/image/*.{eot,svg,ttf,woff,woff2,png,jpg,gif,jpeg,mp3}',
-        './web-v2-res/image/example/*.{eot,svg,ttf,woff,woff2,png,jpg,gif,jpeg,mp3}',
+        './web-res/image/*.{eot,svg,ttf,woff,woff2,png,jpg,gif,jpeg,mp3}',
     ])
-    .pipe(gulp.dest(dest + '/image'))
+    .pipe(gulp.dest(web_dest + '/image'))
     .pipe(gzip({
         append: true,
         gzipOptions: {
@@ -302,15 +346,21 @@ const image = () => {
             memLevel: 9
         }
     }))
-    .pipe(gulp.dest(dest + '/image'));
+    .pipe(gulp.dest(web_dest + '/image'))
 };
 
 // statics
-const statics = () => {
+const web_statics = () => {
     return gulp.src([
-        './web-v2-res/static/**/*.*',
+        './web-res/static/**/*.*',
     ])
-    .pipe(gulp.dest(dest + '/static'))
+    .pipe(replace(
+        new RegExp(Object.keys(replaceVarsMap).join('|'), 'g'),
+        function(matched) {
+            return replaceVarsMap[matched];
+        }
+    ))
+    .pipe(gulp.dest(web_dest + '/static'))
     .pipe(gzip({
         append: true,
         gzipOptions: {
@@ -318,30 +368,300 @@ const statics = () => {
             memLevel: 9
         }
     }))
-    .pipe(gulp.dest(dest + '/static'));
+    .pipe(gulp.dest(web_dest + '/static'))
 };
 
-// clean
-const clean = cb => {
-    return del([dest], {
+
+/**********************************************以上为产品端前端资源*************************************************/
+
+// lib-css-sdk.min.css
+const system_web_css = () => {
+    return gulp.src([
+        // 基础
+        './web-res/css/pc.css',
+
+        // 组件样式
+        './web-res/css/*/*.css',
+
+        // 媒体查询样式
+        './web-res/css/max.css',
+        './web-res/css/ipad.css',
+        './web-res/css/max-mobile.css',
+        './web-res/css/mobile.css',
+    ])
+    .pipe(cleanCSS())
+    .pipe(replace(
+        new RegExp(Object.keys(replaceVarsMap).join('|'), 'g'),
+        function(matched) {
+            return replaceVarsMap[matched];
+        }
+    ))
+    .pipe(concat('lib-css-sdk.min.' + fileVersion + '.css', { newLine: '\n' }))
+    .pipe(header.apply(null, config.comment))
+    .pipe(gulp.dest(system_dest))
+    .pipe(gzip({
+        append: true,
+        gzipOptions: {
+            level: 9,
+            memLevel: 9
+        }
+    }))
+    .pipe(gulp.dest(system_dest));
+};
+
+// lib-basic-sdk.min.js
+const system_web_basic_js = () => {
+    return gulp.src([
+        './web-res/js/basic/*.js',
+    ])
+    .pipe(babel())
+    .pipe(uglifyEs({
+        mangle: true,
+        compress: true,
+        output: {
+            ascii_only: true
+        },
+    }))
+    .pipe(replace('  ', ''))
+    .pipe(replace('\n', ''))
+    .pipe(replace(
+        new RegExp(Object.keys(replaceVarsMap).join('|'), 'g'),
+        function(matched) {
+            return replaceVarsMap[matched];
+        }
+    ))
+    .pipe(concat('lib-basic-sdk.min.' + fileVersion + '.js', { newLine: ';' }))
+    .pipe(header.apply(null, config.comment))
+    .pipe(gulp.dest(system_dest))
+    .pipe(gzip({
+        append: true,
+        gzipOptions: {
+            level: 9,
+            memLevel: 9
+        }
+    }))
+    .pipe(gulp.dest(system_dest));
+};
+
+// lib-component-sdk.min.js
+const system_web_component_js = () => {
+    return gulp.src([
+        './web-res/js/component/*.js',
+    ])
+    .pipe(babel())
+    .pipe(uglifyEs({
+        mangle: true,
+        compress: true,
+        output: {
+            ascii_only: true
+        },
+    }))
+    .pipe(replace('  ', ''))
+    .pipe(replace('\n', ''))
+    .pipe(replace(
+        new RegExp(Object.keys(replaceVarsMap).join('|'), 'g'),
+        function(matched) {
+            return replaceVarsMap[matched];
+        }
+    ))
+    .pipe(concat('lib-component-sdk.min.' + fileVersion + '.js', { newLine: ' ' }))
+    .pipe(header.apply(null, config.comment))
+    .pipe(gulp.dest(system_dest))
+    .pipe(gzip({
+        append: true,
+        gzipOptions: {
+            level: 9,
+            memLevel: 9
+        }
+    }))
+    .pipe(gulp.dest(system_dest));
+};
+
+// lib-system-sdk.min.js
+const system_js = () => {
+    return gulp.src([
+        './system-res/js/*.js',
+        './system-res/js/component/*.js',
+    ])
+    .pipe(babel())
+    .pipe(uglifyEs({
+        mangle: true,
+        compress: true,
+        output: {
+            ascii_only: true
+        },
+    }))
+    .pipe(replace('  ', ''))
+    .pipe(replace('\n', ''))
+    .pipe(replace(
+        new RegExp(Object.keys(replaceVarsMap).join('|'), 'g'),
+        function(matched) {
+            return replaceVarsMap[matched];
+        }
+    ))
+    .pipe(replace(
+        'lib-basic-sdk.min.js', 'lib-basic-sdk.min.' + fileVersion + '.js'
+    ))
+    .pipe(replace(
+        'lib-component-sdk.min.js', 'lib-component-sdk.min.' + fileVersion + '.js'
+    ))
+    .pipe(concat('lib-system-sdk.min.' + fileVersion + ".js", { newLine: ';' }))
+    .pipe(header.apply(null, config.comment))
+    .pipe(gulp.dest(system_dest))
+    .pipe(gzip({
+        append: true,
+        gzipOptions: {
+            level: 9,
+            memLevel: 9
+        }
+    }))
+    .pipe(gulp.dest(system_dest));
+};
+
+// lib-system-sdk.min.css
+const system_css = () => {
+    return gulp.src([
+        './system-res/css/*.css',
+        './system-res/css/component/*.css',
+    ])
+    .pipe(cleanCSS())
+    .pipe(replace(
+        new RegExp(Object.keys(replaceVarsMap).join('|'), 'g'),
+        function(matched) {
+            return replaceVarsMap[matched];
+        }
+    ))
+    .pipe(concat('lib-system-sdk.min.' + fileVersion + '.css', { newLine: '\n' }))
+    .pipe(header.apply(null, config.comment))
+    .pipe(gulp.dest(system_dest))
+    .pipe(gzip({
+        append: true,
+        gzipOptions: {
+            level: 9,
+            memLevel: 9
+        }
+    }))
+    .pipe(gulp.dest(system_dest));
+};
+
+// system html
+const system_html = () => {
+    return gulp.src([
+        './system-res/system.html',
+    ])
+    .pipe(replace(
+        new RegExp(Object.keys(replaceVarsMap).join('|'), 'g'),
+        function(matched) {
+            return replaceVarsMap[matched];
+        }
+    ))
+    .pipe(replace(
+        'lib-system-sdk.min.js', 'lib-system-sdk.min.' + fileVersion + '.js'
+    ))
+    .pipe(replace(
+        'lib-system-sdk.min.css', 'lib-system-sdk.min.' + fileVersion + '.css'
+    ))
+    .pipe(replace(
+        'lib-css-sdk.min.css', 'lib-css-sdk.min.' + fileVersion + '.css'
+    ))
+    .pipe(gulpHtmlmin({
+        collapseWhitespace: true,
+        removeComments: true,
+    }))
+    .pipe(gulp.dest(system_dest))
+    .pipe(gzip({
+        append: true,
+        gzipOptions: {
+            level: 9,
+            memLevel: 9
+        }
+    }))
+    .pipe(gulp.dest(system_dest));
+};
+
+// system image
+const system_image = () => {
+    return gulp.src([
+        './system-res/image/*.{eot,svg,ttf,woff,woff2,png,jpg,gif,jpeg,mp3}',
+    ])
+    .pipe(gulp.dest(system_dest + '/image'))
+    .pipe(gzip({
+        append: true,
+        gzipOptions: {
+            level: 9,
+            memLevel: 9
+        }
+    }))
+    .pipe(gulp.dest(system_dest + '/image'))
+};
+
+// system statics
+const system_statics = () => {
+    return gulp.src([
+        './system-res/static/**/*.*',
+    ])
+    .pipe(replace(
+        new RegExp(Object.keys(replaceVarsMap).join('|'), 'g'),
+        function(matched) {
+            return replaceVarsMap[matched];
+        }
+    ))
+    .pipe(gulp.dest(system_dest + '/static'))
+    .pipe(gzip({
+        append: true,
+        gzipOptions: {
+            level: 9,
+            memLevel: 9
+        }
+    }))
+    .pipe(gulp.dest(system_dest + '/static'))
+};
+
+
+/**********************************************以上为管理端前端资源*************************************************/
+const cleanWeb = cb => {
+    return del([web_dest], {
         force: true
     });
 };
 
-const defaultTask = gulp.series(clean, gulp.parallel(
-    basic_js, entry_js, component_js, module_js, css, html, image, statics
+const cleanSystem = cb => {
+    return del([system_dest], {
+        force: true
+    });
+}
+
+
+// 产品端
+const webTask = gulp.series(cleanWeb, gulp.parallel(
+    web_css, web_html, web_image, web_statics, 
+    web_basic_js, web_component_js, web_entry_js, web_module_js,
 ));
 
 
-// task
-exports.default = gulp.series(clean, gulp.parallel(
-    js, css, html, image, statics
+// 管理端
+const systemTask = gulp.series(cleanSystem, gulp.parallel(
+    // 引入产品端资源
+    system_web_css, system_web_basic_js, system_web_component_js, 
+
+    system_image, system_statics, system_html, system_css, system_js,
 ));
 
+
+// 监听任务
 exports.watch = () => {
-    gulp.watch('./web-v2-res/js/**', defaultTask);
-    gulp.watch('./web-v2-res/css/**', defaultTask);
-    gulp.watch('./web-v2-res/image/**', defaultTask);
-    gulp.watch('./web-v2-res/static/**', defaultTask);
-    gulp.watch('./web-v2-res/*.{eot,svg,ttf,woff,woff2,html,json,png,jpg,gif,jpeg,mp3}', defaultTask);
+    // 产品端监听
+    gulp.watch('./web-res/**', webTask);
+
+    // 管理端监听
+    gulp.watch('./system-res/**', systemTask);
 };
+
+
+// 导出任务
+exports.web = webTask;
+exports.system = systemTask;
+
+// 默认任务
+exports.default = gulp.parallel(webTask, systemTask);
+

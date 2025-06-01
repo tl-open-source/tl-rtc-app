@@ -1,0 +1,101 @@
+/* 频道管理样式 */
+.tl-rtc-app-channel-area {
+    height: 100%;
+}
+
+.tl-rtc-app-channel-area .layui-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tl-rtc-app-channel-area .layui-card-body {
+    flex: 1;
+    overflow: auto;
+}
+
+.tl-rtc-app-channel-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.tl-rtc-app-channel-actions .layui-input-inline {
+    width: 200px;
+    margin-right: 0;
+    font-size: 12px;
+}
+
+.tl-rtc-app-channel-actions .layui-input-inline input{
+    height: 30px;
+    line-height: 30px;
+}
+
+.tl-rtc-app-channel-form {
+    padding: 20px;
+    overflow-y: auto;
+    height: calc(100% - 40px);
+}
+
+.tl-rtc-app-channel-form .layui-form-label {
+    width: 80px;
+}
+
+.tl-rtc-app-channel-form .layui-input-block {
+    margin-left: 110px;
+}
+
+.tl-rtc-app-channel-badge {
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 12px;
+    color: #fff;
+}
+
+.tl-rtc-app-channel-name {
+    font-weight: bold;
+    color: #333;
+}
+
+.tl-rtc-app-channel-flag {
+    display: inline-block;
+    padding: 1px 5px;
+    font-size: 12px;
+    background-color: #f8f8f8;
+    border-radius: 2px;
+    margin-left: 5px;
+    border: 1px solid #e6e6e6;
+}
+
+/* 频道管理表单响应式调整 */
+@media screen and (max-width: 768px) {
+    .tl-rtc-app-channel-actions {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 10px;
+    }
+    
+    .tl-rtc-app-channel-actions .layui-input-inline {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .tl-rtc-app-channel-form .layui-form-label {
+        width: 90px;
+    }
+    
+    .tl-rtc-app-channel-form .layui-input-block {
+        margin-left: 120px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .tl-rtc-app-channel-form .layui-form-label {
+        width: 70px;
+    }
+    
+    .tl-rtc-app-channel-form .layui-input-block {
+        margin-left: 100px;
+    }
+}

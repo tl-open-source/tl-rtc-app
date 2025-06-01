@@ -23,6 +23,8 @@ async function channelChat(io, socket, data){
         return
     }
 
+    channel = parseInt(channel)
+
     const {
         loginUserId, loginUserCompanyId
     } = await userSessionService.getUserInfoByToken({token})

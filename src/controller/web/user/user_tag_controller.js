@@ -1,5 +1,5 @@
 const {
-	tlConsole, tlResponseSvrError, tlConsoleError, tlResponseArgsError, checkRequestParams
+	tlResponseSvrError, tlConsoleError, tlResponseArgsError, checkRequestParams, 
 } = require("../../../utils/utils");
 const express = require('express');
 const router = express.Router();
@@ -27,6 +27,7 @@ router.post('/add-channel-tag', async function(request, response) {
         const result = await userTagBiz.addChannelTag({
             loginInfo, name
         });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -55,6 +56,7 @@ router.post('/add-friend-tag', async function(request, response) {
         const result = await userTagBiz.addFriendTag({
             loginInfo, name
         });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -83,6 +85,7 @@ router.post('/add-cloud-tag', async function(request, response) {
         const result = await userTagBiz.addCloudTag({
             loginInfo, name
         });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -102,6 +105,7 @@ router.get('/get-channel-tag-list', async function(request, response) {
         const result = await userTagBiz.getChannelTagList({
             loginInfo
         });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -121,6 +125,7 @@ router.get('/get-friend-tag-list', async function(request, response) {
         const result = await userTagBiz.getFriendTagList({
             loginInfo
         });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -140,6 +145,7 @@ router.get('/get-cloud-tag-list', async function(request, response) {
         const result = await userTagBiz.getCloudTagList({
             loginInfo
         });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -168,6 +174,7 @@ router.post('/delete-tag', async function(request, response) {
         const result = await userTagBiz.delUserTag({
             loginInfo, id
         });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)

@@ -1,0 +1,159 @@
+/***********************************************************************************
+************************************************************************************
+                                设置中心 - 设置列表 start 
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-setting-list{
+    height: auto;
+    overflow-y: auto;
+}
+
+.tl-rtc-app-setting-list .tl-rtc-app-left-panel-setting-top-header{
+    display: flex;
+    padding: 15px 10px 15px 0px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.tl-rtc-app-setting-list .tl-rtc-app-left-panel-setting-top-header-block{
+    display: flex;
+    align-items: flex-end;
+}
+
+.tl-rtc-app-setting-list .tl-rtc-app-left-panel-setting-top-header-title{
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--skin-top-header-title-color);
+    margin-right: 10px;
+    margin-left: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+    width: 70%;
+}
+
+.tl-rtc-app-setting-list .tl-rtc-app-left-panel-setting-top-header-tool{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: var(--skin-top-header-tool-background);
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+.tl-rtc-app-setting-list .tl-rtc-app-left-panel-setting-top-header-tool svg{
+    width: 14px;
+    height: 14px;
+    fill: var(--skin-top-header-tool-fill-color);
+    transition: all 0.3s;
+    scale: 1.5;
+}
+
+.tl-rtc-app-setting-list.tl-rtc-app-left-panel-setting-top-header-tool:hover{
+    box-shadow: var(--skin-top-header-tool-hover-shadow);
+}
+
+.tl-rtc-app-setting-list .tl-rtc-app-left-panel-setting-top-header-tool:hover svg{
+    fill: var(--skin-top-header-tool-hover-fill-color);
+}
+
+.tl-rtc-app-setting-list .tl-rtc-app-left-panel-setting-top-search{
+    padding: 5px 0;
+    line-height: 0px;
+    width: 96%;
+    margin-left: 2%;
+}
+
+.tl-rtc-app-setting-list .tl-rtc-app-setting-list-item{
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 0px 20px 0 30px;
+    justify-content: space-between;
+}
+.tl-rtc-app-setting-list .tl-rtc-app-setting-list-item:hover{
+    background-color: var(--skin-setting-list-item-hover-background);
+}
+
+.tl-rtc-app-setting-list .tl-rtc-app-setting-list-item-active{
+    background-color: var(--skin-setting-list-item-active-background);
+}
+
+.tl-rtc-app-setting-list .tl-rtc-app-left-panel-setting-item-icon{
+    margin-right: 20px;
+    line-height: 40px;
+    margin-top: 4px;
+}
+
+.tl-rtc-app-setting-list .tl-rtc-app-left-panel-setting-item-icon svg{
+    width: 18px;
+    height: 18px;
+    transition: all 0.3s;
+}
+
+.tl-rtc-app-setting-list .tl-rtc-app-setting-list-item:hover 
+.tl-rtc-app-left-panel-setting-item-icon svg{
+    scale: 1.5;
+}
+
+.tl-rtc-app-setting-list .tl-rtc-app-left-panel-setting-item-name{
+    font-size: 14px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-setting-top-search{
+    padding: 5px 0 10px 0;
+    line-height: 0px;
+    width: 96%;
+    margin-left: 2%;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-setting-top-search i{
+    position: relative;
+    margin-left: 8px;
+    top: 16px;
+    z-index: 1;
+    color: var(--skin-setting-top-search-i-color);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-setting-top-search svg{
+    color: var(--skin-setting-top-search-i-color);
+    position: relative;
+    float: right;
+    right: 8px;
+    margin-top: -22px;
+    cursor: pointer;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-setting-top-search input{
+    width: 100%;
+    height: 30px;
+    padding-left: 30px !important;
+    border-radius: 4px;
+    background: var(--skin-setting-top-search-input-background);
+    color: var(--skin-setting-top-search-input-color);
+    font-size: 13px;
+    letter-spacing: 1px;
+    border-width: 0.5px;
+    border-color: var(--skin-setting-top-search-input-background);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-setting-item-body{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+/***********************************************************************************
+************************************************************************************
+                                设置中心 - 设置列表 end 
+************************************************************************************
+************************************************************************************/

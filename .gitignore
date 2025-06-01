@@ -32,8 +32,12 @@ node_modules
 
 dist/
 
+system-dist/
+
+web-dist/
+
 tmp/
 
 .VSCodeCounter/
 
-electron-dist/
+.idea/

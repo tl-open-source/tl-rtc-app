@@ -1,5 +1,7 @@
 const {
+    systemPermission,
     channelPermission,
+    cloudPermission,
     userPermission,
     companyPermission,
     configPermission,
@@ -25,10 +27,21 @@ const {
 const getAllPermissionsMap = function(){
     let returnPermissionMap = {};
 
+    // 系统权限
+    returnPermissionMap = Object.assign(returnPermissionMap, systemPermission.systemWebConfig)
+    returnPermissionMap = Object.assign(returnPermissionMap, systemPermission.systemWebService)
+    returnPermissionMap = Object.assign(returnPermissionMap, systemPermission.systemWebCompany)
+    returnPermissionMap = Object.assign(returnPermissionMap, systemPermission.systemWebUser)
+    returnPermissionMap = Object.assign(returnPermissionMap, systemPermission.systemWebChannel)
     // 频道权限
     returnPermissionMap = Object.assign(returnPermissionMap, channelPermission.channel)
     returnPermissionMap = Object.assign(returnPermissionMap, channelPermission.channelChat)
+    returnPermissionMap = Object.assign(returnPermissionMap, channelPermission.channelMedia)
+    returnPermissionMap = Object.assign(returnPermissionMap, channelPermission.channelFile)
+    returnPermissionMap = Object.assign(returnPermissionMap, channelPermission.channelNotice)
     returnPermissionMap = Object.assign(returnPermissionMap, channelPermission.channelUser)
+    // 资源库权限
+    returnPermissionMap = Object.assign(returnPermissionMap, cloudPermission.cloudFile)
     // 企业权限
     returnPermissionMap = Object.assign(returnPermissionMap, companyPermission.company)
     // 用户权限
@@ -41,8 +54,10 @@ const getAllPermissionsMap = function(){
     returnPermissionMap = Object.assign(returnPermissionMap, userPermission.userLogout)
     returnPermissionMap = Object.assign(returnPermissionMap, userPermission.userRegister)
     returnPermissionMap = Object.assign(returnPermissionMap, userPermission.userTag)
+    returnPermissionMap = Object.assign(returnPermissionMap, userPermission.userClear)
     // 配置权限
-    
+    returnPermissionMap = Object.assign(returnPermissionMap, configPermission.skin)
+
     return returnPermissionMap;
 }
 

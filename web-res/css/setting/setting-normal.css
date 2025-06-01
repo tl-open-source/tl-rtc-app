@@ -1,0 +1,100 @@
+/***********************************************************************************
+************************************************************************************
+                                设置中心 - 通用设置 start 
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-right-setting-content{
+    height: 100%;
+    padding: 5px 10px;
+}
+
+.tl-rtc-app-right-setting-content-normal{
+    overflow-y: auto;
+    height: calc(100% - 55px);
+}
+
+.tl-rtc-app-right-setting-content-normal .tl-rtc-app-right-setting-content-normal-block{
+    padding: 10px;
+}
+
+.tl-rtc-app-right-setting-content-normal .tl-rtc-app-right-setting-content-normal-block-title{
+    font-size: 13px;
+    font-weight: bold;
+    user-select: none;
+    padding-left: 10px;
+}
+
+.tl-rtc-app-right-setting-content-normal .tl-rtc-app-right-setting-content-normal-block-content{
+    padding: 10px;
+    background: var(--skin-setting-content-block-background);
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.tl-rtc-app-right-setting-content-normal .tl-rtc-app-right-setting-content-normal-block-content
+.tl-rtc-app-right-setting-content-normal-block-item{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    border-bottom: 1px solid var(--skin-body-border-color);
+    line-height: 25px;
+}
+
+.tl-rtc-app-right-setting-content-normal .tl-rtc-app-right-setting-content-normal-block-content
+.tl-rtc-app-right-setting-content-normal-block-item:last-child{
+    /* border-bottom: 0px; */
+}
+
+.tl-rtc-app-right-setting-content-normal .tl-rtc-app-right-setting-content-normal-block-content
+.tl-rtc-app-right-setting-content-normal-block-item-title{
+    width: 40%;
+    user-select: none;
+}
+
+.tl-rtc-app-right-setting-content-normal .tl-rtc-app-right-setting-content-normal-block-item-oper{
+    width: 60%;
+    text-align: right;
+}
+
+.tl-rtc-app-right-setting-content-normal .tl-rtc-app-right-setting-content-normal-block-item-oper input{
+    height: 33px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    font-size: 12px;
+}
+
+.tl-rtc-app-right-setting-content-normal .tl-rtc-app-right-setting-content-normal-block-item-oper
+.layui-badge{
+    height: 20px;
+    line-height: 20px;
+    cursor: pointer;
+    padding: 0 15px;
+    transition: all 0.2s;
+    background-color: var(--skin-setting-content-block-badge-background);
+    color: var(--skin-setting-content-block-badge-color);
+}
+
+.tl-rtc-app-right-setting-content-normal .tl-rtc-app-right-setting-content-normal-block-item-oper
+.layui-badge-active{
+    background-color: var(--skin-setting-content-block-badge-hover-background) !important;
+    color: var(--skin-setting-content-block-badge-hover-color);
+}
+
+.tl-rtc-app-right-setting-content-normal .tl-rtc-app-right-setting-content-normal-block-item-oper
+.layui-badge:hover{
+    background-color: var(--skin-setting-content-block-badge-hover-background) !important;
+    color: var(--skin-setting-content-block-badge-hover-color);
+}
+
+.tl-rtc-app-right-setting-content-normal .tl-rtc-app-right-setting-content-normal-block-item-oper 
+button{
+    height: 33px;
+}
+/***********************************************************************************
+************************************************************************************
+                                设置中心 - 通用设置 end 
+************************************************************************************
+************************************************************************************/

@@ -14,7 +14,6 @@ const tl_user_tag_fields = {
     Type: {
         CHANNEL: 1,  // 频道分组标签
         FRIEND: 2,   // 好友分组标签
-        CLOUD: 3,    // 资源库文件标签
     },
 }
 

@@ -17,10 +17,54 @@ const tl_channel_user_fields = {
     Type: {
         GROUP : 1, // 群聊
         FRIEND : 2, // 好友
+
+        toStr: function(type){
+            switch(type){
+                case this.GROUP:
+                    return 'GROUP';
+                case this.FRIEND:
+                    return 'FRIEND';
+                default:
+                    return 'UNKNOWN';
+            }
+        },
+
+        toZnStr: function(type){
+            switch(type){
+                case this.GROUP:
+                    return '群聊';
+                case this.FRIEND:
+                    return '好友';
+                default:
+                    return '未知类型';
+            }
+        }
     },
     Status: {
         NORMAL: 1, //正常
         BLACK: 2, // 黑名单
+
+        toStr: function(status){
+            switch(status){
+                case this.NORMAL:
+                    return 'NORMAL';
+                case this.BLACK:
+                    return 'BLACK';
+                default:
+                    return 'UNKNOWN';
+            }
+        },
+
+        toZnStr: function(status){
+            switch(status){
+                case this.NORMAL:
+                    return '正常';
+                case this.BLACK:
+                    return '黑名单';
+                default:
+                    return '未知状态';
+            }
+        }
     },
     Flag: {
         IS_SET_TOP: 1, // 置顶

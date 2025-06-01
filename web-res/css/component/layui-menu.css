@@ -1,0 +1,112 @@
+/***********************************************************************************
+************************************************************************************
+                                自定义右键菜单 start
+************************************************************************************
+************************************************************************************/
+.custom-context-menu {
+    position: absolute;
+    background-color: var(--skin-body-background) !important;
+    border: 1px solid var(--skin-body-border-color) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    color: var(--skin-body-color) !important;
+    width: 140px;
+    padding: 4px 0;
+    z-index: 1000;
+    user-select: none;
+    border-radius: 4px;
+}
+
+.custom-context-menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.custom-context-menu ul li {
+    padding: 5px 10px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 13px;
+    transition: background-color 0s;
+}
+
+.custom-context-menu ul li:hover {
+    background-color: var(--skin-body-color) !important;
+    color: var(--skin-body-background) !important;
+}
+
+.custom-context-menu ul li:not(:last-child) {
+    border-bottom: 1px solid var(--skin-body-border-color);
+}
+
+.custom-context-menu ul li.disabled {
+    color: #d8d5d58a;
+    cursor: not-allowed;
+}
+
+.layui-menu-body-title svg{
+    margin-right: 5px;
+}
+
+.layui-menu-body-title>.layui-icon{
+    font-size: 12px;
+}
+
+.layui-menu-body-panel{
+    position: absolute;
+    background-color: var(--skin-body-background);
+    border: 1px solid var(--skin-body-border-color);
+    width: 140px;
+    padding: 0;
+    z-index: 1000;
+    user-select: none;
+    margin-left: 0px;
+    top: -1px;
+}
+
+.layui-menu-body-panel-left{
+    margin-right: 0px;
+}
+
+.layui-menu-body-panel ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.layui-menu-body-panel ul li {
+    padding: 5px 10px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 13px;
+    transition: background-color 0.2s;
+}
+
+.layui-menu-body-panel ul li:hover {
+    background-color: var(--skin-body-background) !important;
+}
+
+.layui-menu-body-panel ul li:not(:last-child) {
+    border-bottom: 1px solid var(--skin-body-border-color);
+}
+
+.layui-menu-body-panel ul li.disabled {
+    color: #d8d5d58a;
+    cursor: not-allowed;
+}
+
+.layui-menu{
+    background: var(--skin-body-background) !important;   
+}
+
+.layui-menu li{
+    line-height: 20px;
+    margin: 0;
+    width: 100%;
+    color: var(--skin-body-color) !important;
+}
+/***********************************************************************************
+************************************************************************************
+                                自定义右键菜单 end
+************************************************************************************
+************************************************************************************/

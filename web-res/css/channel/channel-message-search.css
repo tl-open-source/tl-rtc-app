@@ -1,0 +1,251 @@
+/***********************************************************************************
+************************************************************************************
+                                频道历史消息 start
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-layer-search-channel-message{
+    background: var(--skin-body-background) !important;
+    color: var(--skin-body-color) !important;
+}
+
+.tl-rtc-app-layer-search-channel-message .layui-layer-title{
+    background: var(--skin-body-background) !important;
+    color: var(--skin-body-color) !important;
+    border-bottom: 1px solid var(--skin-body-border-color);
+    border-radius: 6px;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-header{
+    padding: 0 10px;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-header-search{
+    margin-top: -10px;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-header-search i{
+    position: relative;
+    margin-left: 8px;
+    top: 25px;
+    color: var(--skin-channel-history-message-top-search-i-color);
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-header-search input{
+    width: 100%;
+    height: 30px;
+    padding-left: 30px !important;
+    border-radius: 4px;
+    background: var(--skin-channel-history-message-top-search-input-background);
+    color: var(--skin-channel-history-message-top-search-input-color);
+    font-size: 13px;
+    letter-spacing: 1px;
+    border-width: 0.5px;
+    border-color: var(--skin-channel-history-message-top-search-input-background);
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-header-tools{
+    padding: 5px 0px;
+    max-height: 120px;
+    overflow-y: auto;
+    border-bottom: 1px solid var(--skin-body-border-color);
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-header-tools-item{
+    padding: 5px 0 0 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-header-tools-item-title{
+    font-size: 12px;
+    color: var(--skin-channel-history-message-header-tool-item-title-color);
+    font-weight: bold;
+    padding-right: 5px;
+    word-break: keep-all;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-header-tools-item-content{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-header-tools-item-content .layui-badge{
+    padding: 3px 10px;
+    background: unset;
+    color: var(--skin-channel-history-message-search-param-badge-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.1s;
+    margin: 5px 10px 5px 0px;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-header-tools-item-content .layui-badge:hover{
+    background: var(--skin-channel-history-message-search-param-badge-hover-background);
+    color: var(--skin-channel-history-message-search-param-badge-hover-color);
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-header-tools-item-content .layui-badge-active{
+    background: var(--skin-channel-history-message-search-param-badge-active-background);
+    color: var(--skin-channel-history-message-search-param-badge-active-color);
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-list{
+    overflow-y: auto;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-list-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 5px 15px;
+    margin: 5px 0 0 0;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-list-item:hover{
+    background: var(--skin-channel-list-item-hover-background);
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-list-item-time{
+    font-size: 12px;
+    color: var(--skin-channel-history-message-list-item-time-color);
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-list-item-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 5px 0;
+    width: 100%;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-list-item-user{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-list-item-avatar{
+    padding: 5px 5px 5px 0px;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-list-item-avatar img{
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-list-item-user-name{
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-list-item-content{
+    font-size: 12px;
+    line-height: 20px;
+    margin: 0px 5px 0 5px;
+    background: var(--skin-channel-history-message-content-body-message-background);
+    padding: 7px;
+    border-radius: 4px;
+    color: var(--skin-channel-history-message-content-body-message-color);
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-footer{
+    line-height: 50px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    border-top: 1px solid var(--skin-body-border-color);
+    margin: 0 5px;
+    user-select: none;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-footer-total{
+    padding: 2px;
+    text-align: right;
+    font-size: 13px;
+    color: var(--skin-channel-history-message-footer-total-color);
+    font-weight: bold;
+    padding-right: 5px;
+    margin-right: 20px;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-footer-load-more{
+    color: var(--skin-channel-history-message-footer-load-more-color);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 20px;
+    display: none;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-footer-load-more:hover{
+    color: var(--skin-channel-history-message-footer-load-more-hover-color);
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-list-item-file{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.tl-rtc-app-right-channel-content-body-item-message-file-left{
+    width: 20%;
+}
+
+.tl-rtc-app-right-channel-content-body-item-message-file-left svg{
+    height: 55px;
+    min-width: 32px;
+    min-height: 32px;
+}
+
+.tl-rtc-app-right-channel-content-body-item-message-file-info{
+    width: calc(80% - 10px);
+    margin: 0 5px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    min-width: 170px;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-list-empty{
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    color: #00000059; /** TODO **/
+    height: 40%;
+    font-weight: bold;
+}
+
+.tl-rtc-app-right-channel-content-search-message-panel-list-empty svg{
+    width: 20px;
+    height: 20px;
+    padding: 10px;
+}
+/***********************************************************************************
+************************************************************************************
+                                频道历史消息 end
+************************************************************************************
+************************************************************************************/
+

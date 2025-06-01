@@ -2,6 +2,27 @@ const os = require('os');
 const { get_env_config } = require('./../../conf/env_config');
 const conf = get_env_config()
 const crypto = require('crypto');
+const { imageSizeFromFile } = require("image-size/fromFile");
+const musicData = require("music-metadata");
+
+
+/**
+ * 获取图片的尺寸
+ * @param {*} path
+ * @returns
+ **/
+const getImageSize = async function (path) {
+    return await imageSizeFromFile(path);
+}
+
+/**
+ * 获取音频的信息
+ * @param {*} path 
+ * @returns 
+ */
+const getAudioInfo = async function (path) {
+    return await musicData.parseFile(path);
+}
 
 /**
  * 获取本机ip
@@ -211,7 +232,7 @@ _/_    |         .___  _/_     ___          ___  ,___,, ,___,,
  |__/  |__       |      |__  [.._.'       '.__/| |'---' |'---'
                                                  |      |
 tl-rtc-app-socket-${conf.version}
-Copyright (c) 2024 iamtsm
+Copyright (c) 2025 iamtsm
 MIT License
 ${".".repeat(process.stdout.columns - 2)}
 ${".".repeat(process.stdout.columns - 2)}
@@ -231,8 +252,8 @@ _/_    |         .___  _/_     ___          ___  ,___,, ,___,,
  |     |         |   '  |    |            |    | |    | |    |
  |__/  |__       |      |__  [.._.'       '.__/| |'---' |'---'
                                                  |      |
-tl-rtc-app-socket-${conf.version} ${process.stdout.columns}
-Copyright (c) 2024 iamtsm
+tl-rtc-app-socket-${conf.version}
+Copyright (c) 2025 iamtsm
 MIT License
 ${".".repeat(process.stdout.columns - 2)}
 ${".".repeat(process.stdout.columns - 2)}
@@ -252,8 +273,30 @@ _/_    |         .___  _/_     ___          ___  ,___,, ,___,,
  |     |         |   '  |    |            |    | |    | |    |
  |__/  |__       |      |__  [.._.'       '.__/| |'---' |'---'
                                                  |      |
-tl-rtc-app-task-${conf.version} ${process.stdout.columns}
-Copyright (c) 2024 iamtsm
+tl-rtc-app-task-${conf.version}
+Copyright (c) 2025 iamtsm
+MIT License
+${".".repeat(process.stdout.columns - 2)}
+${".".repeat(process.stdout.columns - 2)}
+${".".repeat(process.stdout.columns - 2)}
+`;
+    console.log(icon);
+}
+
+
+function tlConsoleSuperApiIcon(){
+    const icon = `
+${".".repeat(process.stdout.columns - 2)}
+${".".repeat(process.stdout.columns - 2)}
+${".".repeat(process.stdout.columns - 2)}
+ .     .                .
+_/_    |         .___  _/_     ___          ___  ,___,, ,___,,
+ |     |   .---' /   |  |    .'   ' .---'  /   | |    | |    |
+ |     |         |   '  |    |            |    | |    | |    |
+ |__/  |__       |      |__  [.._.'       '.__/| |'---' |'---'
+                                                 |      |
+tl-rtc-app-super-api-${conf.version}
+Copyright (c) 2025 iamtsm
 MIT License
 ${".".repeat(process.stdout.columns - 2)}
 ${".".repeat(process.stdout.columns - 2)}
@@ -412,6 +455,7 @@ const tlResponseTimeout = function(msg = '', data = {}){
     return tlResponse(false, 504, msg, data)
 }
 
+
 /**
  * 检查入库参数
  * @param {*} rawAttributes 
@@ -494,6 +538,27 @@ const checkIsEmail = function(email){
 }
 
 /**
+ * 检测是否是合法的id
+ * @param {*} id
+ * @returns 
+ */
+const checkIsId = function(id){
+    if(typeof id !== 'number'){
+        try{
+            id = parseInt(id)
+        }catch(e){
+            return false
+        }
+    }
+
+    if(id < 0 || isNaN(id) || id === Infinity){
+        return false
+    }
+
+    return true
+}
+
+/**
  * 检查请求参数内容是否包含攻击或非法字符
  * @param {*} params
  * @returns
@@ -562,6 +627,153 @@ const generateSaltPassword = function({
     }
 }
 
+/**
+ * 检查是否是合法的请求参数
+ * @param {*} html 
+ * @returns 
+ */
+const sanitizeHTML = function(html) {
+    // 定义允许的标签及其对应的允许属性，以及属性对应的值的白名单
+    const allowedTags = {
+        div: [],
+        p: [],
+        span: ['class'],
+        b: [],
+        i: [],
+        u: [],
+        br: [],
+        img: ['src', 'alt', 'title', 'class'],
+    };
+
+    const allowedTagsValue = {
+        span: {
+            class: ['textarea-at-user-text'],
+        },
+    };
+
+    return html
+        // 第一阶段：标签级过滤
+        .replace(/<\/?([a-z][a-z0-9]*)(?:[^>]*?)?\/?>/gi, (match, tag) => {
+            tag = tag.toLowerCase();
+            if (allowedTags[tag]) {
+                return match;  // 如果标签是允许的，就保留它
+            }
+            return ''; // 否则删除这个标签
+        })
+        // 第二阶段：属性过滤
+        .replace(/<[^>]+>/g, tag => {
+            return tag
+                // 匹配标签内的所有属性
+                .replace(/(\s+)([a-z][a-z0-9-]*)(\s*=\s*['"][^'"]*['"])?/gi, (match, space, attribute, value) => {
+                    const tagName = tag.match(/<\/?([a-z]+)/)[1].toLowerCase();
+                    const allowedAttributes = allowedTags[tagName];
+                    if (allowedAttributes && allowedAttributes.includes(attribute.toLowerCase())) {
+                        // 如果属性是允许的，检查属性值是否在白名单中
+                        const allowedValues = allowedTagsValue[tagName] && allowedTagsValue[tagName][attribute];
+                        let val = ''
+                        if(typeof value === 'string') {
+                            val = value.split('=')[1]
+                            val = val.replace(/['"]/g, '')
+                        }
+                        if (allowedValues && allowedValues.length) {
+                            for (let i = 0; i < allowedValues.length; i++) {
+                                if (val == allowedValues[i]) {
+                                    return match; // 如果属性值在白名单中，保留属性
+                                }
+                            }
+                        } else if (!allowedValues) {
+                            return match; // 如果没有设置白名单，保留属性
+                        }
+                    }
+
+                    return ''; // 否则删除这个属性
+                })
+                // 删除脚本类的标签
+                .replace(/<\/?(script|iframe|object|embed|link|meta).*?>/gi, '');
+        })
+        // 第三阶段：内容净化
+        .replace(/(href|src)=("|')/gi, (match, p1, p2) => {
+            // 仅处理链接和图片等元素的 href 和 src 属性
+            if (p1 === 'href' || p1 === 'src') {
+                // 仅处理恶意的 javascript: 协议
+                return match.replace(/javascript:\s*[^'"]*/gi, '');  // 清除 javascript: 协议
+            }
+            return match;  // 对其他属性不做修改
+        })
+        .replace(/javascript:\s*[^'"]*/gi, '')  // 移除 javascript: 开头的 URL
+        .replace(/&#(\d+);?/g, (m, code) => {
+            const char = String.fromCharCode(code);
+            return char === '>' ? '' : m; // 防止编码绕过
+        });
+}
+
+/**
+ * 移除所有HTML标签
+ * @param {*} html 
+ * @returns 
+ */
+const sanitizeAllHTML = function(html) {
+    // 定义允许的标签及其对应的允许属性
+    const allowedTags = {
+       
+    };
+
+    return html
+        // 第一阶段：标签级过滤
+        .replace(/<\/?([a-z][a-z0-9]*)(?:[^>]*?)?\/?>/gi, (match, tag) => {
+            tag = tag.toLowerCase();
+            if (allowedTags[tag]) {
+                return match;  // 如果标签是允许的，就保留它
+            }
+            return ''; // 否则删除这个标签
+        })
+        // 第二阶段：属性过滤
+        .replace(/<[^>]+>/g, tag => {
+            return tag
+                // 匹配标签内的所有属性
+                .replace(/(\s+)([a-z][a-z0-9-]*)(\s*=\s*['"][^'"]*['"])?/gi, (match, space, attribute, value) => {
+                    const tagName = tag.match(/<\/?([a-z]+)/)[1].toLowerCase();
+                    const allowedAttributes = allowedTags[tagName];
+                    if (allowedAttributes && allowedAttributes.includes(attribute.toLowerCase())) {
+                        return match; // 如果属性是允许的，就保留它
+                    }
+                    return ''; // 否则删除这个属性
+                })
+                // 删除脚本类的标签
+                .replace(/<\/?(script|iframe|object|embed|link|meta).*?>/gi, '');  
+        })
+        // 第三阶段：内容净化
+        .replace(/(href|src)=("|')/gi, (match, p1, p2) => {
+            // 仅处理链接和图片等元素的 href 和 src 属性
+            if (p1 === 'href' || p1 === 'src') {
+                // 仅处理恶意的 javascript: 协议
+                return match.replace(/javascript:\s*[^'"]*/gi, '');  // 清除 javascript: 协议
+            }
+            return match;  // 对其他属性不做修改
+        })
+        .replace(/javascript:\s*[^'"]*/gi, '')  // 移除 javascript: 开头的 URL
+        .replace(/&#(\d+);?/g, (m, code) => {
+            const char = String.fromCharCode(code);
+            return char === '>' ? '' : m; // 防止编码绕过
+        });
+}
+
+/**
+ * 获取格式化的日期
+ * @param {*} date 
+ * @returns 
+ */
+const getFormattedDate = function(date = new Date()) {
+    // 获取年份、月份和日期
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始，所以需要+1
+    const day = String(date.getDate()).padStart(2, '0');
+
+    // 拼接成 yyyyMMdd 格式
+    return `${year}${month}${day}`;
+}
+
+
 module.exports = {
     getLocalIP,
     getClientIP,
@@ -593,5 +805,12 @@ module.exports = {
     checkRequestParams,
     encryptStr,
     verifyEncryptStr,
-    tlConsoleTaskIcon
+    tlConsoleTaskIcon,
+    checkIsId,
+    sanitizeHTML,
+    getFormattedDate,
+    sanitizeAllHTML,
+    tlConsoleSuperApiIcon,
+    getImageSize,
+    getAudioInfo
 }

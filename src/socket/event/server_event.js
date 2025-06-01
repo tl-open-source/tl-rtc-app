@@ -9,6 +9,12 @@ module.exports = {
     connection : "connection",
     // socket断开连接
     disconnect : "disconnect",
+    // webrtc offer
+    offer : "offer",
+    // webrtc answer
+    answer : "answer",
+    // webrtc candidate
+    candidate : "candidate",
     // 在线人数
     count : "count",
     // 退出
@@ -19,12 +25,20 @@ module.exports = {
     heartbeat : "heartbeat",
     // 广播聊天消息
     channelChat: "channelChat",
-    // 广播聊天消息撤回
-    channelChatRollback: "channelChatRollback",
     // 广播好友申请
     contactApply: "contactApply",
     // 通过好友申请
     contactApplyPass: "contactApplyPass",
     // 拒绝好友申请
     contactApplyReject: "contactApplyReject",
+    // 广播群组申请
+    groupApply: "groupApply",
+    // 通过群组申请
+    groupApplyPass: "groupApplyPass",
+    // 拒绝群组申请
+    groupApplyReject: "groupApplyReject",
+    // 广播视频消息
+    channelVideoCall: "channelVideoCall",
+    // 文件
+    channelFile: "channelFile",
 }

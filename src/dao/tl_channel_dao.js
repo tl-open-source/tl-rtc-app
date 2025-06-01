@@ -1,4 +1,4 @@
-const { DataTypes, where, or } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const { dbClient } = require('../tables/db')
 const { model, fields } = require('../tables/tl_channel')
 const Table = model(dbClient, DataTypes).TlChannel
@@ -155,7 +155,13 @@ const updateInfo = async function(params, data){
 
     tlConsole(TableName, params, data, info)
 
-    return info
+    if(info[0] === 0){
+        return null
+    }
+
+    return {
+        count: info[0]
+    }
 }
 
 

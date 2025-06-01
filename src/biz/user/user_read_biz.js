@@ -1,11 +1,12 @@
 const { 
-    tlResponseArgsError, tlResponseForbidden, tlResponseSvrError, 
-    tlResponseTimeout, tlResponseNotFound, tlResponseSuccess
+    tlResponseArgsError, tlResponseSvrError, 
+    tlResponseNotFound, tlResponseSuccess, checkIsId
 } = require('../../utils/utils')
 const userReadService = require('../../service/user/tl_user_read_service')
-const userSessionService = require('../../service/user/tl_user_session_service')
+const channelUserService = require('../../service/channel/tl_channel_user_service')
+
+
 const { fields: userReadDef } = require('../../tables/tl_user_read')
-const { fields: channelDef } = require('../../tables/tl_channel')
 
 const { Def: TlUserReadDef, Type: TlUserReadType } = userReadDef
 
@@ -21,20 +22,41 @@ const updateChannelUserRead = async function({
     loginInfo, channelId, latestReadId, type
 }){
     if (!latestReadId) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    latestReadId = parseInt(latestReadId)
+    if(!checkIsId(latestReadId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     if (!channelId) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    channelId = parseInt(channelId)
+    if(!checkIsId(channelId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     if(!type){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
     }
-
+    
     const {
         loginUserCompanyId, loginUserId, loginUsername
     } = loginInfo
+
+    // 当前用户是否存在频道
+    const channelUserInfo = await channelUserService.getInfoByChannelIdAndUserId({
+        companyId: loginUserCompanyId,
+        channelId: channelId,
+        userId: loginUserId
+    })
+
+    if(Object.keys(channelUserInfo).length == 0){
+        return tlResponseNotFound("非法操作")
+    }
 
     const userReadList = await userReadService.getListByChannelUserId({
         companyId: loginUserCompanyId,
@@ -60,7 +82,7 @@ const updateChannelUserRead = async function({
 
     // 聊天消息已读记录不存在，新增, 否则更新已读消息最新ID
     if(type === TlUserReadType.CHAT){
-        if(!chatReadRecord){
+        if(!chatReadRecord || Object.keys(chatReadRecord).length === 0){
             chatReadRecord = await userReadService.addInfo({
                 companyId: loginUserCompanyId,
                 userId: loginUserId,
@@ -72,29 +94,29 @@ const updateChannelUserRead = async function({
             if(Object.keys(chatReadRecord).length === 0){
                 return tlResponseSvrError("更新失败")
             }
-        }
-
-        const readId = chatReadRecord[TlUserReadDef.id]
-        if(!readId){
-            return tlResponseSvrError("更新失败")
-        }
-
-        // 更新聊天消息已读记录
-        const updateInfo = await userReadService.updateInfoById({
-            companyId: loginUserCompanyId,
-            id: readId
-        }, {
-            [TlUserReadDef.latestReadId]: latestReadId
-        })
-
-        if(Object.keys(updateInfo).length === 0){
-            return tlResponseSvrError("更新失败")
+        }else{
+            const readId = chatReadRecord[TlUserReadDef.id]
+            if(!readId){
+                return tlResponseSvrError("更新失败")
+            }
+    
+            // 更新聊天消息已读记录
+            const updateInfo = await userReadService.updateInfoById({
+                companyId: loginUserCompanyId,
+                id: readId
+            }, {
+                [TlUserReadDef.latestReadId]: latestReadId
+            })
+        
+            if(Object.keys(updateInfo).length === 0){
+                return tlResponseSvrError("更新失败")
+            }
         }
     }
 
     // 媒体消息已读记录不存在，新增, 否则更新已读消息最新ID
     if(type === TlUserReadType.MEDIA){
-        if(!mediaReadRecord){
+        if(!mediaReadRecord || Object.keys(mediaReadRecord).length === 0){
             mediaReadRecord = await userReadService.addInfo({
                 companyId: loginUserCompanyId,
                 userId: loginUserId,
@@ -106,29 +128,29 @@ const updateChannelUserRead = async function({
             if(Object.keys(mediaReadRecord).length === 0){
                 return tlResponseSvrError("更新失败")
             }
-        }
+        }else{
+            const readId = mediaReadRecord[TlUserReadDef.id]
+            if(!readId){
+                return tlResponseSvrError("更新失败")
+            }
 
-        const readId = mediaReadRecord[TlUserReadDef.id]
-        if(!readId){
-            return tlResponseSvrError("更新失败")
-        }
+            // 更新媒体消息已读记录
+            const updateInfo = await userReadService.updateInfoById({
+                companyId: loginUserCompanyId,
+                id: readId
+            }, {
+                [TlUserReadDef.latestReadId]: latestReadId
+            })
 
-        // 更新媒体消息已读记录
-        const updateInfo = await userReadService.updateInfoById({
-            companyId: loginUserCompanyId,
-            id: readId
-        }, {
-            [TlUserReadDef.latestReadId]: latestReadId
-        })
-
-        if(Object.keys(updateInfo).length === 0){
-            return tlResponseSvrError("更新失败")
+            if(Object.keys(updateInfo).length === 0){
+                return tlResponseSvrError("更新失败")
+            }
         }
     }
 
     // 文件消息已读记录不存在，新增, 否则更新已读消息最新ID
     if(type === TlUserReadType.FILE){
-        if(!fileReadRecord){
+        if(!fileReadRecord || Object.keys(fileReadRecord).length === 0){
             fileReadRecord = await userReadService.addInfo({
                 companyId: loginUserCompanyId,
                 userId: loginUserId,
@@ -140,23 +162,23 @@ const updateChannelUserRead = async function({
             if(Object.keys(fileReadRecord).length === 0){
                 return tlResponseSvrError("更新失败")
             }
-        }
+        }else{
+            const readId = fileReadRecord[TlUserReadDef.id]
+            if(!readId){
+                return tlResponseSvrError("更新失败")
+            }
 
-        const readId = fileReadRecord[TlUserReadDef.id]
-        if(!readId){
-            return tlResponseSvrError("更新失败")
-        }
+            // 更新文件消息已读记录
+            const updateInfo = await userReadService.updateInfoById({
+                companyId: loginUserCompanyId,
+                id: readId
+            }, {
+                [TlUserReadDef.latestReadId]: latestReadId
+            })
 
-        // 更新文件消息已读记录
-        const updateInfo = await userReadService.updateInfoById({
-            companyId: loginUserCompanyId,
-            id: readId
-        }, {
-            [TlUserReadDef.latestReadId]: latestReadId
-        })
-
-        if(Object.keys(updateInfo).length === 0){
-            return tlResponseSvrError("更新失败")
+            if(Object.keys(updateInfo).length === 0){
+                return tlResponseSvrError("更新失败")
+            }
         }
     }
 
@@ -174,8 +196,13 @@ const updateChannelUserRead = async function({
  */
 const updateChannelMuiltRead = async function({
     loginInfo, channelId, latestChatReadId, latestMediaReadId, latestFileReadId
-}){
+}){ 
     if(latestChatReadId){
+        latestChatReadId = parseInt(latestChatReadId)
+        if(!checkIsId(latestChatReadId)){
+            return tlResponseArgsError("请求参数错误")
+        }
+
         const chatResult = await updateChannelChatRead({
             loginInfo, channelId, latestReadId: latestChatReadId
         });
@@ -186,6 +213,11 @@ const updateChannelMuiltRead = async function({
     }
 
     if(latestMediaReadId){
+        latestMediaReadId = parseInt(latestMediaReadId)
+        if(!checkIsId(latestMediaReadId)){
+            return tlResponseArgsError("请求参数错误")
+        }
+
         const mediaResult = await updateChannelMediaRead({
             loginInfo, channelId, latestReadId: latestMediaReadId
         });
@@ -196,6 +228,11 @@ const updateChannelMuiltRead = async function({
     }
     
     if(latestFileReadId){
+        latestFileReadId = parseInt(latestFileReadId)
+        if(!checkIsId(latestFileReadId)){
+            return tlResponseArgsError("请求参数错误")
+        }
+
         const fileResult = await updateChannelFileRead({
             loginInfo, channelId, latestReadId: latestFileReadId
         });
@@ -264,7 +301,12 @@ const addUserFriendApplyRead = async function({
     loginInfo, recordId
 }){
     if (!recordId) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    recordId = parseInt(recordId)
+    if(!checkIsId(recordId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -296,7 +338,12 @@ const addUserFriendApplyPassRead = async function({
     loginInfo, recordId
 }){
     if (!recordId) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    recordId = parseInt(recordId)
+    if(!checkIsId(recordId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -328,7 +375,12 @@ const addUserFriendApplyRejectRead = async function({
     loginInfo, recordId
 }){
     if (!recordId) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    recordId = parseInt(recordId)
+    if(!checkIsId(recordId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -349,6 +401,118 @@ const addUserFriendApplyRejectRead = async function({
     return tlResponseSuccess("更新成功")
 }
 
+/**
+ * 新增群申请消息已读记录
+ * @param {*} loginInfo
+ * @param {*} recordId
+ * @param {*} type
+ * @returns
+ */
+const addUserGroupApplyRead = async function({
+    loginInfo, recordId
+}){
+    if (!recordId) {
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    recordId = parseInt(recordId)
+    if(!checkIsId(recordId)){
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    const {
+        loginUserCompanyId, loginUserId, loginUsername
+    } = loginInfo
+
+    const addInfo = await userReadService.addInfo({
+        companyId: loginUserCompanyId,
+        userId: loginUserId,
+        recordId,
+        type: TlUserReadType.GROUP_APPLY
+    })
+
+    if(Object.keys(addInfo).length === 0){
+        return tlResponseSvrError("更新失败")
+    }
+
+    return tlResponseSuccess("更新成功")
+}
+
+/**
+ * 新增群同意消息已读记录
+ * @param {*} loginInfo
+ * @param {*} recordId
+ * @param {*} type
+ * @returns
+ */
+const addUserGroupApplyPassRead = async function({
+    loginInfo, recordId
+}){
+    if (!recordId) {
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    recordId = parseInt(recordId)
+    if(!checkIsId(recordId)){
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    const {
+        loginUserCompanyId, loginUserId, loginUsername
+    } = loginInfo
+
+    const addInfo = await userReadService.addInfo({
+        companyId: loginUserCompanyId,
+        userId: loginUserId,
+        recordId,
+        type: TlUserReadType.GROUP_APPLY_PASS
+    })
+
+    if(Object.keys(addInfo).length === 0){
+        return tlResponseSvrError("更新失败")
+    }
+
+    return tlResponseSuccess("更新成功")
+}
+
+/**
+ * 新增群拒绝消息已读记录
+ * @param {*} loginInfo
+ * @param {*} recordId
+ * @param {*} type
+ * @returns
+ */
+const addUserGroupApplyRejectRead = async function({
+    loginInfo, recordId
+}){
+    if (!recordId) {
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    recordId = parseInt(recordId)
+    if(!checkIsId(recordId)){
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    const {
+        loginUserCompanyId, loginUserId, loginUsername
+    } = loginInfo
+
+    const addInfo = await userReadService.addInfo({
+        companyId: loginUserCompanyId,
+        userId: loginUserId,
+        recordId,
+        type: TlUserReadType.GROUP_APPLY_REJECT
+    })
+
+    if(Object.keys(addInfo).length === 0){
+        return tlResponseSvrError("更新失败")
+    }
+
+    return tlResponseSuccess("更新成功")
+}
+
+
 module.exports = {
     updateChannelChatRead,
     updateChannelMediaRead,
@@ -357,5 +521,9 @@ module.exports = {
 
     addUserFriendApplyRead,
     addUserFriendApplyPassRead,
-    addUserFriendApplyRejectRead
+    addUserFriendApplyRejectRead,
+
+    addUserGroupApplyRead,
+    addUserGroupApplyPassRead,
+    addUserGroupApplyRejectRead,
 }

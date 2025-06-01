@@ -1,0 +1,233 @@
+
+/***********************************************************************************
+************************************************************************************
+                                登录界面-扫码登陆 start 
+************************************************************************************
+************************************************************************************/
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-top-header-mobile{
+    line-height: var(--left-login-top);
+    padding: 30px 0 30px;
+    border-bottom: 1px solid var(--skin-body-border-color);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-top-header-title-mobile{
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--skin-top-header-title-color);
+    margin-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+    text-align: center;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-footer-mobile{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-help-mobile{
+    text-align: center;
+    font-size: 12px;
+    color: var(--skin-login-help-mobile-color);
+    padding: 15px 0;
+    cursor: pointer;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-help-mobile:hover{
+    color: var(--skin-login-help-mobile-hover-color);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-item-mobile{
+    border-bottom: 1px solid var(--skin-body-border-color);
+    display: flex;
+    padding: 10px 30px;
+    cursor: pointer;
+    border-radius: 4px;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-mobile{
+    padding: 30px 0;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-avatar-mobile{
+    padding: 20px;
+    cursor: pointer;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-avatar-list-mobile{
+    display: flex; 
+    justify-content: center; 
+    transition: all 1s;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-avatar-mobile .layui-badge-dot{
+    width: 50px;
+    height: 23px;
+    line-height: 23px;
+    font-size: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-avatar-mobile img{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.tl-rtc-app-left-panel-login-body-username{
+    padding: 10px 0 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-btns{
+    padding: 45px 0;
+    width: 70%;
+    margin-left: 15%;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-btns button{
+    width: 100%;
+    font-size: 11px;
+    background-color: var(--skin-login-button-background);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-btns button b{
+    letter-spacing: 3px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-clean{
+    margin: 35px 0;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-clean:hover{
+    color: var(--skin-login-body-clean-color);
+}
+
+/* #tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-item-mobile:hover{
+    color: var(--skin-login-body-clean-hover-color);
+} */
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-item-name-mobile{
+    margin-left: 10px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-item-icon-mobile{
+    border-radius: 50%;
+    padding: 10px;
+    border: 0.5px solid var(--skin-body-border-color);
+    transition: all 0.2s;
+    margin: 6px 8px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-item-icon-mobile:hover{
+    background: var(--skin-login-item-mobile-icon-background);
+    color: var(--skin-login-body-clean-hover-color);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-item-icon-mobile svg{
+    width: 20px;
+    height: 20px;
+    transition: all 0.2s;
+}
+
+#tl-rtc-app .tl-rtc-app-left #tl-rtc-app-left-panel-login-body-scan-mobile{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#tl-rtc-app .tl-rtc-app-left #tl-rtc-app-left-panel-login-body-scan-mobile img{
+    width: 150px;
+    height: 150px;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-code-mobile{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    padding: 30px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-code-mobile input{
+    width: 140px;
+    font-size: 18px;
+    letter-spacing: 10px;
+    font-weight: bold;
+    padding-left: 15px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-scan-code-title-mobile{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-scan-code-title-mobile div{
+    margin-top: 20px;
+    color: var(--skin-login-content-body-scan-title-color);
+    font-size: 11px;
+    font-weight: bold;
+    border: 1px solid var(--skin-body-border-color);
+    width: 100px;
+    padding: 6px;
+    background: var(--skin-login-content-body-scan-title-background);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-scan-code-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 0;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-scan-code-container-item {
+    width: 35px;
+    height: 40px;
+    font-size: 24px;
+    text-align: center;
+    border: aliceblue;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-scan-code-container-item:disabled {
+    background-color: var(--skin-login-content-body-scan-code-item-disabled-background);
+    cursor: not-allowed;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-body-scan-code-container-item:focus {
+    border-color: var(--skin-login-content-body-scan-code-item-focus-border-color);
+}
+/***********************************************************************************
+************************************************************************************
+                                登录界面-扫码登陆 end 
+************************************************************************************
+************************************************************************************/

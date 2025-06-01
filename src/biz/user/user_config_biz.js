@@ -1,10 +1,7 @@
 const { 
-    tlResponseArgsError, tlResponseForbidden, tlResponseSvrError, 
-    tlResponseTimeout, tlResponseNotFound, tlResponseSuccess,
-    setBit, checkBit
+    tlResponseSvrError, tlResponseNotFound, tlResponseSuccess,
 } = require('../../utils/utils')
 const userConfigService = require('../../service/user/tl_user_config_service')
-const userSessionService = require('../../service/user/tl_user_session_service')
 
 const { fields: userConfigFields } = require('../../tables/tl_user_config')
 
@@ -13,6 +10,7 @@ const TlUserConfigAccountDef = userConfigFields.Account
 const TlUserConfigSkinDef = userConfigFields.Skin
 const TlUserConfigAuthorityDef = userConfigFields.Authority
 const TlUserConfigMessageDef = userConfigFields.Message
+const TlUserConfigNormalDef = userConfigFields.Normal
 const TlUserConfigOtherDef = userConfigFields.Other
 
 
@@ -68,7 +66,7 @@ const getUserConfigSetting = async function({ loginInfo }){
         normal: JSON.parse(userConfigNormal)
     }
 
-    return tlResponseSuccess("获取设置成功", result)
+    return tlResponseSuccess("获取成功", result)
 }
 
 
@@ -116,10 +114,10 @@ const updateUserConfigNormal = async function({ loginInfo, normal }){
     })
 
     if(Object.keys(result).length == 0){
-        return tlResponseSvrError("更新设置失败")
+        return tlResponseSvrError("更新失败")
     }
 
-    return tlResponseSuccess("更新设置成功")
+    return tlResponseSuccess("更新成功")
 }
 
 
@@ -167,10 +165,10 @@ const updateUserConfigAccount = async function({ loginInfo, account }){
     })
 
     if(Object.keys(result).length == 0){
-        return tlResponseSvrError("更新设置失败")
+        return tlResponseSvrError("更新失败")
     }
 
-    return tlResponseSuccess("更新设置成功")
+    return tlResponseSuccess("更新成功")
 }
 
 
@@ -218,10 +216,10 @@ const updateUserConfigMessage = async function({ loginInfo, message }){
     })
 
     if(Object.keys(result).length == 0){
-        return tlResponseSvrError("更新设置失败")
+        return tlResponseSvrError("更新失败")
     }
 
-    return tlResponseSuccess("更新设置成功")
+    return tlResponseSuccess("更新成功")
 }
 
 /**
@@ -268,10 +266,10 @@ const updateUserConfigAuthority = async function({ loginInfo, authority }){
     })
 
     if(Object.keys(result).length == 0){
-        return tlResponseSvrError("更新设置失败")
+        return tlResponseSvrError("更新失败")
     }
 
-    return tlResponseSuccess("更新设置成功")
+    return tlResponseSuccess("更新成功")
 }
 
 /**
@@ -318,10 +316,10 @@ const updateUserConfigSkin = async function({ loginInfo, skin }){
     })
 
     if(Object.keys(result).length == 0){
-        return tlResponseSvrError("更新设置失败")
+        return tlResponseSvrError("更新失败")
     }
 
-    return tlResponseSuccess("更新设置成功")
+    return tlResponseSuccess("更新成功")
 }
 
 
@@ -369,10 +367,10 @@ const updateUserConfigOther = async function({ loginInfo, other }){
     })
 
     if(Object.keys(result).length == 0){
-        return tlResponseSvrError("更新设置失败")
+        return tlResponseSvrError("更新失败")
     }
 
-    return tlResponseSuccess("更新设置成功")
+    return tlResponseSuccess("更新成功")
 }
 
 

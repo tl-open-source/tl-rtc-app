@@ -1,18 +1,6 @@
 <p align="center">
-  <img src="web-v2-res/image/tlrtcapp-logo.svg" alt="TL-RTC-APP Logo">
+  <img src="web-res/image/tlrtcapp-logo.svg" alt="TL-RTC-APP Logo">
 </p>
-
-### Preview
-
-<img src="web-v2-res/image/homepage.png" alt="homepage">
-
-## Prerequisites
-
-1. Install Node.js environment
-
-2. Install MySQL environment
-
-3. Install Redis environment
 
 ## Installation Steps
 
@@ -33,27 +21,12 @@
     ```
 
 ## Usage Instructions
-1. Start the application - Api
+1. Start the application:
 
     ```bash
-    npm run http-api
-
-    or
-
-    npm run https-api
+    npm start
     ```
-
-2. Start the application - Socket
-
-    ```bash
-    npm run http-socket
-
-    or
-
-    npm run https-socket
-    ```
-
-3. Open your browser and visit `http://localhost:9096`.
+2. Open your browser and visit `http://localhost:9096`.
 
 ## License
 This project is licensed under the MIT License. For more details, please refer to the [LICENSE](LICENSE) file.

@@ -1,8 +1,6 @@
 const { 
     tlResponseArgsError, tlResponseForbidden, tlResponseSvrError, 
-    tlResponseTimeout, tlResponseNotFound, tlResponseSuccess,
-    setBit, checkBit,
-    tlConsole
+    tlResponseNotFound, tlResponseSuccess, checkIsId
 } = require('../../utils/utils')
 const userFriendService = require('../../service/user/tl_user_friend_service')
 const userService = require('../../service/user/tl_user_service')
@@ -10,7 +8,7 @@ const userSessionService = require('../../service/user/tl_user_session_service')
 const channelService = require('../../service/channel/tl_channel_service')
 const channelUserService = require('../../service/channel/tl_channel_user_service')
 const channelChatService = require('../../service/channel/tl_channel_chat_service')
-const { getOssUrl } = require('../../utils/oss/oss')
+const { getAvatarOssUrl } = require('../../utils/oss/oss')
 
 const { fields: userFriendFields } = require('../../tables/tl_user_friend')
 const { fields: userFields } = require('../../tables/tl_user')
@@ -19,11 +17,14 @@ const { fields: channelUserFields } = require('../../tables/tl_channel_user')
 const { inner: TlRoleInner } = require('../../tables/tl_role')
 const { fields: channelChatFields } = require('../../tables/tl_channel_chat')
 
-const {  Def: TlUserFriendDef, Status: TlUserFriendStatus, FriendType: TlUserFriendType,  Origin: TlUserFriendOrigin } = userFriendFields
+const { 
+    Def: TlUserFriendDef, Status: TlUserFriendStatus, 
+    FriendType: TlUserFriendType,
+} = userFriendFields
 
 const { Def: TlUserDef } = userFields
 const { Def: TlChannelDef, Type: TlChannelType } = channelFields
-const { Def: TlChannelChatDef, Other: TlChannelChatOther } = channelChatFields
+const { Other: TlChannelChatOther } = channelChatFields
 const { Def: TlchannelUserDef, Type: TlChannelUserType } = channelUserFields
 
 
@@ -46,6 +47,7 @@ const getFriendList = async function({ loginInfo }){
         TlUserFriendDef.id,
         TlUserFriendDef.friendId,
         TlUserFriendDef.origin,
+        TlUserFriendDef.flag,
         TlUserFriendDef.createdAt,
         TlUserFriendDef.friendType,
         TlUserFriendDef.remark,
@@ -80,11 +82,6 @@ const getFriendList = async function({ loginInfo }){
     let resultList = []
     for(let i = 0; i < userFriendList.length; i++){
         const item = userFriendList[i]
-        let originStr = ''
-        const origin = item[TlUserFriendDef.origin]
-        if(origin == TlUserFriendOrigin.SEARCH_NAME){
-            originStr = "搜索用户名添加"
-        }
 
         const friendId = item[TlUserFriendDef.friendId]
         let friendInfo = userInfoMap.get(friendId)
@@ -98,13 +95,11 @@ const getFriendList = async function({ loginInfo }){
         let friendType = item[TlUserFriendDef.friendType]
         if(friendType == TlUserFriendType.NORMAL){
             friendTypeStr = '普通好友'
-        }else if(friendType == TlUserFriendType.SPECIAL){
-            friendTypeStr = '特别关注'
         }
 
         resultList.push({
             id : item[TlUserFriendDef.id],
-            origin : originStr,
+            origin : item[TlUserFriendDef.origin],
             friendType: friendTypeStr,
             remark: item[TlUserFriendDef.remark],
             createTime: item[TlUserFriendDef.createdAt],
@@ -115,11 +110,11 @@ const getFriendList = async function({ loginInfo }){
             username: friendInfo[TlUserDef.name],
             userEmail: friendInfo[TlUserDef.email],
             userMobile: friendInfo[TlUserDef.mobile],
-            userAvatar: await getOssUrl(friendInfo[TlUserDef.avatarUrl]),
+            userAvatar: await getAvatarOssUrl(friendInfo[TlUserDef.avatarUrl]),
         })
     }
 
-    return tlResponseSuccess("获取好友列表成功", resultList)
+    return tlResponseSuccess("获取成功", resultList)
 }
 
 
@@ -130,7 +125,12 @@ const getFriendList = async function({ loginInfo }){
  */
 const deleteFriend = async function({ loginInfo, channelId }){
     if(!channelId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    channelId = parseInt(channelId)
+    if(!checkIsId(channelId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -148,7 +148,7 @@ const deleteFriend = async function({ loginInfo, channelId }){
     ])
 
     if(Object.keys(channelUserInfo).length == 0){
-        return tlResponseNotFound("删除好友成功")
+        return tlResponseNotFound("非法操作")
     }
 
     const channelType = channelUserInfo[TlchannelUserDef.type]
@@ -157,10 +157,14 @@ const deleteFriend = async function({ loginInfo, channelId }){
     }
 
     // 删除自己在频道的数据
-    await channelUserService.deleteInfoById({
+    const deleteRes = await channelUserService.deleteInfoById({
         companyId: loginUserCompanyId,
         id: channelUserInfo[TlchannelUserDef.id]
     })
+
+    if(deleteRes === 0){
+        return tlResponseSvrError("删除失败")
+    }
 
     // 获取好友关系
     const userFriendInfo = await userFriendService.getInfoByChannelIdAndUserId({
@@ -172,21 +176,25 @@ const deleteFriend = async function({ loginInfo, channelId }){
     ])
 
     if(Object.keys(userFriendInfo).length == 0){
-        return tlResponseNotFound("删除好友成功")
+        return tlResponseNotFound("删除成功")
     }
 
     const userFriendId = userFriendInfo[TlUserFriendDef.id]
     if(!userFriendId){
-        return tlResponseNotFound("删除好友成功")
+        return tlResponseNotFound("删除成功")
     }
 
     // 删除好友关系
-    await userFriendService.deleteInfoById({
+    const deleteFriendRes = await userFriendService.deleteInfoById({
         companyId: loginUserCompanyId,
         id: userFriendId
     })
 
-    return tlResponseSuccess("删除好友成功")
+    if(deleteFriendRes === 0){
+        return tlResponseSvrError("删除失败")
+    }
+
+    return tlResponseSuccess("删除成功")
 }
 
 
@@ -198,11 +206,20 @@ const deleteFriend = async function({ loginInfo, channelId }){
  */
 const updateRemark = async function({ loginInfo, channelId, remark }){
     if(!channelId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    channelId = parseInt(channelId)
+    if(!checkIsId(channelId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     if(!remark){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    if(remark.length > 20){
+        return tlResponseArgsError("备注长度不能超过20")
     }
 
     const {
@@ -221,6 +238,12 @@ const updateRemark = async function({ loginInfo, channelId, remark }){
     const friendInfo = userFriendList.find(item => item[TlUserFriendDef.userId] == loginUserId)
     if(!friendInfo){
         return tlResponseNotFound("好友不存在")
+    }
+
+    // 当前用户是否存在频道
+    const channelUserInfo = userFriendList.find(item => item[TlUserFriendDef.userId] == loginUserId)
+    if(!channelUserInfo){
+        return tlResponseNotFound("非法操作")
     }
 
     const userFriendId = friendInfo[TlUserFriendDef.id]
@@ -233,10 +256,10 @@ const updateRemark = async function({ loginInfo, channelId, remark }){
     })
 
     if(Object.keys(info).length == 0){
-        return tlResponseSvrError("修改好友备注失败")
+        return tlResponseSvrError("更新失败")
     }
 
-    return tlResponseSuccess("修改好友备注成功")
+    return tlResponseSuccess("更新成功")
 }
 
 /**
@@ -247,11 +270,20 @@ const updateRemark = async function({ loginInfo, channelId, remark }){
  */
 const updateRename = async function({ loginInfo, channelId, rename }){
     if(!channelId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    channelId = parseInt(channelId)
+    if(!checkIsId(channelId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     if(!rename){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    if(rename.length > 20){
+        return tlResponseArgsError("备注长度不能超过20")
     }
 
     const {
@@ -272,6 +304,12 @@ const updateRename = async function({ loginInfo, channelId, rename }){
         return tlResponseNotFound("好友不存在")
     }
 
+    // 当前用户是否存在频道
+    const channelUserInfo = userFriendList.find(item => item[TlUserFriendDef.userId] == loginUserId)
+    if(!channelUserInfo){
+        return tlResponseNotFound("非法操作")
+    }
+
     const userFriendId = friendInfo[TlUserFriendDef.id]
     const info = await userFriendService.updateInfoById({
         companyId: loginUserCompanyId,
@@ -281,10 +319,10 @@ const updateRename = async function({ loginInfo, channelId, rename }){
     })
 
     if(Object.keys(info).length == 0){
-        return tlResponseSvrError("修改好友备注失败")
+        return tlResponseSvrError("更新失败")
     }
 
-    return tlResponseSuccess("修改好友备注成功")
+    return tlResponseSuccess("更新成功")
 }
 
 
@@ -300,6 +338,11 @@ const initChannelForPassFriend = async function({
 }){
     if(!applyUserId){
         return tlResponseArgsError("初始化好友频道失败，请求参数为空")
+    }
+
+    applyUserId = parseInt(applyUserId)
+    if(!checkIsId(applyUserId)){
+        return tlResponseArgsError("初始化好友频道失败，请求参数错误")
     }
 
     // 获取这两个人的用户频道信息
@@ -330,7 +373,7 @@ const initChannelForPassFriend = async function({
     const existChannelId = loginUserIdChannelIdList.find(item => applyUserIdChannelIdList.includes(item))
     // 如果已经存在频道用户数据，直接返回
     if(existChannelId){
-        return tlResponseSuccess("初始化好友频道成功1", { channelId: existChannelId })
+        return tlResponseSuccess("初始化好友频道成功", { channelId: existChannelId })
     }
 
     // 创建新频道
@@ -405,7 +448,7 @@ const initChannelForPassFriend = async function({
         }
     })
     
-    return tlResponseSuccess("初始化好友频道成功2", { channelId })
+    return tlResponseSuccess("初始化好友频道成功", { channelId })
 }
 
 
@@ -418,9 +461,11 @@ const initChannelForPassFriend = async function({
  * @param {*} origin
  * @param {*} remark
  * @param {*} channelId
+ * @param {*} flag
  */
 const initUserFriendForPassFriend = async function({ 
-    loginUserCompanyId, loginUserId, loginUsername, applyUserId, applyUserName, origin, remark, channelId
+    loginUserCompanyId, loginUserId, loginUsername, 
+    applyUserId, applyUserName, origin, remark, channelId, flag
 }){
     if(!applyUserId){
         return tlResponseForbidden("生成好友记录失败，参数错误")
@@ -457,6 +502,7 @@ const initUserFriendForPassFriend = async function({
         userId: loginUserId,
         friendId: applyUserId,
         origin: origin,
+        flag: flag,
         remark: remark,
         friendType: TlUserFriendType.NORMAL,
         status: TlUserFriendStatus.NORMAL,
@@ -473,6 +519,7 @@ const initUserFriendForPassFriend = async function({
         userId: applyUserId,
         friendId: loginUserId,
         origin: origin,
+        flag: flag,
         remark: remark,
         friendType: TlUserFriendType.NORMAL,
         status: TlUserFriendStatus.NORMAL,
@@ -487,66 +534,6 @@ const initUserFriendForPassFriend = async function({
     return tlResponseSuccess("生成好友记录成功")
 }
 
-/**
- * 更新好友类型
- * @param {*} loginInfo
- * @param {*} channelId
- * @param {*} special
- */
-const updateFriendSpecical = async function({ loginInfo, channelId, special }){
-    if(!channelId){
-        return tlResponseArgsError("请求参数为空")
-    }
-
-    if(special === undefined || special === null){ 
-        return tlResponseArgsError("请求参数为空")
-    }
-
-    const {
-        loginUserCompanyId, loginUserId
-    } = loginInfo
-
-    // 获取频道用户列表
-    const userFriendList = await userFriendService.getListByChannelId({
-        companyId: loginUserCompanyId,
-        channelId,
-    }, [
-        TlUserFriendDef.id,
-        TlUserFriendDef.userId,
-    ])
-
-    const friendInfo = userFriendList.find(item => item[TlUserFriendDef.userId] == loginUserId)
-    if(!friendInfo){
-        return tlResponseNotFound("好友不存在")
-    }
-
-    const newFriendType = special ? TlUserFriendType.SPECIAL : TlUserFriendType.NORMAL
-
-    const userFriendId = friendInfo[TlUserFriendDef.id]
-    const info = await userFriendService.updateInfoById({
-        companyId: loginUserCompanyId,
-        id: userFriendId,
-    }, {
-        [TlUserFriendDef.friendType]: special ? TlUserFriendType.SPECIAL : TlUserFriendType.NORMAL
-    })
-
-    if(Object.keys(info).length == 0){
-        return tlResponseSvrError("关注失败")
-    }
-
-    let friendTypeStr = ''
-    if(newFriendType == TlUserFriendType.NORMAL){
-        friendTypeStr = '普通好友'
-    }else if(newFriendType == TlUserFriendType.SPECIAL){
-        friendTypeStr = '特别关注'
-    }
-
-    return tlResponseSuccess(special ? '关注成功' : '取消关注成功', {
-        friendType: friendTypeStr
-    })
-}
-
-
 
 module.exports = {
     getFriendList,
@@ -555,5 +542,4 @@ module.exports = {
     updateRename,
     initChannelForPassFriend,
     initUserFriendForPassFriend,
-    updateFriendSpecical
 }

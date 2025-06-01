@@ -38,7 +38,7 @@ async function start(){
 
     tlConsole("db init start ...") 
     if (!conf.db_open) {// 没开db
-        tlConsole("db not open ...")
+        tlConsoleError("db not open ...")
     }else{
         await dbInit();
     }

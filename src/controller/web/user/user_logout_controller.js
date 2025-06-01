@@ -1,5 +1,5 @@
 const {
-	tlConsole, tlResponseSvrError, tlConsoleError
+	tlResponseSvrError, tlConsoleError
 } = require("../../../utils/utils");
 const express = require('express');
 const router = express.Router();
@@ -8,7 +8,7 @@ const {
     LOGIN : {
         LOGIN_TOKEN_KEY,
         
-        WEBSITE_LOGIN_TOKEN_KEY
+        SYSTEM_LOGIN_TOKEN_KEY
     }
 } = require('../../../utils/constant');
 
@@ -39,19 +39,19 @@ router.get('/logout', async function(request, response) {
 
 
 /**
- * #controller get /api/web/user-logout/website-logout
+ * #controller get /api/web/user-logout/system-logout
  * #desc 退出登录
  * @param {*} request
  * @param {*} response
  */
-router.get('/website-logout', async function(request, response) {
+router.get('/system-logout', async function(request, response) {
     try {
-        const { [WEBSITE_LOGIN_TOKEN_KEY]: token } = request.cookies;
+        const { [SYSTEM_LOGIN_TOKEN_KEY]: token } = request.cookies;
         const result = await userLogoutBiz.userLogout({
             token
         });
 
-        response.clearCookie(WEBSITE_LOGIN_TOKEN_KEY);
+        response.clearCookie(SYSTEM_LOGIN_TOKEN_KEY);
 
         response.json(result);
     } catch (error) {

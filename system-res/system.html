@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TL-RTC-APP 系统管理</title>
+    <!-- CSS 引入 -->
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/css/default.min.css" media="all">
+    <link rel="stylesheet" href="lib-system-sdk.min.css" media="all">
+
+    <link rel="stylesheet" href="lib-css-sdk.min.css" media="all">
+    
+    <!-- JS 引入 -->
+    <script type="text/javascript" src="/static/js/crypto-js.min.js"></script>
+    <script type="text/javascript" src="/static/js/localforage.min.js"></script>
+    <script type="text/javascript" src="/static/js/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="/static/js/vue.min.js"></script>
+    <script type="text/javascript" src="/static/js/axios.js"></script>
+    <script type="text/javascript" src="/static/js/clipboard.min.js"></script>
+    <script type="text/javascript" src="/static/js/qrcode.min.js"></script>
+    <script type="text/javascript" src="/static/layui/font-ext/iconfont.js"></script>
+    <script type="text/javascript" src="/static/layui/layui.js"></script>
+    <script type="text/javascript" src="/static/js/hammer.min.js"></script>
+    <script type="text/javascript" src="/static/js/base64.min.js"></script>
+
+    <style>
+        .icon {width: 1em; height: 1em; vertical-align: -0.15em; fill: currentColor; overflow: hidden;}
+        [v-cloak] { display: none; }
+    </style>
+</head>
+<body>
+    <div id="tl-rtc-app-system" class="tl-rtc-app-system-container" v-cloak>
+        <!-- 顶部导航栏 -->
+        <div class="tl-rtc-app-header">
+            <div class="tl-rtc-app-header-logo">
+                <h2>TL-RTC-APP 系统管理</h2>
+            </div>
+            <div class="tl-rtc-app-header-user" v-if="isLogin">
+                <div class="tl-rtc-app-user-info" @click="showUserPanel = !showUserPanel">
+                    <img :src="userAvatar || '/static/images/avatar-default.png'" alt="头像" class="tl-rtc-app-user-avatar">
+                    <span class="tl-rtc-app-user-name">{{ username }}</span>
+                    <i class="layui-icon layui-icon-down"></i>
+                    
+                    <!-- 用户信息下拉面板 -->
+                    <div class="tl-rtc-app-user-panel" v-show="showUserPanel">
+                        <div class="tl-rtc-app-panel-header">
+                            <img :src="userAvatar || '/static/images/avatar-default.png'" alt="头像" class="tl-rtc-app-panel-avatar">
+                            <div class="tl-rtc-app-panel-info">
+                                <p class="tl-rtc-app-panel-name">{{ username }}</p>
+                                <p class="tl-rtc-app-panel-role">系统管理员</p>
+                            </div>
+                        </div>
+                        <div class="tl-rtc-app-panel-footer">
+                            <button class="layui-btn layui-btn-sm layui-btn-danger" @click="logout">退出登录</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tl-rtc-app-header-login" v-else>
+                <button class="layui-btn layui-btn-sm" @click="showLoginDialog">登录</button>
+            </div>
+        </div>
+        
+        <!-- 主体内容区 -->
+        <div class="tl-rtc-app-main" v-if="isLogin">
+            <!-- 侧边栏导航 -->
+            <div class="tl-rtc-app-sidebar" :class="{'tl-rtc-app-sidebar-collapsed': sidebarCollapsed}">
+                <ul class="layui-nav layui-nav-tree" lay-filter="sideNav" >
+                    <li class="layui-nav-item" :class="{'layui-this': activeTab === 'service'}">
+                        <a href="javascript:;" @click="activeTab = 'service'">
+                            <i class="layui-icon layui-icon-engine"></i> <span class="tl-rtc-app-nav-text">服务管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item" :class="{'layui-this': activeTab === 'config'}">
+                        <a href="javascript:;" @click="activeTab = 'config'">
+                            <i class="layui-icon layui-icon-set"></i> <span class="tl-rtc-app-nav-text">配置管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item" :class="{'layui-this': activeTab === 'company'}">
+                        <a href="javascript:;" @click="activeTab = 'company'">
+                            <i class="layui-icon layui-icon-tree"></i> <span class="tl-rtc-app-nav-text">企业管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item" :class="{'layui-this': activeTab === 'user'}">
+                        <a href="javascript:;" @click="activeTab = 'user'">
+                            <i class="layui-icon layui-icon-user"></i> <span class="tl-rtc-app-nav-text">用户管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item" :class="{'layui-this': activeTab === 'channel'}">
+                        <a href="javascript:;" @click="activeTab = 'channel'">
+                            <i class="layui-icon layui-icon-chat"></i> <span class="tl-rtc-app-nav-text">频道管理</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- 侧边栏收缩按钮 -->
+                <div class="tl-rtc-app-sidebar-toggle" @click="toggleSidebar">
+                    <i class="layui-icon" :class="sidebarCollapsed ? 'layui-icon-spread-left' : 'layui-icon-shrink-right'"></i>
+                </div>
+            </div>
+            
+            
+            <!-- 内容区域 -->
+            <div class="tl-rtc-app-content">
+                <!-- 各模块组件 -->
+                 <service-component 
+                    v-if="activeTab === 'service'" 
+                    :is-login="isLogin"
+                    @success="popSuccessMsg"
+                    @error="popErrorMsg"
+                    @warning="popWarningMsg"
+                    @show-login="showLoginDialog"
+                ></service-component>
+                
+                <config-component 
+                    v-if="activeTab === 'config'" 
+                    :is-login="isLogin"
+                    @success="popSuccessMsg"
+                    @error="popErrorMsg"
+                    @warning="popWarningMsg"
+                    @show-login="showLoginDialog"
+                ></config-component>
+                
+                <company-component 
+                    v-if="activeTab === 'company'" 
+                    :is-login="isLogin"
+                    @success="popSuccessMsg"
+                    @error="popErrorMsg"
+                    @warning="popWarningMsg"
+                    @show-login="showLoginDialog"
+                ></company-component>
+                
+                <user-component 
+                    v-if="activeTab === 'user'" 
+                    :is-login="isLogin"
+                    @success="popSuccessMsg"
+                    @error="popErrorMsg"
+                    @warning="popWarningMsg"
+                    @show-login="showLoginDialog"
+                ></user-component>
+                
+                <channel-component 
+                    v-if="activeTab === 'channel'" 
+                    :is-login="isLogin"
+                    @success="popSuccessMsg"
+                    @error="popErrorMsg"
+                    @warning="popWarningMsg"
+                    @show-login="showLoginDialog"
+                ></channel-component>
+
+                <!-- 引用企业详情组件 -->
+                <company-detail 
+                    @error=popErrorMsg
+                    @warning=popWarningMsg
+                    @success=popSuccessMsg
+                ></company-detail>
+
+                <!-- 引用频道用户组件 -->
+                <channel-user-component
+                    :is-login="isLogin"
+                    @error=popErrorMsg
+                    @warning=popWarningMsg
+                    @success=popSuccessMsg
+                ></channel-user-component>
+
+
+                <!-- 引用用户详情组件 -->
+                <user-detail
+                    @error=popErrorMsg
+                    @warning=popWarningMsg
+                    @success=popSuccessMsg
+                ></user-detail>
+            </div>
+        </div>
+    </div>
+
+    <!-- 企业表格操作列模板 -->
+    <script type="text/html" id="company-table-ops">
+        <div class="layui-btn-group">
+            <button class="layui-btn layui-btn-xs" lay-event="edit">
+                <i class="layui-icon layui-icon-edit"></i>
+            </button>
+            <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del" style=" margin-left: 5px !important;">
+                <i class="layui-icon layui-icon-delete"></i>
+            </button>
+        </div>
+    </script>
+    
+    <!-- 用户表格操作列模板 -->
+    <script type="text/html" id="user-table-ops">
+        <div class="layui-btn-group">
+            <button class="layui-btn layui-btn-xs" lay-event="edit">
+                <i class="layui-icon layui-icon-edit"></i>
+            </button>
+            <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del" style="margin-left: 5px !important;">
+                <i class="layui-icon layui-icon-delete"></i>
+            </button>
+        </div>
+    </script>
+    
+    <!-- 频道表格操作列模板 -->
+    <script type="text/html" id="channel-table-ops">
+        <div class="layui-btn-group">
+            <button class="layui-btn layui-btn-xs" lay-event="edit">
+                <i class="layui-icon layui-icon-edit"></i>
+            </button>
+            <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del" style="margin-left: 5px !important;">
+                <i class="layui-icon layui-icon-delete"></i>
+            </button>
+        </div>
+    </script>
+
+    <!-- 引入系统管理的JS文件 -->
+    <script type="text/javascript" src="lib-system-sdk.min.js"></script>
+    </body>
+</html>

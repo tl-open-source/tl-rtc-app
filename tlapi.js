@@ -20,10 +20,10 @@ const fs = require('fs');
 const https = require('https');
 const loginAuthHandler = require("./src/middleware/loginAuth");
 const { loginRoleHandler, loginChannelRoleHandler } = require("./src/middleware/loginRole");
+const { storageConfig } = require("./src/middleware/multerConfig");
 
 const resRouter = {
-    "/": "dist/",
-    "/website/": "website-res/"
+    "/": "web-dist/",
 }
 
 
@@ -44,11 +44,13 @@ async function start() {
     app.use(loginRoleHandler)
     // channel role auth
     app.use(loginChannelRoleHandler)
+    // parse file upload
+    app.use(multer({ storage: storageConfig() }).any());
 
 
     tlConsole("db init start ...") 
     if (!conf.db_open) {// 没开db
-        tlConsole("db not open ...")    
+        tlConsoleError("db not open ...")    
     }else{
         await dbInit();
     }

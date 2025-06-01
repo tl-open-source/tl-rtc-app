@@ -1,0 +1,60 @@
+/***********************************************************************************
+************************************************************************************
+                                form表单 start
+************************************************************************************
+************************************************************************************/
+.layui-form-select dl dd.layui-this{
+    background-color: var(--skin-body-background);
+    color: var(--skin-body-color);
+}
+
+.layui-form-select dl{
+    background-color: var(--skin-body-background);
+}
+
+.layui-form-switch{
+    margin-top: unset !important;
+    height: 18px !important;
+    line-height: 18px !important; 
+    min-width: 28px !important;
+}
+
+.layui-form-switch i{
+    width: 12px !important;
+    height: 12px !important;   
+}
+
+.layui-form-onswitch i{
+    margin-left: -16px !important;
+    /* background: var(--skin-body-color); */
+}
+
+.layui-form-onswitch{
+    /* border-color: var(--skin-body-background) !important;
+    background-color: var(--skin-body-background) !important; */
+}
+
+.layui-form-checkbox[lay-skin=primary] i{
+    border-radius: 50%;
+}
+
+.layui-form-checked[lay-skin=primary] i{
+    border-color: var(--skin-body-color) !important;
+    /* background-color: var(--skin-body-background) !important; */
+}
+
+.layui-form-radio {
+    display: unset !important;
+    vertical-align: unset !important;
+    line-height: unset !important;
+    margin: unset !important;
+    padding-right: unset !important;
+    cursor: pointer;
+    font-size: unset !important;
+}
+/***********************************************************************************
+************************************************************************************
+                                form表单 end
+************************************************************************************
+************************************************************************************/
+

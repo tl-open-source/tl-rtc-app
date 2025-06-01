@@ -1,21 +1,21 @@
 const {
     tlResponseArgsError, tlResponseForbidden, tlResponseSvrError,
-    tlResponseTimeout, tlResponseNotFound, tlResponseSuccess,
-    setBit
+    tlResponseNotFound, tlResponseSuccess,
+    setBit, checkIsId, sanitizeHTML
 } = require('../../utils/utils')
-const { getAvatarOssUrl } = require('../../utils/oss/oss')
 const channelService = require('../../service/channel/tl_channel_service')
 const channelChatService = require('../../service/channel/tl_channel_chat_service')
 const channelUserService = require('../../service/channel/tl_channel_user_service')
-const userSessionService = require('../../service/user/tl_user_session_service')
-const userService = require('../../service/user/tl_user_service')
+const channelFileService = require('../../service/channel/tl_channel_file_service')
+const channelMediaService = require('../../service/channel/tl_channel_media_service')
 
 const userReadBiz = require('../user/user_read_biz')
 
 const { fields: channelChatFields } = require('../../tables/tl_channel_chat')
 const { fields: channelUserFields} = require('../../tables/tl_channel_user')
-const { fields: userFields } = require('../../tables/tl_user')
 const { fields: channelFields } = require('../../tables/tl_channel')
+const { fields: channelFileFields } = require('../../tables/tl_channel_file')
+const { fields: channelMediaFields } = require('../../tables/tl_channel_media')
 
 const {
     Def: TlChannelChatDef,
@@ -27,11 +27,15 @@ const {
     Def: TlChannelUserDef 
 } = channelUserFields
 const { 
-    Def: TlUserDef 
-} = userFields
-const { 
     Def: TlChannelDef, Type: TlChannelType 
 } = channelFields
+const { 
+    Type: TlChannelFileType 
+} = channelFileFields
+const { 
+   Type: TlChannelMediaType 
+} = channelMediaFields
+
 
 
 
@@ -49,11 +53,45 @@ const addFriendChannelChat = async function ({
     loginInfo, message, toUserId, toUserName, channelId, atUserId, atUserName
 }) {
     if (!message) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
     }
 
+    if(message.length > 8192){
+        return tlResponseArgsError("消息内容过长")
+    }
+
+    // 防止xss攻击
+    message = sanitizeHTML(message)
+
     if (!channelId) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    channelId = parseInt(channelId)
+    if(!checkIsId(channelId)){
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    if(toUserId){
+        toUserId = parseInt(toUserId)
+        if(!checkIsId(toUserId)){
+            return tlResponseArgsError("请求参数错误")
+        }
+    }
+
+    if(atUserId){
+        atUserId = parseInt(atUserId)
+        if(!checkIsId(atUserId)){
+            return tlResponseArgsError("请求参数错误")
+        }
+    }
+
+    if(toUserName && toUserName.length > 64){
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    if(atUserName && atUserName.length > 64){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -68,6 +106,22 @@ const addFriendChannelChat = async function ({
 
     if(Object.keys(channelInfo).length == 0){
         return tlResponseNotFound("发送失败，频道不存在")
+    }
+
+    const channelType = channelInfo[TlChannelDef.type]
+    if(channelType !== TlChannelType.FRIEND){
+        return tlResponseArgsError("发送失败，频道类型错误")
+    }
+
+    // 当前用户是否存在频道
+    const channelUserInfo = await channelUserService.getInfoByChannelIdAndUserId({
+        companyId: loginUserCompanyId,
+        channelId: channelId,
+        userId: loginUserId
+    })
+
+    if(Object.keys(channelUserInfo).length == 0){
+        return tlResponseNotFound("非法操作")
     }
 
     // 设置@标志
@@ -100,10 +154,10 @@ const addFriendChannelChat = async function ({
         ])
         const friendUser = channelUserList.find(item => item[TlChannelUserDef.userId] !== loginUserId)
         if(!friendUser){
-            return tlResponseNotFound("发送失败，好友不存在")
+            return tlResponseNotFound("发送失败，对方已经不是您的好友")
         }
 
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
     }
 
     const info = await channelChatService.addFriendChatInfo({
@@ -163,11 +217,34 @@ const addGroupChannelChat = async function ({
     loginInfo, message, channelId, atUserId, atUserName, atAll
 }) {
     if (!message) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
     }
 
+    if(message.length > 8192){
+        return tlResponseArgsError("消息内容过长")
+    }
+
+    // 防止xss攻击
+    message = sanitizeHTML(message)
+
     if (!channelId) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    channelId = parseInt(channelId)
+    if(!checkIsId(channelId)){
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    if(atUserId){
+        atUserId = parseInt(atUserId)
+        if(!checkIsId(atUserId)){
+            return tlResponseArgsError("请求参数错误")
+        }
+    }
+
+    if(atUserName && atUserName.length > 64){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -182,6 +259,22 @@ const addGroupChannelChat = async function ({
     })
     if(Object.keys(channelInfo).length == 0){
         return tlResponseNotFound("发送失败，频道不存在")
+    }
+
+    const channelType = channelInfo[TlChannelDef.type]
+    if(channelType !== TlChannelType.GROUP){
+        return tlResponseArgsError("发送失败，频道类型错误")
+    }
+
+    // 当前用户是否存在频道
+    const channelUserInfo = await channelUserService.getInfoByChannelIdAndUserId({
+        companyId: loginUserCompanyId,
+        channelId: channelId,
+        userId: loginUserId
+    })
+
+    if(Object.keys(channelUserInfo).length == 0){
+        return tlResponseNotFound("非法操作")
     }
 
     // 设置@标志
@@ -248,140 +341,6 @@ const addGroupChannelChat = async function ({
 }
 
 /**
- * 撤回群组/好友消息
- * @param {*} loginInfo
- * @param {*} channelId
- * @param {*} messageId
- * @param {*} messageType
- */
-const rollbackChannelChat = async function ({
-    loginInfo, channelId, messageId, messageType
-}) {
-    const {
-        loginUserCompanyId, loginUserId, loginUsername,
-    } = loginInfo
-
-    if (!channelId) {
-        return tlResponseArgsError("请求参数为空")
-    }
-
-    if (!messageId) {
-        return tlResponseArgsError("请求参数为空")
-    }
-
-    if (!messageType) {
-        return tlResponseArgsError("请求参数为空")
-    }
-    
-    // 频道是否存在
-    const channelInfo = await channelService.getInfoById({
-        companyId: loginUserCompanyId,
-        id: channelId
-    })
-
-    if(Object.keys(channelInfo).length == 0){
-        return tlResponseNotFound("撤回失败，频道不存在")
-    }
-
-    // 消息是否存在
-    let messageInfo = {}
-    if([
-        TlChannelChatType.FRIEND,
-        TlChannelChatType.GROUP,
-
-        // 不支持撤回系统消息
-        // TlChannelChatType.SYSTEM,
-    ].includes(messageType)){
-        messageInfo = await channelChatService.getInfoById({
-            companyId: loginUserCompanyId,
-            id: messageId
-        })
-        
-    }
-
-    if(Object.keys(messageInfo).length == 0){
-        return tlResponseNotFound("撤回失败，消息不存在")
-    }
-
-    // 不能撤回他人消息
-    if(messageInfo[TlChannelChatDef.fromUserId] !== loginUserId){
-        return tlResponseForbidden("撤回失败")
-    }
-
-    // 时间是否超过2分钟
-    const now = Date.now()
-    const messageTimeStamp = messageInfo[TlChannelChatDef.messageTimeStamp]
-    if(now - messageTimeStamp > 2 * 60 * 1000){
-        return tlResponseForbidden("撤回失败，消息已超过2分钟")
-    }
-
-    // 删除原有消息
-    let deleteRes = 0
-    if([
-        TlChannelChatType.FRIEND,
-        TlChannelChatType.GROUP,
-    ].includes(messageType)){
-        deleteRes = await channelChatService.deleteInfoById({
-            companyId: loginUserCompanyId,
-            id: messageId
-        })
-    }else{
-        return tlResponseSvrError("撤回失败")
-    }
-    
-    if(deleteRes == 0){
-        return tlResponseSvrError("撤回失败")
-    }
-
-    let rollbackMessage = ''
-    if([
-        TlChannelChatType.FRIEND,
-        TlChannelChatType.GROUP,
-    ].includes(messageType)){
-        rollbackMessage = `${loginUsername}撤回了一条消息`
-    }
-
-    // 生成撤回系统消息
-    const rollbackInfo = await channelChatService.addSystemChatnfo({
-        companyId: loginUserCompanyId,
-        channelId,
-        message: '<p>' + rollbackMessage + '</p>',
-        other: JSON.stringify({
-            [TlChannelChatOther.ip]: '',
-        }),
-        messageTimeStamp: Date.now(),
-        messageVersion: 'v1',
-        flag: 0
-    })
-
-    if(Object.keys(rollbackInfo).length == 0){
-        return tlResponseSvrError("撤回失败")
-    }
-
-    // 更新用户已读消息
-    const updateUserReadRes = await userReadBiz.updateChannelChatRead({
-        loginInfo, channelId, 
-        latestReadId: rollbackInfo[TlChannelChatDef.id], 
-    })
-
-    if(!updateUserReadRes.success){
-        return tlResponseSvrError("撤回失败")
-    }
-
-    return tlResponseSuccess("撤回成功", {
-        id: rollbackInfo[TlChannelChatDef.id],
-        message: rollbackInfo[TlChannelChatDef.message],
-        type: rollbackInfo[TlChannelChatDef.type],
-        createTime: rollbackInfo[TlChannelChatDef.createdAt],
-        fromUserId: rollbackInfo[TlChannelChatDef.fromUserId],
-        fromUserName: rollbackInfo[TlChannelChatDef.fromUserName],
-        hasRead: true,
-        messageTimeStamp: rollbackInfo[TlChannelChatDef.messageTimeStamp],
-        messageVersion: rollbackInfo[TlChannelChatDef.messageVersion],
-    })
-}
-
-/**
  * 回复好友聊天
  * @param {*} loginInfo
  * @param {*} message
@@ -399,19 +358,47 @@ const addReplyFriendChannelChat = async function ({
     } = loginInfo
 
     if (!message) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
     }
 
+    if(message.length > 8192){
+        return tlResponseArgsError("消息内容过长")
+    }
+
+    // 防止xss攻击
+    message = sanitizeHTML(message)
+
     if (!channelId) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    channelId = parseInt(channelId)
+    if(!checkIsId(channelId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     if (!messageId) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    messageId = parseInt(messageId)
+    if(!checkIsId(messageId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     if (!messageType) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    if(atUserId){
+        atUserId = parseInt(atUserId)
+        if(!checkIsId(atUserId)){
+            return tlResponseArgsError("请求参数错误")
+        }
+    }
+
+    if(atUserName && atUserName.length > 64){
+        return tlResponseArgsError("请求参数错误")
     }
 
     // 频道是否存在
@@ -421,6 +408,17 @@ const addReplyFriendChannelChat = async function ({
     })
     if(Object.keys(channelInfo).length == 0){
         return tlResponseNotFound("发送失败，频道不存在")
+    }
+
+    // 当前用户是否存在频道
+    const channelUserInfo = await channelUserService.getInfoByChannelIdAndUserId({
+        companyId: loginUserCompanyId,
+        channelId: channelId,
+        userId: loginUserId
+    })
+
+    if(Object.keys(channelUserInfo).length == 0){
+        return tlResponseNotFound("非法操作")
     }
 
     const channelType = channelInfo[TlChannelDef.type]
@@ -442,6 +440,22 @@ const addReplyFriendChannelChat = async function ({
             id: messageId
         })
         
+    }else if([
+        TlChannelFileType.OFFLINE,
+        TlChannelFileType.P2P,
+    ].includes(messageType)){
+        messageInfo = await channelFileService.getInfoById({
+            companyId: loginUserCompanyId,
+            id: messageId
+        })
+    }else if([
+        TlChannelMediaType.AUDIO,
+        TlChannelMediaType.VIDEO,
+    ].includes(messageType)){
+        messageInfo = await channelMediaService.getInfoById({
+            companyId: loginUserCompanyId,
+            id: messageId
+        })
     }
     if(Object.keys(messageInfo).length == 0){
         return tlResponseNotFound("发送失败，回复消息不存在")
@@ -502,6 +516,28 @@ const addReplyFriendChannelChat = async function ({
         TlChannelChatType.GROUP,
     ].includes(messageType)){
         replyToMessageContent = messageInfo[TlChannelChatDef.message]
+    }else if([
+        TlChannelFileType.OFFLINE,
+        TlChannelFileType.P2P,
+    ].includes(messageType)){
+        if(messageType == TlChannelFileType.P2P){
+            replyToMessageContent = "在线文件"
+        }else if(messageType == TlChannelFileType.OFFLINE){
+            replyToMessageContent = "离线文件"
+        }else{
+            replyToMessageContent = "未知文件消息"
+        }
+    }else if([
+        TlChannelMediaType.VIDEO,
+        TlChannelMediaType.AUDIO,
+    ].includes(messageType)){
+        if(messageType == TlChannelMediaType.VIDEO){
+            replyToMessageContent = "视频通话"
+        }else if(messageType == TlChannelMediaType.AUDIO){
+            replyToMessageContent = "语音通话"
+        }else{
+            replyToMessageContent = "未知音视频消息"
+        }
     }else{
         replyToMessageContent = '未知消息'
     }
@@ -546,19 +582,47 @@ const addReplyGroupChannelChat = async function ({
     } = loginInfo
 
     if (!message) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
     }
 
+    if(message.length > 8192){
+        return tlResponseArgsError("消息内容过长")
+    }
+
+    // 防止xss攻击
+    message = sanitizeHTML(message)
+
     if (!channelId) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    channelId = parseInt(channelId)
+    if(!checkIsId(channelId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     if (!messageId) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    messageId = parseInt(messageId)
+    if(!checkIsId(messageId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     if (!messageType) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    if(atUserId){
+        atUserId = parseInt(atUserId)
+        if(!checkIsId(atUserId)){
+            return tlResponseArgsError("请求参数错误")
+        }
+    }
+
+    if(atUserName && atUserName.length > 64){
+        return tlResponseArgsError("请求参数错误")
     }
 
     // 频道是否存在
@@ -571,6 +635,17 @@ const addReplyGroupChannelChat = async function ({
         return tlResponseNotFound("发送失败，频道不存在")
     }
 
+    // 当前用户是否存在频道
+    const channelUserInfo = await channelUserService.getInfoByChannelIdAndUserId({
+        companyId: loginUserCompanyId,
+        channelId: channelId,
+        userId: loginUserId
+    })
+
+    if(Object.keys(channelUserInfo).length == 0){
+        return tlResponseNotFound("非法操作")
+    }
+    
     const channelType = channelInfo[TlChannelDef.type]
     if(channelType !== TlChannelType.GROUP){
         return tlResponseArgsError("发送失败，频道类型错误")
@@ -586,6 +661,22 @@ const addReplyGroupChannelChat = async function ({
         // TlChannelChatType.SYSTEM,
     ].includes(messageType)){
         messageInfo = await channelChatService.getInfoById({
+            companyId: loginUserCompanyId,
+            id: messageId
+        })
+    }else if([
+        TlChannelFileType.OFFLINE,
+        TlChannelFileType.P2P,
+    ].includes(messageType)){
+        messageInfo = await channelFileService.getInfoById({
+            companyId: loginUserCompanyId,
+            id: messageId
+        })
+    }else if([
+        TlChannelMediaType.AUDIO,
+        TlChannelMediaType.VIDEO,
+    ].includes(messageType)){
+        messageInfo = await channelMediaService.getInfoById({
             companyId: loginUserCompanyId,
             id: messageId
         })
@@ -652,6 +743,28 @@ const addReplyGroupChannelChat = async function ({
         TlChannelChatType.GROUP,
     ].includes(messageType)){
         replyToMessageContent = messageInfo[TlChannelChatDef.message]
+    }else if([
+        TlChannelFileType.OFFLINE,
+        TlChannelFileType.P2P,
+    ].includes(messageType)){
+        if(messageType == TlChannelFileType.P2P){
+            replyToMessageContent = "在线文件"
+        }else if(messageType == TlChannelFileType.OFFLINE){
+            replyToMessageContent = "离线文件"
+        }else{
+            replyToMessageContent = "未知文件消息"
+        }
+    }else if([
+        TlChannelMediaType.VIDEO,
+        TlChannelMediaType.AUDIO,
+    ].includes(messageType)){
+        if(messageType == TlChannelMediaType.VIDEO){
+            replyToMessageContent = "视频通话"
+        }else if(messageType == TlChannelMediaType.AUDIO){
+            replyToMessageContent = "语音通话"
+        }else{
+            replyToMessageContent = "未知音视频消息"
+        }
     }else{
         replyToMessageContent = '未知消息'
     }
@@ -679,13 +792,10 @@ const addReplyGroupChannelChat = async function ({
 }
 
 
-
 module.exports = {
     addFriendChannelChat, 
     addGroupChannelChat,
 
     addReplyFriendChannelChat,
     addReplyGroupChannelChat,
-
-    rollbackChannelChat,
 }

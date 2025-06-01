@@ -20,7 +20,6 @@ const tl_channel_chat_fields = {
         deletedAt : 'deletedAt',
     },
     Flag: {
-        IS_ROLL_BACK: 0x1, //是否撤回
         IS_REAL_TEXT: 0x2, // 是否是富文本
         IS_REPLAY: 0x4, // 是否是回复
         IS_AT_USER: 0x8, // 是否是@用户

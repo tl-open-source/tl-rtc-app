@@ -1,10 +1,13 @@
 const {
+    systemPermission,
     channelPermission,
+    cloudPermission,
     userPermission,
     companyPermission,
     configPermission,
 
     channelPerfix,
+    channelNoticePerfix,
     channelUserPerfix,
 } = require('./permission');
 
@@ -19,11 +22,21 @@ const userNormalPermissions = function(){
     // 频道权限
     const channelKeys = Object.keys(channelPermission.channel).filter((key) => {
         return ![
-            channelPerfix + "UPDATE_CHANNEL_NAME"
+            channelPerfix + "UPDATE_CHANNEL_NAME",
+            channelPerfix + "UPDATE_CHANNEL_CAN_SEARCH",
         ].includes(key)
     })
     channelKeys.forEach((key) => {
         returnPermission.push(channelPermission.channel[key]);
+    })
+
+    const channelNoticeKeys = Object.keys(channelPermission.channelNotice).filter((key) => {
+        return ![
+            channelNoticePerfix + "ADD_CHANNEL_NOTICE"
+        ].includes(key)
+    })
+    channelNoticeKeys.forEach((key) => {
+        returnPermission.push(channelPermission.channelNotice[key]);
     })
 
     const channelUserKeys = Object.keys(channelPermission.channelUser).filter((key) => {
@@ -39,7 +52,13 @@ const userNormalPermissions = function(){
         returnPermission.push(channelPermission.channelUser[key]);
     })
     returnPermission.push(...Object.values(channelPermission.channelChat))
+    returnPermission.push(...Object.values(channelPermission.channelMedia))
+    returnPermission.push(...Object.values(channelPermission.channelFile))
 
+    // 资源库权限
+    Object.keys(cloudPermission).forEach((key) => {
+        returnPermission.push(...Object.values(cloudPermission[key]));
+    })
     // 用户权限
     Object.keys(userPermission).forEach((key) => {
         returnPermission.push(...Object.values(userPermission[key]));
@@ -53,17 +72,25 @@ const userNormalPermissions = function(){
 }
 
 /**
- * 系统管理员权限 - 所有权限
+ * 系统超级管理员权限 - 所有权限
  * @returns 
  */
 const userAdminPermissions = function(){
     let returnPermission = [];
 
+    // 系统管理员权限
+    Object.keys(systemPermission).forEach((key) => {
+        returnPermission.push(...Object.values(systemPermission[key]));
+    })
     // 频道权限
     Object.keys(channelPermission).forEach((key) => {
         returnPermission.push(...Object.values(channelPermission[key]));
     })
-    // 用户权限
+    // 资源库权限
+    Object.keys(cloudPermission).forEach((key) => {
+        returnPermission.push(...Object.values(cloudPermission[key]));
+    })
+    // 企业权限
     Object.keys(companyPermission).forEach((key) => {
         returnPermission.push(...Object.values(companyPermission[key]));
     })

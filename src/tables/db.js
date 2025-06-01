@@ -43,7 +43,7 @@ const getDbClient = function() {
 	}
 
 	dbClientInstance = new sequelizeObj(
-		conf.db_mysql_dbName, conf.db_mysql_user, conf.db_mysql_password, options
+		conf.db_mysql_database, conf.db_mysql_user, conf.db_mysql_password, options
 	);
 	
 	tlConsole("db init done ...")

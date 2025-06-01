@@ -1,5 +1,5 @@
 const {
-	tlConsole, tlResponseSvrError, tlConsoleError, tlResponseArgsError, checkRequestParams
+	tlResponseSvrError, tlConsoleError, tlResponseArgsError, checkRequestParams,
 } = require("../../../utils/utils");
 const express = require('express');
 const router = express.Router();
@@ -35,32 +35,6 @@ router.post('/add-channel-user', async function(request, response){
 
 
 /**
- * #controller post /api/web/channel-user/share-join-channel
- * #desc 分享加入群聊
- * @param {*} request
- * @param {*} response
- */
-router.post('/share-join-channel', async function(request, response){
-    try {
-        const { channelId } = request.body;
-        if (!checkRequestParams({
-            channelId
-        })) {
-            response.json(tlResponseArgsError("请求参数非法"));
-            return;
-        }
-
-        const loginInfo = request.ctx || {}
-        const result = await channelUserBiz.shareJoinGroupChannel({ loginInfo, channelId });
-        response.json(result);
-    } catch (error) {
-        tlConsoleError(error)
-        response.json(tlResponseSvrError());
-    }
-});
-
-
-/**
  * #controller post /api/web/channel-user/add-channel-user-normal
  * #desc 添加频道普通身份用户
  * @param {*} request
@@ -78,6 +52,7 @@ router.post('/add-channel-user-normal', async function(request, response){
 
         const loginInfo = request.ctx || {}
         const result = await channelUserBiz.addChannelUserNormal({ loginInfo, channelId, userId });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -104,32 +79,7 @@ router.post('/add-channel-user-list-normal', async function(request, response){
 
         const loginInfo = request.ctx || {}
         const result = await channelUserBiz.addChannelUserListNormal({ loginInfo, channelId, userIdList });
-        response.json(result);
-    } catch (error) {
-        tlConsoleError(error)
-        response.json(tlResponseSvrError());
-    }
-});
 
-
-/**
- * #controller post /api/web/channel-user/add-channel-user-admin
- * #desc 添加频道管理员身份用户
- * @param {*} request
- * @param {*} response
- */
-router.post('/add-channel-user-admin', async function(request, response){
-    try {
-        const { channelId, userId } = request.body;
-        if (!checkRequestParams({
-            channelId, userId
-        })) {
-            response.json(tlResponseArgsError("请求参数非法"));
-            return;
-        }
-
-        const loginInfo = request.ctx || {}
-        const result = await channelUserBiz.addChannelUserAdmin({ loginInfo, channelId, userId });
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -156,6 +106,7 @@ router.post('/delete-channel-user', async function(request, response){
 
         const loginInfo = request.ctx || {}
         const result = await channelUserBiz.removeChannelUser({ loginInfo, channelId, userId });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -182,6 +133,7 @@ router.post('/update-channel-user-role-admin', async function(request, response)
 
         const loginInfo = request.ctx || {}
         const result = await channelUserBiz.updateChannelUserRoleAdmin({ loginInfo, channelId, userId });
+        
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -208,6 +160,7 @@ router.post('/update-channel-user-role-normal', async function(request, response
 
         const loginInfo = request.ctx || {}
         const result = await channelUserBiz.updateChannelUserRoleNormal({ loginInfo, channelId, userId });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -227,6 +180,7 @@ router.get('/get-channel-list-user-list', async function(request, response) {
 
         const loginInfo = request.ctx || {}
         const result = await channelUserBiz.getChannelListUserList({ loginInfo });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -254,6 +208,7 @@ router.get('/get-channel-user-list', async function(request, response) {
 
         const loginInfo = request.ctx || {}
         const result = await channelUserBiz.getChannelUserList({ loginInfo, channelId });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -283,13 +238,14 @@ router.post('/update-channel-top', async function(request, response) {
         const result = await channelUserBiz.updateChannelToTop({ 
             channelId, top, loginInfo 
         });
-        
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
         response.json(tlResponseSvrError());
     }
 });
+
 
 /**
  * #controller get /api/web/channel-user/update-channel-black
@@ -319,6 +275,7 @@ router.post('/update-channel-black', async function(request, response) {
         response.json(tlResponseSvrError());
     }
 });
+
 
 /**
  * #controller get /api/web/channel-user/exit-channel

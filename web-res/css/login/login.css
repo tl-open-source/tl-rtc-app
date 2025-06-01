@@ -1,0 +1,206 @@
+/***********************************************************************************
+************************************************************************************
+                                登陆界面 start 
+************************************************************************************
+************************************************************************************/
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login{
+    height: 100%;
+    text-align: center;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-top-header{
+    line-height: var(--left-login-top);
+    padding: 10px;
+    border-bottom: 1px solid var(--skin-body-border-color);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-top-header-title{
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--skin-top-header-title-color);
+    margin-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+    text-align: center;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-item{
+    height: 50px;
+    border-bottom: 1px solid var(--skin-body-border-color);
+    display: flex;
+    padding: 4px 0;
+    cursor: pointer;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-item:hover{
+    color: var(--skin-login-list-item-hover-color);
+    background-color: var(--skin-login-list-item-hover-background);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-item-name{
+    margin-left: 10px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-login-item-icon svg{
+    width: 20px;
+    height: 20px;
+    transition: all 0.2s;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content{
+    height: 100%;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body{
+    padding: 30px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-header{
+    height: 50px;
+    font-size: 22px;
+    font-weight: bold;
+    font-family: serif;
+    margin-top: 100px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-form{
+    padding: 20px 100px 20px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-form img{
+    width: 60%;
+    border-radius: 50%;
+    -webkit-user-drag: none;
+    border-radius: 3px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-form-item{
+    padding: 10px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-form-item input{
+    border-radius: 4px;
+    padding: 0 15px;
+    color: var(--skin-login-content-form-input-color);
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-form-item button{
+    width: 100%;
+    font-size: 11px;
+    background-color: var(--skin-login-button-background);
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-form-item button b{
+    letter-spacing: 3px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-bottom{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-bottom div{
+    color: var(--skin-login-content-body-bottom-color);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-bottom div:hover{
+    color: var(--skin-login-content-body-bottom-hover-color);
+    font-weight: bold;
+}
+
+.tl-rtc-app-get-email-code-btn{
+    border: unset !important; 
+    width: 30% !important;
+    border-top-left-radius: 0 !important; 
+    border-bottom-left-radius: 0 !important;
+    color: var(--skin-login-email-code-btn-color) !important;
+}
+
+.tl-rtc-app-get-email-code-btn-disabled{
+    background-color: var(--skin-login-email-code-btn-disabled-background) !important;
+    color: var(--skin-login-email-code-btn-color) !important;
+}
+
+#tl-rtc-app .tl-rtc-app-right #tl-rtc-app-right-login-content-body-scan-qrcode{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 45px;
+}
+
+#tl-rtc-app .tl-rtc-app-right #tl-rtc-app-right-login-content-body-scan-qrcode img{
+    width: 150px;
+    height: 150px;
+    user-select: none;
+    --webkit-user-drag: none;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-scan-title {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-scan-title div{
+    margin-top: 30px;
+    color: var(--skin-login-content-body-scan-title-color);
+    font-size: 11px;
+    font-weight: bold;
+    border: 1px solid var(--skin-body-border-color);
+    width: 100px;
+    padding: 6px;
+    background: var(--skin-login-content-body-scan-title-background);
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-scan-code-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 30px 0;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-scan-code-container-item {
+    width: 35px;
+    height: 40px;
+    font-size: 24px;
+    text-align: center;
+    border: aliceblue;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-scan-code-container-item:disabled {
+    background-color: var(--skin-login-content-body-scan-code-item-disabled-background);
+    cursor: not-allowed;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-login-content-body-scan-code-container-item:focus {
+    border-color: var(--skin-login-content-body-scan-code-item-focus-background);
+}
+
+/***********************************************************************************
+************************************************************************************
+                                登录界面 end 
+************************************************************************************
+************************************************************************************/

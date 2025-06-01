@@ -1,0 +1,264 @@
+html{
+    /* layer消息提示配色 */
+    --skin-layer-msg-background: #f6f6f6;
+    --skin-layer-msg-color: #000000;
+    --skin-layer-msg-success-color: #04dd04;
+    --skin-layer-msg-warning-color: #bfbf5d;
+    --skin-layer-msg-error-color: #ff0000;
+    
+    /* 系统管理配色 */
+    --skin-system-background: #f2f2f2;
+    --skin-system-header: #393D49;
+    --skin-system-sidebar: #23262E;
+    --skin-system-content: #ffffff;
+    --skin-system-active: #2d3938;
+    --skin-system-hover: #616e65;
+    --skin-system-text: #333333;
+    --skin-system-light-text: #f2f2f2;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    background-color: var(--skin-system-background);
+}
+
+/* 卡片样式调整 */
+.layui-card {
+    margin-bottom: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.layui-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* 表格样式调整 */
+.layui-table {
+    margin-top: 0;
+}
+
+
+/* 系统管理容器样式 */
+.tl-rtc-app-system-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s;
+}
+
+/* 顶部导航样式 */
+.tl-rtc-app-header {
+    height: 60px;
+    background-color: var(--skin-system-header);
+    color: var(--skin-system-light-text);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.tl-rtc-app-header-logo h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.tl-rtc-app-header-user {
+    position: relative;
+    cursor: pointer;
+}
+
+.tl-rtc-app-user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tl-rtc-app-user-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.tl-rtc-app-user-name {
+    margin: 0 5px;
+}
+
+/* 用户信息下拉面板 */
+.tl-rtc-app-user-panel {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 240px;
+    background-color: var(--skin-system-content);
+    border-radius: 10px;
+    box-shadow: 0px 20px 20px rgb(0 0 0 / 10%);
+    z-index: 1001;
+    overflow: hidden;
+}
+
+.tl-rtc-app-panel-header {
+    padding: 15px;
+    background-color: #f8f8f8;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.tl-rtc-app-panel-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.tl-rtc-app-panel-info {
+    flex: 1;
+}
+
+.tl-rtc-app-panel-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 5px 0;
+    color: var(--skin-system-text);
+}
+
+.tl-rtc-app-panel-role {
+    margin: 0;
+    font-size: 12px;
+    color: #999;
+}
+
+.tl-rtc-app-panel-footer {
+    padding: 10px 15px;
+    text-align: right;
+    border-top: 1px solid #eee;
+}
+
+/* 主体内容区样式 */
+.tl-rtc-app-main {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+/* 侧边栏样式 */
+.tl-rtc-app-sidebar {
+    width: 220px;
+    background-color: var(--skin-system-sidebar);
+    overflow-y: auto;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.tl-rtc-app-sidebar .layui-nav {
+    width: 100%;
+    background-color: transparent;
+}
+
+.tl-rtc-app-sidebar .layui-nav-item > a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.layui-nav-tree .layui-nav-item a:hover{
+    background-color: var(--skin-system-hover);
+}
+
+.layui-nav-tree .layui-nav-item a{
+    height: 50px;
+    line-height: 50px;
+}
+
+.tl-rtc-app-sidebar .layui-icon {
+    font-size: 16px;
+}
+
+.tl-rtc-app-sidebar .layui-nav-tree .layui-nav-child dd.layui-this, 
+.tl-rtc-app-sidebar .layui-nav-tree .layui-nav-child dd.layui-this a, 
+.tl-rtc-app-sidebar .layui-nav-tree .layui-this, 
+.tl-rtc-app-sidebar .layui-nav-tree .layui-this>a {
+    background-color: var(--skin-system-active);
+}
+
+.layui-nav-itemed>.layui-nav-child{
+    background: #000000 !important;
+}
+
+/* 侧边栏收缩状态 */
+.tl-rtc-app-sidebar-collapsed {
+    width: 60px;
+}
+
+.tl-rtc-app-sidebar-collapsed .tl-rtc-app-nav-text {
+    display: none;
+}
+
+.tl-rtc-app-sidebar-collapsed .layui-nav-item > a {
+    padding-right: 0;
+    text-align: center;
+}
+
+.tl-rtc-app-sidebar-collapsed .layui-nav-item > a > i {
+    margin-right: 0;
+    font-size: 18px;
+}
+
+/* 侧边栏收缩切换按钮 */
+.tl-rtc-app-sidebar-toggle {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    color: #aaa;
+    transition: all 0.3s;
+    padding: 10px 0;
+}
+
+.tl-rtc-app-sidebar-toggle:hover {
+    color: #fff;
+    background-color: var(--skin-system-hover);
+}
+
+.tl-rtc-app-sidebar-toggle .layui-icon {
+    font-size: 18px;
+}
+
+/* 内容区域样式 */
+.tl-rtc-app-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.tl-rtc-app-config-save-btn {
+    margin-left: auto;
+}
+
+.layui-form-select dl{
+    background-color: #ffffff !important;
+}
+
+.layui-btn-sm{
+    height: 32px !important;
+    line-height: 30px !important;
+}
