@@ -1,0 +1,197 @@
+/***********************************************************************************
+************************************************************************************
+                                设置中心 - 帐号设置 start 
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-right-setting-content-account{
+    overflow-y: auto;
+    height: calc(100% - 55px);
+}
+
+.tl-rtc-app-right-setting-content-account .tl-rtc-app-right-setting-content-account-block{
+    padding: 10px;
+}
+
+.tl-rtc-app-right-setting-content-account .tl-rtc-app-right-setting-content-account-block-title{
+    font-size: 13px;
+    font-weight: bold;
+    user-select: none;
+    padding-left: 10px;
+}
+
+.tl-rtc-app-right-setting-content-account .tl-rtc-app-right-setting-content-account-block-content{
+    padding: 10px;
+    background: var(--skin-setting-content-block-background);
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.tl-rtc-app-right-setting-content-account .tl-rtc-app-right-setting-content-account-block-content
+.tl-rtc-app-right-setting-content-account-block-item{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    border-bottom: 1px solid var(--skin-body-border-color);
+    line-height: 25px;
+}
+
+.tl-rtc-app-right-setting-content-account .tl-rtc-app-right-setting-content-account-block-content
+.tl-rtc-app-right-setting-content-account-block-item:last-child{
+    border-bottom: 0px;
+}
+
+.tl-rtc-app-right-setting-content-account .tl-rtc-app-right-setting-content-account-block-content
+.tl-rtc-app-right-setting-content-account-block-item-title{
+    user-select: none;
+}
+
+.tl-rtc-app-right-setting-content-account .tl-rtc-app-right-setting-content-account-block-item-oper{
+    text-align: right;
+}
+
+.tl-rtc-app-right-setting-content-account .tl-rtc-app-right-setting-content-account-block-item-oper input{
+    height: 33px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.tl-rtc-app-right-setting-content-account .tl-rtc-app-right-setting-content-account-block-item-oper.fileSaveToServer
+.layui-form-onswitch{
+    background-color: #c6f3d1;
+}
+
+.tl-rtc-app-right-setting-content-account-block-item-go-bind-mobile{
+    cursor: pointer;
+    color: var(--skin-body-color);
+}
+
+.tl-rtc-app-right-setting-content-account-block-item-go-bind-mobile:hover{
+    color: var(--skin-setting-content-bind-icon-hover-color);
+}
+
+.tl-rtc-app-right-setting-content-account-block-item-go-bind-email{
+    cursor: pointer;
+    color: var(--skin-body-color);
+}
+
+.tl-rtc-app-right-setting-content-account-block-item-go-bind-email:hover{
+    color: var(--skin-setting-content-bind-icon-hover-color);
+}
+
+.tl-rtc-app-right-setting-content-account-block-item-go-bind-wx{
+    cursor: pointer;
+    color: var(--skin-body-color);
+}
+
+.tl-rtc-app-right-setting-content-account-block-item-go-bind-wx:hover{
+    color: var(--skin-setting-content-bind-icon-hover-color);
+}
+
+.tl-rtc-app-right-setting-content-account-block-item-go-bind-tips{
+    fill: var(--skin-setting-content-bind-icon-tip-fill-color) !important;
+}
+
+.tl-rtc-app-right-setting-content-account-block-item-avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    -webkit-user-drag: none;
+}
+
+.tl-rtc-app-right-setting-content-account-block-item-avatar img{
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    -webkit-user-drag: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tl-rtc-app-right-setting-content-account-block-item-avatar img:hover{
+    opacity: 0.5;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-setting-content-top{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--skin-body-border-color);
+    padding-bottom: 10px;
+    height: 30px;
+    margin-left: 15px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-setting-content-top-title{
+    font-size: 15px;
+    font-weight: bold;
+    user-select: none;
+    width: 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+}
+
+.tl-rtc-app-right-contact-setting-account{
+    height: 100%;
+    padding: 5px 0;
+    width: 100%;
+}
+
+.tl-rtc-app-right-setting-content-account-bind-email{
+    padding: 20px;
+}
+
+.tl-rtc-app-right-setting-content-account-bind-email-item{
+    padding: 10px;
+}
+
+.tl-rtc-app-right-setting-content-account-bind-email-item-oper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.tl-rtc-app-right-setting-content-account-bind-email-item-oper button{
+    height: 38px;
+    line-height: 38px;
+    border-top-left-radius: unset;
+    border-bottom-left-radius: unset;
+    border: unset !important;
+    background-color: var(--skin-setting-content-account-bind-email-btn-background);
+    color: var(--skin-setting-content-account-bind-email-btn-color);
+}
+
+.tl-rtc-app-right-setting-content-account-bind-email-item-oper #bindEmail, 
+.tl-rtc-app-right-setting-content-account-bind-email-item-oper #bindEmailCode{
+    border-radius: 4px;
+    padding: 0 15px;
+    color: var(--skin-setting-content-account-bind-email-input-color);
+    background-color: var(--skin-setting-content-account-bind-email-input-background);
+    letter-spacing: 1px;
+    font-size: 13px;
+    border-color: var(--skin-setting-content-account-bind-email-input-background);
+}
+
+.tl-rtc-app-right-setting-content-account-bind-email-item-oper #bindEmailCode{
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-right: unset;
+}
+
+.tl-rtc-app-right-setting-content-account-bind-email-item-oper-disabled{
+    background-color: var(--skin-setting-content-account-bind-email-btn-disabled-background) !important;
+    color: var(--skin-setting-content-account-bind-email-btn-disabled-color) !important;
+}
+/***********************************************************************************
+************************************************************************************
+                                设置中心 - 帐号设置 end 
+************************************************************************************
+************************************************************************************/

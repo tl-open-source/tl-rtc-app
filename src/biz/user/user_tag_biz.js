@@ -1,6 +1,6 @@
 const { 
-    tlResponseArgsError, tlResponseForbidden, tlResponseSvrError, 
-    tlResponseTimeout, tlResponseNotFound, tlResponseSuccess
+    tlResponseArgsError, tlResponseSvrError, 
+    tlResponseSuccess, checkIsId
 } = require('../../utils/utils')
 const userTagService = require('../../service/user/tl_user_tag_service')
 const { fields: userTagDef } = require('../../tables/tl_user_tag')
@@ -19,11 +19,15 @@ const addUserTag = async function({
     loginInfo, name, type
 }){
     if(!name) {
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    if(name.length > 255){
+        return tlResponseArgsError("请求参数过长")
     }
 
     if(!type){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -53,7 +57,7 @@ const getUserTagList = async function({
     loginInfo, type
 }){
     if(!type){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -87,7 +91,12 @@ const delUserTag = async function({
     loginInfo, id
 }){
     if(!id){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    id = parseInt(id)
+    if(!checkIsId(id)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -136,20 +145,6 @@ const addFriendTag = async function({
 }
 
 /**
- * 添加资源库标签
- * @param {*} loginInfo
- * @param {*} name
- * @returns 
- */
-const addCloudTag = async function({
-    loginInfo, name
-}){
-    return await addUserTag({
-        loginInfo, name, type: TlUserTagType.CLOUD
-    })
-}
-
-/**
  * 获取频道标签列表
  * @param {*} loginInfo
  * @returns 
@@ -175,18 +170,6 @@ const getFriendTagList = async function({
     })
 }
 
-/**
- * 获取资源库标签列表
- * @param {*} loginInfo
- * @returns 
- */
-const getCloudTagList = async function({
-    loginInfo
-}){
-    return await getUserTagList({
-        loginInfo, type: TlUserTagType.CLOUD
-    })
-}
 
 
 module.exports = {
@@ -195,8 +178,6 @@ module.exports = {
     delUserTag,
     addChannelTag,
     addFriendTag,
-    addCloudTag,
     getChannelTagList,
     getFriendTagList,
-    getCloudTagList
 }

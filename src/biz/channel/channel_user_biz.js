@@ -1,6 +1,6 @@
 const { 
-    tlResponseArgsError, tlResponseForbidden, tlResponseSvrError, 
-    tlResponseTimeout, tlResponseNotFound, tlResponseSuccess, setBit, checkBit
+    tlResponseArgsError, tlResponseSvrError, 
+    tlResponseNotFound, tlResponseSuccess, setBit, checkIsId
 } = require('../../utils/utils')
 const channelService = require('../../service/channel/tl_channel_service')
 const channelUserService = require('../../service/channel/tl_channel_user_service')
@@ -14,7 +14,7 @@ const { fields: channelChatFields } = require('../../tables/tl_channel_chat')
 const { fields: userFields } = require('../../tables/tl_user')
 const { fields: userFriendFields } = require('../../tables/tl_user_friend')
 const { fields: channelFields } = require('../../tables/tl_channel')
-const { getOssUrl, getAvatarOssUrl } = require('../../utils/oss/oss')
+const { getAvatarOssUrl } = require('../../utils/oss/oss')
 
 const { Def: TlChannelUserDef, Type: TlChannelUserType, Flag: TlChannelUserFlag } = channelUserFields
 const { Def : TlUserDef } = userFields
@@ -22,28 +22,46 @@ const { Def: TlUserFriendDef } = userFriendFields
 const { Def: TlChannelDef, Type: TlChannelType } = channelFields
 const { Def: TlChannelChatDef, Other: TlChannelChatOther } = channelChatFields
 
+
+
 /**
  * 添加频道用户
  * @param {*} loginInfo
  * @param {*} channelId
  * @param {*} userId
  * @param {*} roleId
+ * @param {*} isShare
+ * @param {*} isInvite
  */
-const addChannelUser = async function({ loginInfo, channelId, userId, roleId }){
+const addChannelUser = async function({ 
+    loginInfo, channelId, userId, roleId, isShare = false, isInvite = false 
+}){
     if(!channelId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+    channelId = parseInt(channelId)
+    if(!checkIsId(channelId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     if(!userId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+    userId = parseInt(userId)
+    if(!checkIsId(userId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     if(!roleId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+    roleId = parseInt(roleId)
+    if(!checkIsId(roleId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
-        loginUserCompanyId, loginUserId, loginUsername
+        loginUserCompanyId, loginUserId, loginUsername, loginUserRoleId
     } = loginInfo
 
     const channelInfo = await channelService.getInfoById({
@@ -82,11 +100,19 @@ const addChannelUser = async function({ loginInfo, channelId, userId, roleId }){
         TlUserDef.name
     ])
 
+    let message = '<p>' + userInfo[TlUserDef.name] + "加入频道" + '</p>';
+    if(isInvite){
+        message = '<p>' + loginUsername + "邀请 " + userInfo[TlUserDef.name] + "加入频道" + '</p>';
+    }
+    if(isShare){
+        message = '<p>' + loginUsername + "通过分享加入频道" + '</p>';
+    }
+
     // 生成邀请消息
     const channelMessage = await channelChatService.addSystemChatnfo({
         companyId: loginUserCompanyId,
         channelId,
-        message: '<p>' + loginUsername + "邀请 " + userInfo[TlUserDef.name] + "加入频道" + '</p>',
+        message: message,
         other: JSON.stringify({
             [TlChannelChatOther.ip]: '',
         }),
@@ -114,13 +140,13 @@ const addChannelUser = async function({ loginInfo, channelId, userId, roleId }){
 
     // 更新用户频道角色
     await userSessionService.updateUserChannelRoleMap({
-        userId: loginUserId,
+        userId,
         channelRoleMap: {
             [channelId]: roleId
         }
     })
 
-    return tlResponseSuccess("添加频道用户成功")
+    return tlResponseSuccess("添加成功")
 }
 
 /**
@@ -132,15 +158,25 @@ const addChannelUser = async function({ loginInfo, channelId, userId, roleId }){
  */
 const addChannelUserList = async function({ loginInfo, channelId, userIdList, roleId }){
     if(!channelId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+    channelId = parseInt(channelId)
+    if(!checkIsId(channelId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     if(!userIdList){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+    for (let i = 0; i < userIdList.length; i++){
+        userIdList[i] = parseInt(userIdList[i])
+        if(!checkIsId(userIdList[i])){
+            return tlResponseArgsError("请求参数错误")
+        }
     }
 
     if(userIdList.length == 0){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
     }
 
     if(userIdList.length > 100){
@@ -148,12 +184,28 @@ const addChannelUserList = async function({ loginInfo, channelId, userIdList, ro
     }
 
     if(!roleId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+
+    roleId = parseInt(roleId)
+    if(!checkIsId(roleId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
         loginUserCompanyId, loginUserId, loginUsername
     } = loginInfo
+
+    // 当前用户是否存在频道
+    const channelUserInfo = await channelUserService.getInfoByChannelIdAndUserId({
+        companyId: loginUserCompanyId,
+        channelId: channelId,
+        userId: loginUserId
+    })
+
+    if(Object.keys(channelUserInfo).length == 0){
+        return tlResponseNotFound("非法操作")
+    }
 
     const channelInfo = await channelService.getInfoById({
         companyId: loginUserCompanyId,
@@ -245,7 +297,7 @@ const addChannelUserList = async function({ loginInfo, channelId, userIdList, ro
         }
     })
 
-    return tlResponseSuccess("添加频道用户成功", {
+    return tlResponseSuccess("添加成功", {
         id: channelMessage[TlChannelChatDef.id],
         message: channelMessage[TlChannelChatDef.message],
         type: channelMessage[TlChannelChatDef.type],
@@ -254,39 +306,6 @@ const addChannelUserList = async function({ loginInfo, channelId, userIdList, ro
         fromUserName: channelMessage[TlChannelChatDef.fromUserName],
         fromUserAvatar: await getAvatarOssUrl(),
         hasRead: false,
-    })
-}
-
-/**
- * 分享加入群聊
- * @param {*} loginInfo
- * @param {*} channelId
- */
-const shareJoinGroupChannel = async function({ loginInfo, channelId }){
-    if(!channelId){
-        return tlResponseArgsError("请求参数为空")
-    }
-
-    const {
-        loginUserCompanyId, loginUserId, loginUsername
-    } = loginInfo
-
-    const channelInfo = await channelService.getInfoById({
-        companyId: loginUserCompanyId,
-        id: channelId
-    }, [
-        TlChannelDef.id,
-        TlChannelDef.type
-    ])
-
-    if(Object.keys(channelInfo).length == 0){
-        return tlResponseArgsError("频道不存在")
-    }
-
-    return addChannelUser({ 
-        loginInfo, channelId, 
-        userId: loginUserId, 
-        roleId: TlRoleInner.channel.member.id 
     })
 }
 
@@ -299,7 +318,7 @@ const shareJoinGroupChannel = async function({ loginInfo, channelId }){
  */
 const addChannelUserNormal = async function({ loginInfo, channelId, userId }){
     return addChannelUser({ 
-        loginInfo, channelId, userId, roleId: TlRoleInner.channel.member.id 
+        loginInfo, channelId, userId, roleId: TlRoleInner.channel.member.id, isInvite: true
     })
 }
 
@@ -335,7 +354,11 @@ const addChannelUserAdmin = async function({ loginInfo, channelId, userId }){
  */
 const deleteChannelUser = async function({ loginInfo, channelUserId }){
     if(!channelUserId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+    channelUserId = parseInt(channelUserId)
+    if(!checkIsId(channelUserId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -348,10 +371,10 @@ const deleteChannelUser = async function({ loginInfo, channelUserId }){
     })
 
     if(info == 0){
-        return tlResponseSvrError("删除频道用户失败")
+        return tlResponseSvrError("删除失败")
     }
 
-    return tlResponseSuccess("删除频道用户成功")
+    return tlResponseSuccess("删除成功")
 }
 
 /**
@@ -361,7 +384,11 @@ const deleteChannelUser = async function({ loginInfo, channelUserId }){
  */
 const updateChannelUserRoleNormal = async function({ loginInfo, channelUserId }){
     if(!channelUserId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+    channelUserId = parseInt(channelUserId)
+    if(!checkIsId(channelUserId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -375,7 +402,11 @@ const updateChannelUserRoleNormal = async function({ loginInfo, channelUserId })
         roleId: TlRoleInner.channel.member.id,
     })
 
-    return tlResponseSuccess("修改频道用户成功")
+    if(Object.keys(info).length == 0){
+        return tlResponseSvrError("更新失败")
+    }
+
+    return tlResponseSuccess("更新成功")
 }
 
 /**
@@ -385,7 +416,11 @@ const updateChannelUserRoleNormal = async function({ loginInfo, channelUserId })
  */
 const updateChannelUserRoleAdmin = async function({ loginInfo, channelUserId }){
     if(!channelUserId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+    channelUserId = parseInt(channelUserId)
+    if(!checkIsId(channelUserId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -400,10 +435,10 @@ const updateChannelUserRoleAdmin = async function({ loginInfo, channelUserId }){
     })
 
     if(Object.keys(info).length == 0){
-        return tlResponseSvrError("修改频道用户失败")
+        return tlResponseSvrError("更新失败")
     }
 
-    return tlResponseSuccess("修改频道用户成功")
+    return tlResponseSuccess("更新成功")
 }
 
 /**
@@ -413,12 +448,27 @@ const updateChannelUserRoleAdmin = async function({ loginInfo, channelUserId }){
  */
 const getChannelUserList = async function({ loginInfo, channelId }){
     if(!channelId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+    channelId = parseInt(channelId)
+    if(!checkIsId(channelId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
         loginUserCompanyId, loginUserId
     } = loginInfo
+
+    // 当前用户是否存在频道
+    const channelUserInfo = await channelUserService.getInfoByChannelIdAndUserId({
+        companyId: loginUserCompanyId,
+        channelId: channelId,
+        userId: loginUserId
+    })
+
+    if(Object.keys(channelUserInfo).length == 0){
+        return tlResponseNotFound("非法操作")
+    }
     
     const channelUserList = await channelUserService.getListByChannelId({
         companyId: loginUserCompanyId,
@@ -467,7 +517,7 @@ const getChannelUserList = async function({ loginInfo, channelId }){
         const userId = channelUser[TlChannelUserDef.userId]
         const user = userMap[userId]
         if(!user){
-            return
+            continue
         }
 
         // 获取好友关系名称
@@ -478,13 +528,13 @@ const getChannelUserList = async function({ loginInfo, channelId }){
         resultList.push({
             userId: user[TlUserDef.id],
             username: user[TlUserDef.name],
-            userAvatar: await getOssUrl(user[TlUserDef.avatarUrl]),
+            userAvatar: await getAvatarOssUrl(user[TlUserDef.avatarUrl]),
             friendName: friendName,
             userFriendId: userFriendId
         })
     }
 
-    return tlResponseSuccess("获取单个频道用户列表成功", resultList)
+    return tlResponseSuccess("获取成功", resultList)
 }
 
 
@@ -492,7 +542,7 @@ const getChannelUserList = async function({ loginInfo, channelId }){
  * 获取频道列表的用户列表
  * @param {*} loginInfo
  */
-const getChannelListUserList = async function({loginInfo}){
+const getChannelListUserList = async function({ loginInfo }){
     const {
         loginUserCompanyId, loginUserId
     } = loginInfo
@@ -554,7 +604,7 @@ const getChannelListUserList = async function({loginInfo}){
         const userId = channelUser[TlChannelUserDef.userId]
         const user = userMap[userId]
         if(!user){
-            return
+            continue
         }
 
         // 获取好友关系名称
@@ -566,7 +616,7 @@ const getChannelListUserList = async function({loginInfo}){
         channelUserList.push({
             userId: user[TlUserDef.id],
             username: user[TlUserDef.name],
-            userAvatar: await getOssUrl(user[TlUserDef.avatarUrl]),
+            userAvatar: await getAvatarOssUrl(user[TlUserDef.avatarUrl]),
             friendName: friendName,
             userFriendId: userFriendId
         })
@@ -574,7 +624,7 @@ const getChannelListUserList = async function({loginInfo}){
         result[channelId] = channelUserList
     }
 
-    return tlResponseSuccess("获取全部频道用户列表成功", result)
+    return tlResponseSuccess("获取成功", result)
 }
 
 
@@ -587,7 +637,11 @@ const getChannelListUserList = async function({loginInfo}){
  */
 const updateChannelToTop = async function({channelId, top = false, loginInfo}){
     if(!channelId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+    channelId = parseInt(channelId)
+    if(!checkIsId(channelId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -640,7 +694,11 @@ const updateChannelToTop = async function({channelId, top = false, loginInfo}){
  */
 const updateChannelToBlack = async function({channelId, black = false, loginInfo}){
     if(!channelId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+    channelId = parseInt(channelId)
+    if(!checkIsId(channelId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -690,7 +748,11 @@ const updateChannelToBlack = async function({channelId, black = false, loginInfo
  */
 const exitChannel = async function({channelId, loginInfo}){
     if(!channelId){
-        return tlResponseArgsError("请求参数为空")
+        return tlResponseArgsError("请求参数错误")
+    }
+    channelId = parseInt(channelId)
+    if(!checkIsId(channelId)){
+        return tlResponseArgsError("请求参数错误")
     }
 
     const {
@@ -707,16 +769,20 @@ const exitChannel = async function({channelId, loginInfo}){
     ])
 
     if(Object.keys(channelUserInfo).length == 0){
-        return tlResponseNotFound("退出频道成功")
+        return tlResponseNotFound("退出成功")
     }
 
     // 删除自己在频道的数据
-    await channelUserService.deleteInfoById({
+    const deleteRes = await channelUserService.deleteInfoById({
         companyId: loginUserCompanyId,
         id: channelUserInfo[TlChannelUserDef.id]
     })
 
-    return tlResponseSuccess("退出频道成功")
+    if(deleteRes == 0){
+        return tlResponseSvrError("退出失败")
+    }
+
+    return tlResponseSuccess("退出成功")
 }
 
 
@@ -731,7 +797,6 @@ module.exports = {
     getChannelUserList,
     addChannelUserListNormal,
     getChannelListUserList,
-    shareJoinGroupChannel,
     updateChannelToTop,
     updateChannelToBlack,
     exitChannel

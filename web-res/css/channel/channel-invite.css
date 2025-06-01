@@ -1,0 +1,288 @@
+/***********************************************************************************
+************************************************************************************
+                                频道邀请好友列表 start
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-layer-channel-invite{
+    background: var(--skin-body-background) !important;
+    color: var(--skin-body-color) !important;
+}
+
+.tl-rtc-app-layer-channel-invite .layui-layer-title {
+    color: var(--skin-body-color) !important;
+    border-bottom: 1px solid var(--skin-body-border-color) !important;
+    border-radius: 6px;
+}
+
+.tl-rtc-app-right-channel-content-invite .tl-rtc-app-right-channel-content-invite-header{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tl-rtc-app-right-channel-content-invite .tl-rtc-app-right-channel-content-invite-header-search{
+    padding: 0px 15px 5px 15px;
+    width: calc(50% - 30px);
+}
+
+.tl-rtc-app-right-channel-content-invite .tl-rtc-app-right-channel-content-invite-header-search i{
+    position: relative;
+    margin-left: 8px;
+    top: 25px;
+    color: var(--skin-channel-content-invite-search-i-color);
+}
+
+.tl-rtc-app-right-channel-content-invite .tl-rtc-app-right-channel-content-invite-header-search input{
+    width: 100%;
+    height: 30px;
+    padding-left: 30px !important;
+    border-radius: 4px;
+    background: var(--skin-channel-content-invite-search-input-background);
+    color: var(--skin-channel-content-invite-search-input-color);
+    font-size: 13px;
+    letter-spacing: 1px;
+    border-width: 0.5px;
+    border-color: var(--skin-channel-content-invite-search-input-background);
+}
+
+.tl-rtc-app-right-channel-content-invite-body{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.tl-rtc-app-right-channel-content-invite .tl-rtc-app-right-channel-content-invite-header-title{
+    padding: 15px 15px 5px 15px;
+    width: calc(50% - 30px);
+    font-size: 13px;
+}
+
+.tl-rtc-app-right-channel-content-invite-body .tl-rtc-app-right-channel-content-invite-source-list{
+    width: 50%;
+    border-right: 1px solid var(--skin-body-border-color);
+    user-select: none;
+}
+
+.tl-rtc-app-right-channel-content-invite-body .tl-rtc-app-right-channel-content-invite-source-list-item{
+    display: flex;
+    width: auto;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    line-height: 40px;
+    padding:0 25px 0 25px;
+    cursor: pointer;
+}
+
+.tl-rtc-app-right-channel-content-invite-body .tl-rtc-app-right-channel-content-invite-source-list-item img{
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+
+.tl-rtc-app-right-channel-content-invite-body .tl-rtc-app-right-channel-content-invite-source-list-item:hover{
+    background: var(--skin-channel-list-item-hover-background);
+}
+
+.tl-rtc-app-right-channel-content-invite-body .tl-rtc-app-right-channel-content-invite-list-item-username{
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+    max-width: 150px;
+}
+
+.tl-rtc-app-right-channel-content-invite-body .tl-rtc-app-right-channel-content-invite-choose-list{
+    width: 50%;
+    user-select: none;
+}
+
+.tl-rtc-app-right-channel-content-invite-body .tl-rtc-app-right-channel-content-invite-choose-list-empty{
+    text-align: center;
+    line-height: 80px;
+    color: var(--skin-body-color);
+    font-size: 12px;
+}
+
+.tl-rtc-app-right-channel-content-invite-body .tl-rtc-app-right-channel-content-invite-choose-list-item{
+    display: flex;
+    width: auto;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding:0 25px 0 25px;
+    cursor: pointer;
+}
+
+.tl-rtc-app-right-channel-content-invite-body .tl-rtc-app-right-channel-content-invite-choose-list-item img{
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+    margin-left: 5px;
+    border-radius: 3px;
+}
+
+.tl-rtc-app-right-channel-content-invite-body .tl-rtc-app-right-channel-content-invite-choose-list-item svg{
+    position: absolute;
+    right: 20px;
+    color: grey;
+}
+
+.tl-rtc-app-right-channel-content-invite-body .tl-rtc-app-right-channel-content-invite-choose-list-item:hover{
+    background: var(--skin-channel-content-invite-choose-list-item-hover-background);
+}
+
+.tl-rtc-app-right-channel-content-invite-body .tl-rtc-app-right-channel-content-invite-choose-item-username{
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+}
+
+
+/********** 移动端样式 ***********/ 
+.tl-rtc-app-right-channel-content-invite-mobile .tl-rtc-app-right-channel-content-invite-header{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tl-rtc-app-right-channel-content-invite-mobile .tl-rtc-app-right-channel-content-invite-header-search{
+    padding: 0px 15px 5px 15px;
+    width: calc(100% - 30px);
+}
+
+.tl-rtc-app-right-channel-content-invite-mobile .tl-rtc-app-right-channel-content-invite-header-search i{
+    position: relative;
+    margin-left: 8px;
+    top: 25px;
+    color: var(--skin-channel-content-invite-search-i-color);
+}
+
+.tl-rtc-app-right-channel-content-invite-mobile .tl-rtc-app-right-channel-content-invite-header-search input{
+    width: 100%;
+    height: 30px;
+    padding-left: 30px !important;
+    border-radius: 4px;
+    background: var(--skin-channel-content-invite-search-input-background);
+    color: var(--skin-channel-content-invite-search-input-color);
+    border-color: var(--skin-channel-content-invite-search-input-background);
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.tl-rtc-app-right-channel-content-invite-body-mobile{
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.tl-rtc-app-right-channel-content-invite-body-mobile .tl-rtc-app-right-channel-content-invite-source-list{
+    width: 100%;
+    border-right: 1px solid var(--skin-body-border-color);
+    border-top: 1px solid var(--skin-body-border-color) !important;
+    user-select: none;
+}
+
+.tl-rtc-app-right-channel-content-invite-body-mobile .tl-rtc-app-right-channel-content-invite-source-list-item{
+    display: flex;
+    width: auto;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    line-height: 40px;
+    padding:0 25px 0 25px;
+    cursor: pointer;
+}
+
+.tl-rtc-app-right-channel-content-invite-body-mobile .tl-rtc-app-right-channel-content-invite-source-list-item img{
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+
+.tl-rtc-app-right-channel-content-invite-body-mobile .tl-rtc-app-right-channel-content-invite-source-list-item:hover{
+    background: var(--skin-channel-content-invite-choose-list-item-hover-background);
+}
+
+.tl-rtc-app-right-channel-content-invite-body-mobile .tl-rtc-app-right-channel-content-invite-list-item-username{
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+    max-width: 150px;
+}
+
+.tl-rtc-app-right-channel-content-invite-body-mobile .tl-rtc-app-right-channel-content-invite-choose-list{
+    user-select: none;
+}
+
+.tl-rtc-app-right-channel-content-invite-body-mobile .tl-rtc-app-right-channel-content-invite-choose-list-empty{
+    text-align: center;
+    line-height: 80px;
+    color: var(--skin-channel-content-invite-choose-list-empty-color);
+    font-weight: bold;
+}
+
+.tl-rtc-app-right-channel-content-invite-body-mobile .tl-rtc-app-right-channel-content-invite-choose-list-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.tl-rtc-app-right-channel-content-invite-body-mobile .tl-rtc-app-right-channel-content-invite-choose-list-item img{
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+    margin-left: 5px;
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
+
+.tl-rtc-app-right-channel-content-invite-body-mobile .tl-rtc-app-right-channel-content-invite-choose-list-item svg{
+    position: absolute;
+    right: 14px;
+    color: grey;
+    top: 10px;
+}
+
+.tl-rtc-app-right-channel-content-invite-body-mobile .tl-rtc-app-right-channel-content-invite-choose-list-item:hover{
+    background: var(--skin-channel-content-invite-choose-list-item-hover-background);
+}
+
+.tl-rtc-app-right-channel-content-invite-body-mobile .tl-rtc-app-right-channel-content-invite-choose-item-username{
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+}
+/***********************************************************************************
+************************************************************************************
+                                频道邀请好友列表 end
+************************************************************************************
+************************************************************************************/

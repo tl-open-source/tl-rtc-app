@@ -1,8 +1,5 @@
 const {socketClientEvent} = require("../event");
 const userSessionService = require('../../service/user/tl_user_session_service')
-const channelUserService = require('../../service/channel/tl_channel_user_service')
-const { fields: channelUserFields } = require('../../tables/tl_channel_user')
-const { Def: TlChannelUserDef } = channelUserFields
 
 
 /**

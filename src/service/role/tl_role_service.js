@@ -3,8 +3,7 @@ const TlRoleDao = require('../../dao/tl_role_dao')
 const TlRoleDef = fields.Def
 const TlRoleType = fields.Type
 const TableName = fields.Name
-const TableFields = Object.keys(fields.Def).map(key => fields.Def[key])
-const { tlConsoleError, tlConsole } = require("../../../src/utils/utils");
+const { tlConsoleError } = require("../../../src/utils/utils");
 
 
 /**
@@ -53,7 +52,6 @@ const addInfo = async function({
     if(![
         TlRoleType.ADMIN_USER,
         TlRoleType.NORMAL_USER,
-        TlRoleType.TEST_USER,
         TlRoleType.CHANNEL_NORMAL_USER,
         TlRoleType.CHANNEL_ADMIN_USER,
         TlRoleType.CHANNEL_CREATOR_USER,
@@ -100,12 +98,12 @@ const deleteInfoById = async function({companyId, id}){
     // 参数校验
     if(!id){
         tlConsoleError(TableName, "请求service参数id为空")
-        return {}
+        return 0
     }
 
     if(!companyId){
         tlConsoleError(TableName, "请求service参数companyId为空")
-        return {}
+        return 0
     }
 
     const info = await TlRoleDao.deleteInfo({
@@ -115,7 +113,7 @@ const deleteInfoById = async function({companyId, id}){
 
     if(info === null){
         tlConsoleError(TableName, "请求dao异常")
-        return {}
+        return 0
     }
 
     return info

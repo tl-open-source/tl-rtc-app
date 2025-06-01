@@ -1,0 +1,114 @@
+/* 登录弹窗样式 */
+.tl-rtc-app-login-layer {
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.tl-rtc-app-login-layer .layui-layer-title {
+    background-color: var(--skin-system-header) !important;
+    color: var(--skin-system-light-text) !important;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.tl-rtc-app-login-layer .layui-layer-content {
+    padding: 30px 20px;
+}
+
+.tl-rtc-app-login-layer .tl-rtc-app-login-form {
+    max-width: 360px;
+    margin: 0 auto;
+}
+
+.tl-rtc-app-login-layer .tl-rtc-app-login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.tl-rtc-app-login-layer .tl-rtc-app-login-logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 15px;
+}
+
+.tl-rtc-app-login-layer .tl-rtc-app-login-title {
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--skin-system-text);
+    margin: 0;
+}
+
+.tl-rtc-app-login-layer .layui-form-item {
+    margin-bottom: 20px;
+}
+
+.tl-rtc-app-login-layer .layui-input {
+    height: 40px;
+    line-height: 40px;
+}
+
+/* 未登录提示页样式 */
+.tl-rtc-app-login-tip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--skin-system-background);
+}
+
+.tl-rtc-app-login-tip-content {
+    text-align: center;
+    background-color: var(--skin-system-content);
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.tl-rtc-app-login-tip-logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+}
+
+.tl-rtc-app-login-tip-content h2 {
+    margin: 0 0 10px;
+    font-size: 24px;
+    color: var(--skin-system-text);
+}
+
+.tl-rtc-app-login-tip-content p {
+    margin: 0 0 20px;
+    color: #666;
+}
+
+/* 登录表单样式增强 */
+.tl-rtc-app-login-form {
+    padding: 0 15px;
+}
+
+.tl-rtc-app-login-form-item {
+    margin-bottom: 15px;
+}
+
+.tl-rtc-app-login-form-item label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.tl-rtc-app-login-form-item input {
+    width: calc(100% - 20px);
+    height: 38px;
+    line-height: 38px;
+    padding: 0 10px;
+    border: 1px solid #e6e6e6;
+    border-radius: 2px;
+}

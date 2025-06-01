@@ -20,6 +20,9 @@ const tl_user_read_fields = {
         FRIEND_APPLY: 4, // 好友申请消息
         FRIEND_APPLY_PASS: 5, // 好友同意消息
         FRIEND_APPLY_REJECT: 6, // 好友拒绝消息
+        GROUP_APPLY: 7, // 群申请消息
+        GROUP_APPLY_PASS: 8, // 群同意消息
+        GROUP_APPLY_REJECT: 9, // 群拒绝消息
     },
 }
 

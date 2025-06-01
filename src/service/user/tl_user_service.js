@@ -2,9 +2,9 @@ const { fields } = require('../../tables/tl_user')
 const TlUserDao = require('../../dao/tl_user_dao')
 const TlUserDef = fields.Def
 const TableName = fields.Name
-const TableFields = Object.keys(fields.Def).map(key => fields.Def[key])
-const { tlConsoleError, tlConsole } = require("../../../src/utils/utils");
-const { get } = require('request')
+const { tlConsoleError } = require("../../../src/utils/utils");
+const { inner: TlRoleInner } = require('../../tables/tl_role')
+const { Op } = require('sequelize')
 
 /**
  * addInfo 接口
@@ -12,7 +12,7 @@ const { get } = require('request')
  */
 const addInfo = async function({
     companyId, name, password, roleId, salt, mobile, email, avatarUrl,
-    wchatName, wchatOpenId, wchatUnionId, wchatAvatarUrl, flag,
+    wchatName, wchatOpenId, wchatUnionId, wchatAvatarUrl, flag
 }){
     // 参数校验
     if(!companyId){
@@ -335,12 +335,12 @@ const deleteInfoById = async function({companyId, id}){
     // 参数校验
     if(!id){
         tlConsoleError(TableName, "请求service参数id为空")
-        return {}
+        return 0
     }
 
     if(!companyId){
         tlConsoleError(TableName, "请求service参数companyId为空")
-        return {}
+        return 0
     }
 
     const info = await TlUserDao.deleteInfo({
@@ -350,7 +350,7 @@ const deleteInfoById = async function({companyId, id}){
 
     if(info === null){
         tlConsoleError(TableName, "请求dao异常")
-        return {}
+        return 0
     }
 
     return info
@@ -389,22 +389,41 @@ const getListByIdList = async function({companyId, idList}, fields){
 }
 
 /**
- * getListByIdListForPage 接口
- * @param {*} companyId
+ * getListByIdListNoCompanyId 接口
  * @param {*} idList
  * @param {*} fields
- * @param {*} page
- * @param {*} pageSize
  */
-const getListByIdListForPage = async function({companyId, idList}, fields, page, pageSize){    
+const getListByIdListNoCompanyId = async function({ idList}, fields){    
     // 参数校验
     if(!idList){
         tlConsoleError(TableName, "请求service参数idList为空")
         return []
     }
 
-    if(!companyId){
-        tlConsoleError(TableName, "请求service参数companyId为空")
+    const list = await TlUserDao.getList({
+        [TlUserDef.id]: idList
+    }, fields, [
+        [TlUserDef.createdAt, "DESC"]
+    ])
+
+    if(list === null){
+        return []
+    }
+    
+    return list
+}
+
+/**
+ * getListByKeywordForPage 接口
+ * @param {*} keyword
+ * @param {*} fields
+ * @param {*} page
+ * @param {*} pageSize
+ */
+const getListByKeywordForPage = async function({ keyword }, fields, page, pageSize){
+    // 参数校验
+    if(!keyword){
+        tlConsoleError(TableName, "请求service参数keyword为空")
         return []
     }
 
@@ -434,8 +453,9 @@ const getListByIdListForPage = async function({companyId, idList}, fields, page,
     }
 
     const list = await TlUserDao.getListForPage({
-        [TlUserDef.companyId]: companyId,
-        [TlUserDef.id]: idList
+        [TlUserDef.name]: {
+            [Op.like]: '%' + keyword + '%'
+        }
     }, fields, [
         [TlUserDef.createdAt, "DESC"]
     ], page, pageSize)
@@ -443,8 +463,161 @@ const getListByIdListForPage = async function({companyId, idList}, fields, page,
     if(list === null){
         return []
     }
-    
+
     return list
+}
+
+/**
+ * getListByKeyword 接口
+ * @param {*} fields
+ * @param {*} keyword
+ */
+const getListByKeyword = async function({ keyword }, fields){
+    // 参数校验
+    if(!keyword){
+        tlConsoleError(TableName, "请求service参数keyword为空")
+        return []
+    }
+
+    const list = await TlUserDao.getList({
+        [TlUserDef.name]: {
+            [Op.like]: '%' + keyword + '%'
+        }
+    }, fields, [
+        [TlUserDef.createdAt, "DESC"]
+    ])
+
+    if(list === null){
+        return []
+    }
+
+    return list
+}
+
+/**
+ * getListForPage 接口
+ * @param {*} companyId
+ * @param {*} fields
+ * @param {*} page
+ * @param {*} pageSize
+ * @returns 
+ */
+const getListForPage = async function({ companyId }, fields, page, pageSize){
+    // 参数校验
+    if(!page){
+        tlConsoleError(TableName, "请求service参数page为空")
+        return []
+    }
+
+    if(!pageSize){
+        tlConsoleError(TableName, "请求service参数pageSize为空")
+        return []
+    }
+
+    if(page <= 0){
+        tlConsoleError(TableName, "请求service参数page不合法")
+        return []
+    }
+
+    if(pageSize <= 0){
+        tlConsoleError(TableName, "请求service参数pageSize不合法")
+        return []
+    }
+
+    if(pageSize > 1000){
+        tlConsoleError(TableName, "请求service参数pageSize过大")
+        return []
+    }
+
+    let query = {
+        [TlUserDef.id]: {
+            [Op.gt]: 0
+        }
+    }
+
+    if(companyId !== undefined && companyId !== null){
+        query[TlUserDef.companyId] = companyId
+    }
+
+    const list = await TlUserDao.getListForPage(query, fields, [
+        [TlUserDef.createdAt, "DESC"]
+    ], page, pageSize)
+
+    if(list === null){
+        return []
+    }
+
+    return list
+}
+
+/**
+ * getCount 接口
+ * @param {*} fields 
+ * @returns 
+ */
+const getCount = async function({}){
+    const count = await TlUserDao.getCount({
+        [TlUserDef.id]: {
+            [Op.gt]: 0
+        }
+    })
+
+    if(count === null){
+        return 0
+    }
+
+    return count
+}
+
+/**
+ * getCountByKeyword 接口
+ * @param {*} keyword
+ * @returns 
+ */
+const getCountByKeyword = async function({keyword}){
+    // 参数校验
+    if(!keyword){
+        tlConsoleError(TableName, "请求service参数keyword为空")
+        return 0
+    }
+
+    const count = await TlUserDao.getCount({
+        [TlUserDef.name]: {
+            [Op.like]: '%' + keyword + '%'
+        }
+    })
+
+    if(count === null){
+        return 0
+    }
+
+    return count
+}
+
+/**
+ * getAdminUser 接口
+ * @param {*} email 
+ * @returns 
+ */
+const getAdminUser = async function({ 
+    email
+}){
+    // 参数校验
+    if(!email){
+        tlConsoleError(TableName, "请求service参数email为空")
+        return {}
+    }
+
+    const info = await TlUserDao.getInfo({
+        [TlUserDef.email]: email,
+        [TlUserDef.roleId]: TlRoleInner.user.admin.id
+    })
+
+    if(info === null){
+        return {}
+    }
+
+    return info
 }
 
 
@@ -460,7 +633,15 @@ module.exports = {
     getInfoByNameForLogin, 
     getInfoByMobileForLogin, 
     getInfoByEmailForLogin,
+    getAdminUser,
 
-    getListByIdList, 
-    getListByIdListForPage
+    getListByIdList,
+    getListByIdListNoCompanyId,
+    
+    getListByKeyword,
+    getListByKeywordForPage,
+    getListForPage,
+
+    getCount,
+    getCountByKeyword
 }

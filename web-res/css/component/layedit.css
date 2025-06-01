@@ -1,0 +1,97 @@
+/***********************************************************************************
+************************************************************************************
+                                输入内容编辑器 start
+************************************************************************************
+************************************************************************************/
+.layui-layedit{
+    border-radius: 8px !important;
+    border: none;
+    border-top-width: 0px;
+    border-top-style: outset;
+    border-top-color: #c4eee0;
+}
+
+.layui-layedit i{
+    color: var(--skin-body-color) !important;
+}
+
+.layui-layedit-tool{
+    border-bottom-style: none;
+}
+
+.layui-layedit-iframe iframe{
+    user-select: none;
+}
+
+.layedit-tool-face{
+    font-size: 20px !important;
+}
+
+.layedit-tool-print-cut svg{
+    width: 20px !important;
+    height: 30px !important;
+    margin-right: 7px !important;
+    fill: var(--skin-body-color) !important;
+}
+
+.layedit-tool-voice svg{
+    width: 16px !important;
+    height: 29px !important;
+    margin-right: 7px !important;
+    fill: var(--skin-body-color) !important;
+}
+
+.layedit-tool-quick-message svg{
+    scale: 1.1;
+    width: 21px !important;
+    height: 30px !important;
+    margin-right: 7px !important;
+    fill: var(--skin-body-color) !important;
+}
+
+.layedit-tool-card svg{
+    width: 21px !important;
+    height: 30px !important;
+    margin-right: 7px !important;
+    fill: var(--skin-body-color) !important;
+}
+
+.layedit-tool-record svg{
+    width: 18px !important;
+    height: 30px !important;
+    margin-right: 7px !important;
+    fill: var(--skin-body-color) !important;
+}
+
+.layedit-tool-draw svg{
+    width: 19px !important;
+    height: 30px !important;
+    margin-right: 7px !important;
+    fill: var(--skin-body-color) !important;
+}
+
+.layedit-tool-code svg{
+    width: 19px !important;
+    height: 30px !important;
+    margin-right: 7px !important;
+    fill: var(--skin-body-color) !important;
+}
+
+.layedit-tool-face svg{
+    width: 19px !important;
+    height: 30px !important;
+    fill: var(--skin-body-color) !important;
+}
+
+.layedit-tool-history{
+    scale: 1.3;
+}
+
+.layedit-tool-voice{
+    scale: 1.3;
+}
+/***********************************************************************************
+************************************************************************************
+                                输入内容编辑器 end
+************************************************************************************
+************************************************************************************/

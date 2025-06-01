@@ -1,0 +1,118 @@
+/***********************************************************************************
+************************************************************************************
+                                弹窗 - 用户信息 start 
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-user-info-popup{
+    padding: 3px;
+    width: calc(100% - 6px);
+    height: calc(100% - 6px);
+}
+
+.tl-rtc-app-layer-user-info-popup{
+    background: var(--skin-body-background) !important;
+    color: var(--skin-body-color) !important;
+}
+
+.tl-rtc-app-layer-user-info-popup .layui-layer-title{
+    color: var(--skin-body-color) !important;
+    border-bottom: 1px solid var(--skin-body-border-color) !important;
+    border-radius: 6px;
+}
+
+.tl-rtc-app-user-info-popup-footer button{
+    color: var(--skin-body-color);
+}
+
+.tl-rtc-app-user-info-popup-footer button:hover{
+    color: var(--skin-body-color);
+}
+
+.tl-rtc-app-user-info-popup-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid var(--skin-body-border-color);
+}
+
+.tl-rtc-app-user-info-popup-header-mobile{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid var(--skin-body-border-color);
+}
+
+.tl-rtc-app-user-info-popup-header-avatar{
+    padding-right: 10px;
+}
+
+.tl-rtc-app-user-info-popup-header-avatar img{
+    width: 50px;
+    height: 50px;
+}
+
+.tl-rtc-app-user-info-popup-content{
+    padding: 10px;
+    height: 90px;
+    overflow-y: scroll;
+}
+
+.tl-rtc-app-user-info-popup-content-mobile{
+    padding: 20px;
+    overflow-y: scroll;
+}
+
+.tl-rtc-app-user-info-popup-content-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px;
+}
+
+.tl-rtc-app-user-info-popup-content-item-mobile{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 5px;
+}
+
+.tl-rtc-app-user-info-popup-content-item-title{
+    padding-right: 10px;
+}
+
+.tl-rtc-app-user-info-popup-footer{
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
+    bottom: 0;
+    width: calc(100% - 26px);
+}
+
+.tl-rtc-app-user-info-popup-footer-mobile{
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
+    bottom: 15px;
+    width: calc(100% - 26px);
+}
+
+.tl-rtc-app-user-info-popup-footer button {
+    border-radius: 4px;
+}
+/***********************************************************************************
+************************************************************************************
+                                弹窗 - 用户信息 end 
+************************************************************************************
+************************************************************************************/

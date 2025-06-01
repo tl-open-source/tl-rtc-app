@@ -1,0 +1,67 @@
+/* 企业管理样式 */
+.tl-rtc-app-company-area {
+    height: 100%;
+}
+
+.tl-rtc-app-company-area .layui-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tl-rtc-app-company-area .layui-card-body {
+    flex: 1;
+    overflow: auto;
+}
+
+.tl-rtc-app-company-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.tl-rtc-app-company-actions .layui-input-inline {
+    width: 200px;
+    margin-right: 0;
+    font-size: 12px;
+}
+
+.tl-rtc-app-company-actions .layui-input-inline input{
+    height: 30px;
+    line-height: 30px;
+}
+
+.tl-rtc-app-company-form {
+    padding: 20px;
+    overflow-y: auto;
+    height: calc(100% - 40px);
+}
+
+.tl-rtc-app-company-form .layui-form-label {
+    width: 60px;
+    text-align: right;
+}
+
+.tl-rtc-app-company-form .layui-input-block {
+    margin-left: 90px;
+}
+
+.tl-rtc-app-company-form .layui-input-block input, 
+.tl-rtc-app-company-form .layui-input-block textarea {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.tl-rtc-app-company-form .layui-btn {
+    margin-top: 15px;
+}
+
+/* 图片预览样式 */
+.tl-rtc-app-logo-preview {
+    max-width: 100px;
+    max-height: 100px;
+    margin-top: 5px;
+    border: 1px solid #e6e6e6;
+    border-radius: 2px;
+}

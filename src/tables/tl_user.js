@@ -21,8 +21,7 @@ const tl_user_fields = {
         deletedAt : 'deletedAt',
     },
     Flag: {
-        IS_PASS_AUTH: 0x1, //是否通过认证
-        IS_EXPIRED: 0x2, //是否过期
+        
     },
 }
 

@@ -1,7 +1,5 @@
 const { 
-    tlResponseArgsError, tlResponseForbidden, tlResponseSvrError, 
-    tlResponseTimeout, tlResponseNotFound, tlResponseSuccess,
-    tlConsole, tlConsoleError
+    tlConsoleError
 } = require('../../utils/utils')
 const uuid = require('uuid')
 const cache = require('../../utils/cache/cache')
@@ -40,10 +38,10 @@ const getUserInfoByToken = async function({token}){
  * @param {*} token
  * @param {*} info
  * @param {*} isLogin
- * @param {*} isWebsite
+ * @param {*} isSystem
  */
 const setUserInfoByToken = async function({
-    token, info, isLogin = true, isWebsite = false
+    token, info, isLogin = true, isSystem = false
 }){
     if(!token){
         return {}
@@ -68,22 +66,22 @@ const setUserInfoByToken = async function({
         await cache.setLoginStatus({
             userId: loginUserId,
             status: 1,
-            isWebsite
+            isSystem
         })
         // 设置token登录态
         return await cache.setLoginInfo({
-            token, loginInfo: jsonInfo, isWebsite
+            token, loginInfo: jsonInfo, isSystem
         })
     }else{
         // 设置userId在线状态
         await cache.setLoginStatus({
             userId: loginUserId,
             status: 0,
-            isWebsite
+            isSystem
         })
         // 设置token登录态
         return await cache.setLoginInfo({
-            token, loginInfo: '', isWebsite
+            token, loginInfo: '', isSystem
         })
     }
 }

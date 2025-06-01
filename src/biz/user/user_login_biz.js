@@ -1,7 +1,9 @@
+const crypto = require('crypto')
 const { 
     tlResponseArgsError, tlResponseForbidden, tlResponseSvrError, 
-    tlResponseTimeout, tlResponseNotFound, tlResponseSuccess,
-    tlConsole, verifyEncryptStr
+    tlResponseSuccess,
+    tlConsole, verifyEncryptStr, getFormattedDate, encryptStr,
+    setBit
 } = require('../../utils/utils')
 const {
     getAvatarOssUrl
@@ -15,12 +17,12 @@ const userFingerPrintService = require('../../service/user/tl_user_finger_print_
 const { fields: companyFields } = require('../../tables/tl_company')
 const { Def: TlCompanyDef } = companyFields
 const { fields: userFields } = require('../../tables/tl_user')
-const { Def: TlUserDef } = userFields
+const { Def: TlUserDef, Flag: TlUserFlag } = userFields
 const { fields: userFingerPrintFields } = require('../../tables/tl_user_finger_print')
 const { Def: TlUserFingerPrintDef } = userFingerPrintFields
 const { fields: channelUserFields } = require('../../tables/tl_channel_user')
-const { Def: TlChannelUserDef, Type: TlChannelUserType } = channelUserFields
-const { inner: TlInnerRole } = require('../../tables/tl_role')
+const { Def: TlChannelUserDef } = channelUserFields
+const { inner: TlRoleInner } = require('../../tables/tl_role')
 
 
 /**
@@ -41,6 +43,14 @@ const userLoginByAccount = async function({account, password, fps}){
     // base64解码
     account = Buffer.from(account, 'base64').toString()
     password = Buffer.from(password, 'base64').toString()
+
+    if(account.length > 20){
+        return tlResponseArgsError("用户名或密码错误")
+    }
+
+    if(password.length > 64){
+        return tlResponseArgsError("用户名或密码错误")
+    }
 
     const user = await userService.getInfoByNameForLogin({
         name: account
@@ -108,79 +118,6 @@ const userLoginByAccount = async function({account, password, fps}){
 }
 
 /**
- * 通过手机号登录接口
- * @param {*} mobile
- * @param {*} code
- * @param {*} fps
- */
-const userLoginByMobile = async function({mobile, code, fps}){
-    if(!mobile){
-        return tlResponseArgsError("手机号或验证码错误")
-    }
-    if(!code){
-        return tlResponseArgsError("手机号或验证码错误")
-    }
-
-    // base64解码
-    mobile = Buffer.from(mobile, 'base64').toString()
-    password = Buffer.from(password, 'base64').toString()
-
-    const user = await userService.getInfoByMobileForLogin({
-        mobile
-    }, [
-        TlUserDef.id,
-        TlUserDef.companyId,
-        TlUserDef.mobile,
-        TlUserDef.avatarUrl,
-        TlUserDef.roleId,
-        TlUserDef.email,
-        TlUserDef.name
-    ])
-
-    if(!user[TlUserDef.id]){
-        return tlResponseArgsError("手机号或验证码错误")
-    }
-
-    const company = await companyService.getInfoById({
-        id: user[TlUserDef.companyId]
-    }, [
-        TlCompanyDef.id,
-        TlCompanyDef.name
-    ])
-
-    const companyId = company[TlCompanyDef.id]
-    const companyName = company[TlCompanyDef.name]
-
-    if(!companyId){
-        return tlResponseForbidden("非法用户")
-    }
-
-    const token = userSessionService.generateLoginToken();
-    const info = {
-        loginUserId: user[TlUserDef.id],
-        loginUserMobile: user[TlUserDef.mobile],
-        loginUsername: user[TlUserDef.name],
-        loginUserEmail: user[TlUserDef.email],
-        loginUserRoleId: user[TlUserDef.roleId],
-        loginUserCompanyName : companyName,
-        loginUserCompanyId: companyId,
-        loginUserAvatar: await getAvatarOssUrl(user[TlUserDef.avatarUrl]),
-        loginTime: new Date().getTime(),
-        token
-    }
-    // 设置登录信息
-    await userSessionService.setUserInfoByToken({token, info})
-
-    // 设置指纹
-    await setFps({ userId: user[TlUserDef.id], fps })
-
-    // 设置用户频道角色
-    await setUserChannelRole({ userId: user[TlUserDef.id], companyId })
-
-    return tlResponseSuccess("登录成功", token)
-}
-
-/**
  * 通过邮箱登录接口
  * @param {*} email
  * @param {*} password
@@ -190,6 +127,7 @@ const userLoginByEmail = async function({email, password, fps}){
     if(!email){
         return tlResponseArgsError("邮箱或密码错误")
     }
+
     if(!password){
         return tlResponseArgsError("邮箱或密码错误")
     }
@@ -197,6 +135,14 @@ const userLoginByEmail = async function({email, password, fps}){
     // base64解码
     email = Buffer.from(email, 'base64').toString()
     password = Buffer.from(password, 'base64').toString()
+
+    if(email.length > 50){
+        return tlResponseArgsError("邮箱或密码错误")
+    }
+
+    if(password.length > 64){
+        return tlResponseArgsError("邮箱或密码错误")
+    }
 
     const user = await userService.getInfoByEmailForLogin({
         email
@@ -263,50 +209,6 @@ const userLoginByEmail = async function({email, password, fps}){
     return tlResponseSuccess("登录成功", token)
 }
 
-/**
- * 通过微信登录接口
- * @param {*} code
- * @param {*} openId
- */
-const userLoginByWechat = async function({openId, code}){
-
-    
-    return tlResponseSuccess("登录成功")
-}
-
-/**
- * 通过qq登录接口
- * @param {*} code
- * @param {*} openId
- */
-const userLoginByQQ = async function({openId, code}){
-
-    
-    return tlResponseSuccess("登录成功")
-}
-
-/**
- * 通过企业微信登录接口
- * @param {*} code
- * @param {*} openId
- */
-const userLoginByQyWechat = async function({openId, code}){
-
-
-    return tlResponseSuccess("登录成功")
-}
-
-
-/**
- * 游客登录接口
- * @param {*} code
- */
-const userLoginByGuest = async function({code}){
-
-
-    return tlResponseSuccess("登录成功")
-}
-
 
 /**
  * 通过指纹登录接口 - 一键登录
@@ -315,6 +217,14 @@ const userLoginByGuest = async function({code}){
  */
 const userLoginByFingerPrint = async function({fps, username}){
     if(!fps){
+        return tlResponseArgsError("一键登录失败, 请使用其他登录方式登录")
+    }
+
+    if(!username){
+        return tlResponseArgsError("一键登录失败, 请使用其他登录方式登录")
+    }
+
+    if(username.length > 20){
         return tlResponseArgsError("一键登录失败, 请使用其他登录方式登录")
     }
 
@@ -466,14 +376,15 @@ const setUserChannelRole = async function({userId, companyId}){
 
 
 /**
- * 官网登录 - 支持邮箱登录
+ * 管理后台登录 - 支持邮箱登录
  * @param {*} email
  * @param {*} password
  */
-const userLoginByWebsite = async function({ email, password }){
+const userLoginBySystem = async function({ email, password }){
     if(!email){
         return tlResponseArgsError("邮箱或密码错误")
     }
+
     if(!password){
         return tlResponseArgsError("邮箱或密码错误")
     }
@@ -481,6 +392,14 @@ const userLoginByWebsite = async function({ email, password }){
     // base64解码
     email = Buffer.from(email, 'base64').toString()
     password = Buffer.from(password, 'base64').toString()
+
+    if(email.length > 50){
+        return tlResponseArgsError("邮箱或密码错误")
+    }
+
+    if(password.length > 64){
+        return tlResponseArgsError("邮箱或密码错误")
+    }
 
     const user = await userService.getInfoByEmailForLogin({
         email
@@ -493,7 +412,7 @@ const userLoginByWebsite = async function({ email, password }){
         TlUserDef.roleId,
         TlUserDef.mobile,
         TlUserDef.salt,
-        TlUserDef.name
+        TlUserDef.name,
     ])
 
     if(!user[TlUserDef.id]){
@@ -523,11 +442,11 @@ const userLoginByWebsite = async function({ email, password }){
     }
 
     const roleId = user[TlUserDef.roleId]
+
     if([
-        TlInnerRole.website.user.id, 
-        TlInnerRole.user.admin.id
+        TlRoleInner.user.admin.id
     ].indexOf(roleId) === -1){
-        return tlResponseArgsError("非官网用户")
+        return tlResponseArgsError("非法用户")
     }
 
     const token = userSessionService.generateLoginToken();
@@ -544,19 +463,15 @@ const userLoginByWebsite = async function({ email, password }){
         token
     }
     // 设置登录信息
-    await userSessionService.setUserInfoByToken({token, info, isWebsite: true})
+    await userSessionService.setUserInfoByToken({token, info, isSystem: true})
     
     return tlResponseSuccess("登录成功", token)
 }
 
+
 module.exports = {
     userLoginByAccount,
-    userLoginByMobile,
     userLoginByEmail,
-    userLoginByWechat,
-    userLoginByQQ,
-    userLoginByQyWechat,
-    userLoginByGuest,
     userLoginByFingerPrint,
-    userLoginByWebsite
+    userLoginBySystem
 }

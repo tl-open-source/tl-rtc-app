@@ -1,7 +1,5 @@
 const { 
-    tlConsoleApiIcon, tlConsole, tlConsoleError,
-    tlResponseArgsError, tlResponseForbidden, tlResponseSvrError, 
-    tlResponseTimeout, tlResponseNotFound, tlResponseSuccess
+    tlConsole, tlConsoleError, tlResponseForbidden, 
 } = require("../utils/utils");
 const {
     LOGIN : {
@@ -21,27 +19,25 @@ const loginRoleIngoreApi = [
 
     // 登录
     '/api/web/user-login/login-state',
-    '/api/web/user-login/website-login-state',
+    '/api/web/user-login/system-login-state',
     '/api/web/user-login/login-by-account',
-    '/api/web/user-login/login-by-mobile',
     '/api/web/user-login/login-by-email',
-    '/api/web/user-login/login-by-code',
-    '/api/web/user-login/login-by-wechat',
-    '/api/web/user-login/login-by-qq',
-    '/api/web/user-login/login-by-qy-wechat',
-    '/api/web/user-login/login-by-fp',
-    '/api/web/user-login/login-by-website',
+    '/api/web/user-login/login-by-system',
 
     // 注册
     '/api/web/user-register/register-by-account',
-    '/api/web/user-register/register-by-mobile',
     '/api/web/user-register/register-by-email',
-    '/api/web/user-register/get-email-code',
-    '/api/web/user-register/register-website-user',
     
     // 退出
     '/api/web/user-logout/logout',
-    '/api/web/user-logout/website-logout',
+    '/api/web/user-logout/system-logout',
+
+    // 获取频道名称
+    '/api/web/channel/get-channel-name',
+    // 获取频道信息
+    '/api/web/channel/search-channel-by-id',
+    // 分享加入频道
+    '/api/web/channel-user/share-join-channel',
 ]
 
 
@@ -55,7 +51,7 @@ const getRoleInfoById = function({roleId}){
     const roleList = [
         TlRoleInner.user.normal,
         TlRoleInner.user.admin,
-
+        
         TlRoleInner.channel.creator,
         TlRoleInner.channel.admin,
         TlRoleInner.channel.member,
@@ -172,14 +168,12 @@ const loginRoleHandler = async function(request, response, next) {
         return next()
     }
 
-    const isWebsite = request.url.includes("/website-")
-
     const {
         loginUserCompanyId, 
         loginUserCompanyName,
         loginUserId, 
         loginUsername,
-        loginUserRoleId,  
+        loginUserRoleId,
         loginUserAvatar,
         loginTime, 
         loginUserEmail, 
@@ -192,11 +186,7 @@ const loginRoleHandler = async function(request, response, next) {
 
     let permissionId = getRequestApiPermissionId(request.url)
 
-    if(isWebsite){
-        tlConsole("website role check:", request.url, loginUserCompanyId, loginUserId, loginUserRoleId, permissionId)
-    }else{
-        tlConsole("role check:", request.url, loginUserCompanyId, loginUserId, loginUserRoleId, permissionId)
-    }
+    tlConsole("role check:", request.url, loginUserCompanyId, loginUserId, loginUserRoleId, permissionId)
     
     if(!permissionId){
         return response.json(tlResponseForbidden("请求无权限"))
@@ -206,6 +196,7 @@ const loginRoleHandler = async function(request, response, next) {
         roleId: loginUserRoleId,
         permissionId: permissionId
     })
+
     if(!hasPermission){
         return response.json(tlResponseForbidden("操作无权限"))
     }
@@ -274,6 +265,7 @@ const loginChannelRoleHandler = async function(request, response, next) {
         permissionId: permissionId,
         channelId: channelId
     })
+
     if(!hasPermission){
         return response.json(tlResponseForbidden("操作无权限"))
     }

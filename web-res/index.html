@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>tl-rtc-app</title>
+   <link href="/image/tl-open-source-icon.png" rel="shortcut icon" type="image/x-icon">
+
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/css/swiper-bundle.min.css" media="all">
+    <link rel="stylesheet" href="/static/css/default.min.css" media="all">
+
+    <link rel="stylesheet" href="lib-css-sdk.min.css" media="all">
+
+    <!-- 引入一些基础库 -->
+    <script type="text/javascript" src="/static/js/html2canvas.min.js"></script>
+    <script type="text/javascript" src="/static/js/crypto-js.min.js"></script>
+    <script type="text/javascript" src="/static/js/localforage.min.js"></script>
+    <script type="text/javascript" src="/static/js/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="/static/js/adapter.js"></script>
+    <script type="text/javascript" src="/static/js/socket.io.js"></script>
+    <script type="text/javascript" src="/static/js/vue.min.js"></script>
+    <script type="text/javascript" src="/static/js/axios.js"></script>
+    <script type="text/javascript" src="/static/js/clipboard.min.js"></script>
+
+    <script type="text/javascript" src="/static/js/qrcode.min.js"></script>
+    <script type="text/javascript" src="/static/layui/font-ext/iconfont.js"></script>
+    <script type="text/javascript" src="/static/layui/layui.js"></script>
+    <script type="text/javascript" src="/static/js/hammer.min.js"></script>
+    <script type="text/javascript" src="/static/js/base64.min.js"></script>
+    <script type="text/javascript" src="/static/js/vue-content-loader.min.js"></script>
+
+    <script type="text/javascript" src="lib-entry-sdk.min.js"></script>
+    <style>
+        .icon {width: 1em; height: 1em; vertical-align: -0.15em; fill: currentColor; overflow: hidden;}
+    </style>
+</head>
+
+<body >
+    <div class="tl-rtc-body">
+        <div class="tl-rtc-app-notification-container" id="notificationContainer"></div>
+
+        <div id="tl-rtc-app" v-cloak>
+
+            <tl_rtc_app_module_sidebar
+                v-show="!isStandaloneMode"
+                :class="!(isMobile && showRightModule) ? 'tl-rtc-app-sidebar-show' : 'tl-rtc-app-sidebar-hidden'"
+                @right-module-change="rightModuleChange"
+                @left-module-change="leftModuleChange"
+                :left-module="leftModule"
+                :right-module="rightModule"
+                :socket="socket"
+                :is-login="isLogin"
+                :is-mobile="isMobile"
+                :user="user"
+                v-cloak> 
+            </tl_rtc_app_module_sidebar>
+
+            <div class="tl-rtc-app-left" :class="[!(isMobile && showRightModule) ? 'tl-rtc-app-left-show': 'tl-rtc-app-left-hidden', !isLogin ? 'login-page': '']">
+                <tl_rtc_app_module_login
+                    @right-module-change="rightModuleChange"
+                    @left-module-change="leftModuleChange"
+                    v-show="leftModule == 'login'"
+                    :socket="socket"
+                    :is-mobile="isMobile"
+                    :right-module="rightModule"
+                    :left-module="leftModule"
+                    v-cloak> 
+                </tl_rtc_app_module_login>
+
+                <tl_rtc_app_module_channel 
+                    @right-module-change="rightModuleChange"
+                    @left-module-change="leftModuleChange"
+                    v-show="leftModule == 'channel'"
+                    :socket="socket"
+                    :company="company"
+                    :user="user"
+                    :is-mobile="isMobile"
+                    :right-module="rightModule"
+                    :left-module="leftModule"
+                    v-cloak> 
+                </tl_rtc_app_module_channel>
+
+                <tl_rtc_app_module_contact
+                    @right-module-change="rightModuleChange"
+                    @left-module-change="leftModuleChange"
+                    v-show="leftModule == 'contact'"
+                    :socket="socket"
+                    :is-mobile="isMobile"
+                    :right-module="rightModule"
+                    :left-module="leftModule"
+                    v-cloak> 
+                </tl_rtc_app_module_contact>
+
+                <tl_rtc_app_module_setting
+                    @right-module-change="rightModuleChange"
+                    @left-module-change="leftModuleChange"
+                    v-show="leftModule == 'setting'"
+                    :socket="socket"
+                    :is-mobile="isMobile"
+                    :right-module="rightModule"
+                    :left-module="leftModule"
+                    v-cloak> 
+                </tl_rtc_app_module_setting>
+            </div>
+
+            <div class="tl-rtc-app-right" :class="showRightModule ? 'tl-rtc-app-right-show': 'tl-rtc-app-right-hidden'">
+                <tl_rtc_app_module_login_content 
+                    @right-module-change="rightModuleChange"
+                    @left-module-change="leftModuleChange"
+                    v-show="rightModule == 'content' && leftModule == 'login'"
+                    :socket="socket"
+                    :company="company"
+                    :user="user"
+                    :is-mobile="isMobile"
+                    :right-module="rightModule"
+                    :left-module="leftModule"
+                    v-cloak> 
+                </tl_rtc_app_module_login_content>
+
+                <tl_rtc_app_module_channel_content 
+                    @right-module-change="rightModuleChange"
+                    @left-module-change="leftModuleChange"
+                    v-show="leftModule == 'channel' && rightModule == 'content'"
+                    :socket="socket" 
+                    :company="company"
+                    :user="user"
+                    :is-mobile="isMobile"
+                    :right-module="rightModule"
+                    :left-module="leftModule"
+                    v-cloak> 
+                </tl_rtc_app_module_channel_content>
+
+                <tl_rtc_app_module_contact_content 
+                    @right-module-change="rightModuleChange"
+                    @left-module-change="leftModuleChange"
+                    v-show="leftModule == 'contact' && rightModule == 'content'"
+                    :socket="socket"
+                    :company="company"
+                    :user="user"
+                    :is-mobile="isMobile"
+                    :right-module="rightModule"
+                    :left-module="leftModule"
+                    v-cloak> 
+                </tl_rtc_app_module_contact_content>
+
+                <tl_rtc_app_module_setting_content
+                    @right-module-change="rightModuleChange"
+                    @left-module-change="leftModuleChange"
+                    v-show="leftModule == 'setting' && rightModule == 'content'"
+                    :socket="socket"
+                    :is-mobile="isMobile"
+                    :user="user"
+                    :company="company"
+                    :right-module="rightModule"
+                    :left-module="leftModule"
+                    v-cloak> 
+                </tl_rtc_app_module_setting_content>
+
+                <tl_rtc_app_module_blank_content
+                    @right-module-change="rightModuleChange"
+                    @left-module-change="leftModuleChange"
+                    v-show="rightModule == 'blank'"
+                    :socket="socket"
+                    :company="company"
+                    :user="user"
+                    :is-mobile="isMobile"
+                    :right-module="rightModule"
+                    :left-module="leftModule"
+                    v-cloak> 
+                </tl_rtc_app_module_blank_content>
+            </div>
+            
+        </div>
+    </div>
+</body>
+
+</html>

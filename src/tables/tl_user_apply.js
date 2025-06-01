@@ -16,7 +16,13 @@ const tl_user_apply_fields = {
         deletedAt : 'deletedAt',
     },
     Flag: {
-        
+        IS_APPLY_GROUP_BY_SEARCH_NAME: 0x1, //通过搜索名称添加群聊
+        IS_APPLY_GROUP_BY_SHARE_LINK: 0x2, //通过分享链接添加群聊
+
+        IS_APPLY_FRIEND_BY_SEARCH_NAME: 0x4, //通过搜索名称添加好友
+        IS_APPLY_FRIEND_BY_SEARCH_PHONE: 0x8, //通过搜索手机号添加好友
+        IS_APPLY_FRIEND_BY_SEARCH_EMAIL: 0x10, //通过搜索邮箱添加好友
+        IS_APPLY_FRIEND_BY_INVITE: 0x20, //通过邀请添加好友
     },
     Type: {
         FRIEND: 1, //好友申请
@@ -28,13 +34,6 @@ const tl_user_apply_fields = {
         REJECT: 3, //拒绝
         BLACK: 4, //黑名单
     },
-    Origin: {
-        SEARCH_NAME: '1', //搜索用户名添加
-        SEARCH_PHONE: '2', //搜索手机号添加
-        SEARCH_EMAIL: '3', //搜索邮箱添加
-        INVITE_QR: '4', //二维码邀请添加
-        INVITE_LINK: '5', //链接邀请添加
-    }
 }
 
 const tl_user_apply_model = function(DataTypes){
@@ -57,7 +56,7 @@ const tl_user_apply_model = function(DataTypes){
             },
             origin:{
                 type: DataTypes.STRING,
-                comment: '申请来源'
+                comment: '申请来源信息'
             },
             user_id: {
                 type: DataTypes.INTEGER,

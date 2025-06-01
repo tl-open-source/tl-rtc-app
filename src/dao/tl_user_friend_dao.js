@@ -156,7 +156,13 @@ const updateInfo = async function(params, data){
 
     tlConsole(TableName, params, data, info)
 
-    return info
+    if(info[0] === 0){
+        return null
+    }
+
+    return {
+        count: info[0]
+    }
 }
 
 

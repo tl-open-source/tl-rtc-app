@@ -1,0 +1,87 @@
+/* 响应式适配样式 */
+
+/* 企业管理响应式样式 */
+@media screen and (max-width: 768px) {
+    .tl-rtc-app-company-actions {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 10px;
+    }
+    
+    .tl-rtc-app-company-actions .layui-input-inline {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .tl-rtc-app-company-form .layui-form-label {
+        width: 80px;
+    }
+    
+    .tl-rtc-app-company-form .layui-input-block {
+        margin-left: 110px;
+    }
+}
+
+/* 服务卡片响应式样式 */
+@media screen and (max-width: 910px) {
+    .tl-rtc-app-service-card {
+        flex: 0 0 100%;
+    }
+}
+
+/* 中等屏幕响应式样式 */
+@media screen and (max-width: 768px) {
+    .tl-rtc-app-content {
+        padding: 15px 10px;
+    }
+
+    .tl-rtc-app-service-cards {
+        gap: 10px;
+    }
+}
+
+/* 小屏幕响应式样式 */
+@media screen and (max-width: 576px) {
+    .tl-rtc-app-header-logo h2 {
+        font-size: 16px;
+    }
+    
+    .tl-rtc-app-user-name {
+        display: none;
+    }
+    
+    .layui-card-header {
+        height: auto;
+        padding: 10px 15px;
+    }
+    
+    .tl-rtc-app-config-save-btn {
+        margin: 10px 0 0 0;
+    }
+    
+    .layui-btn-group {
+        margin: 10px 0 0 0 !important;
+        width: 100%;
+    }
+    
+    .layui-btn-group .layui-btn {
+        flex: 1;
+    }
+    
+    .layui-table-view {
+        overflow-x: auto;
+    }
+    
+    .tl-rtc-app-service-actions {
+        flex-wrap: wrap;
+    }
+    
+    .tl-rtc-app-service-actions .layui-btn {
+        margin-bottom: 5px;
+    }
+}
+
+/* 侧边栏响应式处理 */
+@media screen and (max-width: 768px) {
+
+}

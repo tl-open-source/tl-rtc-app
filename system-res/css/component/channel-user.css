@@ -1,0 +1,252 @@
+/* 频道用户链接样式 */
+.tl-rtc-app-channel-user-link {
+    color: #1E9FFF;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.tl-rtc-app-channel-user-link:hover {
+    color: #0d8bdc;
+    text-decoration: underline;
+}
+
+/* 频道用户侧边栏动画样式 */
+.layui-layer.layui-layer-page[type="page"] {
+    overflow: hidden !important;
+}
+
+/* 确保侧边栏内容区域的滚动正常 */
+#channel-user-panel {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    z-index: 1;
+    background-color: #f9f9f9;
+}
+
+#channel-user-panel .layui-card{
+    height: 100%;
+}
+
+/* 按钮样式优化 */
+#channel-user-panel .layui-btn-xs {
+    padding: 0 8px;
+    height: 24px;
+    width: 24px;
+    line-height: 24px;
+}
+
+/* 搜索区域样式 */
+#channel-user-panel .layui-form-pane {
+    padding: 15px 0;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    margin-bottom: 15px;
+}
+
+#channel-user-panel .layui-form-pane .layui-input{
+    height: 30px;
+    line-height: 30px;
+    border-radius: 4px;
+}
+
+/* 用户列表样式 */
+#channel-user-panel .channel-user-list-container {
+    padding: 0 5px;
+}
+
+#channel-user-panel .channel-user-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#channel-user-panel .channel-user-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+}
+
+#channel-user-panel .channel-user-item:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.09);
+    transform: translateY(-2px);
+}
+
+#channel-user-panel .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #f2f2f2;
+    flex-shrink: 0;
+    margin-right: 15px;
+}
+
+#channel-user-panel .user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#channel-user-panel .user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+#channel-user-panel .user-name-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+}
+
+#channel-user-panel .user-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 10px 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#channel-user-panel .user-tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 5px;
+    gap: 6px;
+}
+
+#channel-user-panel .user-role-tag {
+    background-color: #e6f7ff;
+    color: #1890ff;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    display: inline-block;
+}
+
+#channel-user-panel .user-status-tag {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    display: inline-block;
+}
+
+#channel-user-panel .status-normal {
+    background-color: #f6ffed;
+    color: #52c41a;
+}
+
+#channel-user-panel .status-offline {
+    background-color: #f5f5f5;
+    color: #999;
+}
+
+#channel-user-panel .status-banned {
+    background-color: #fff2f0;
+    color: #ff4d4f;
+}
+
+#channel-user-panel .user-meta {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: #999;
+    flex-direction: column;
+}
+
+#channel-user-panel .user-id, .user-join-time {
+    white-space: nowrap;
+}
+
+#channel-user-panel .user-actions {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+}
+
+#channel-user-panel .user-detail-btn, .user-kick-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+#channel-user-panel .user-detail-btn:hover {
+    background-color: #1E9FFF;
+    color: white;
+}
+
+#channel-user-panel .user-kick-btn:hover {
+    background-color: #FF5722;
+    color: white;
+}
+
+/* 空状态和加载样式 */
+#channel-user-panel .layui-icon-face-surprised,
+#channel-user-panel .layui-icon-loading {
+    display: block;
+    margin: 0 auto 10px;
+    color: #999;
+}
+
+/* 分页样式 */
+#channel-user-pagination {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* 响应式布局 */
+@media screen and (max-width: 768px) {
+    #channel-user-panel .user-name-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    #channel-user-panel .user-tags {
+        margin-top: 5px;
+    }
+    
+    #channel-user-panel .user-meta {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    #channel-user-panel .channel-user-item {
+        flex-wrap: wrap;
+    }
+    
+    #channel-user-panel .user-actions {
+        width: 100%;
+        justify-content: flex-end;
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    
+    #channel-user-panel .user-avatar {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    #channel-user-panel .layui-col-md8,
+    #channel-user-panel .layui-col-md4 {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    #channel-user-panel .user-actions .layui-btn {
+        padding: 0 10px;
+    }
+}

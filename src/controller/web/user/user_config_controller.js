@@ -1,5 +1,5 @@
 const {
-	tlConsole, tlResponseSvrError, tlConsoleError, tlResponseArgsError, checkRequestParams
+	tlResponseSvrError, tlConsoleError, tlResponseArgsError, checkRequestParams,
 } = require("../../../utils/utils");
 const express = require('express');
 const router = express.Router();
@@ -18,6 +18,7 @@ router.get('/get-user-config', async function(request, response) {
         const result = await userConfigBiz.getUserConfigSetting({
             loginInfo
         });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -47,12 +48,44 @@ router.post('/update-user-config-normal', async function(request, response) {
         const result = await userConfigBiz.updateUserConfigNormal({
             loginInfo, normal
         });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
         response.json(tlResponseSvrError());
     }
 });
+
+
+/**
+ * #controller post /api/web/user-config/update-user-config-skin
+ * #desc 更新用户皮肤设置
+ * @param {*} request
+ * @param {*} response
+ */
+router.post('/update-user-config-skin', async function(request, response) {
+    try {
+        const { skin } = request.body;
+
+        if (!checkRequestParams({
+            skin
+        })) {
+            response.json(tlResponseArgsError("请求参数非法"));
+            return;
+        }
+
+        const loginInfo = request.ctx || {}
+        const result = await userConfigBiz.updateUserConfigSkin({
+            loginInfo, skin
+        });
+
+        response.json(result);
+    } catch (error) {
+        tlConsoleError(error)
+        response.json(tlResponseSvrError());
+    }
+});
+
 
 /**
  * #controller post /api/web/user-config/update-user-config-account
@@ -75,6 +108,7 @@ router.post('/update-user-config-account', async function(request, response) {
         const result = await userConfigBiz.updateUserConfigAccount({
             loginInfo, account
         });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -104,6 +138,7 @@ router.post('/update-user-config-message', async function(request, response) {
         const result = await userConfigBiz.updateUserConfigMessage({
             loginInfo, message
         });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)
@@ -133,6 +168,7 @@ router.post('/update-user-config-other', async function(request, response) {
         const result = await userConfigBiz.updateUserConfigOther({
             loginInfo, other
         });
+
         response.json(result);
     } catch (error) {
         tlConsoleError(error)

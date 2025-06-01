@@ -4,7 +4,6 @@ const TlChannelUserDef = fields.Def
 const TlChannelUserType = fields.Type
 const TlChannelUserStatus = fields.Status
 const TableName = fields.Name
-const TableFields = Object.keys(fields.Def).map(key => fields.Def[key])
 const { tlConsoleError, tlConsole } = require("../../../src/utils/utils");
 
 
@@ -142,36 +141,6 @@ const addInfoList = async function({
     return list
 }
 
-
-/**
- * getInfoById 接口
- * @param {*} companyId
- * @param {*} id 
- * @param {*} fields
- */
-const getInfoById = async function({companyId, id}, fields){
-    if(!id){
-        tlConsoleError(TableName, "请求service参数id为空")
-        return {}
-    }
-
-    if(!companyId){
-        tlConsoleError(TableName, "请求service参数companyId为空")
-        return {}
-    }
-
-    const info = await TlChannelUserDao.getInfo({
-        [TlChannelUserDef.companyId]: companyId,
-        [TlChannelUserDef.id]: id
-    }, fields)
-
-    if(info == null) {
-        return {}
-    }
-
-    return info
-}
-
 /**
  * getListByChannelId 接口
  * @param {*} companyId
@@ -210,6 +179,7 @@ const getListByChannelId = async function({companyId, channelId}, fields){
  * @param {*} fields
  * @param {*} page
  * @param {*} pageSize
+ * @returns
  */
 const getListByChannelIdForPage = async function({companyId, channelId}, fields, page, pageSize){
     if(!channelId){
@@ -262,52 +232,28 @@ const getListByChannelIdForPage = async function({companyId, channelId}, fields,
 }
 
 /**
- * getListByUserId 接口
+ * getListByChannelIdAndUserIdListForPage 接口
  * @param {*} companyId
- * @param {*} userId 
- * @param {*} fields
- */
-const getListByUserId = async function({companyId, userId}, fields){
-    if(!userId){
-        tlConsoleError(TableName, "请求service参数userId为空")
-        return []
-    }
-
-    if(!companyId){
-        tlConsoleError(TableName, "请求service参数companyId为空")
-        return []
-    }
-
-    const infoList = await TlChannelUserDao.getList({
-        [TlChannelUserDef.companyId]: companyId,
-        [TlChannelUserDef.userId]: userId
-    }, fields, [
-        [TlChannelUserDef.createdAt, "DESC"]
-    ])
-
-    if(infoList == null) {
-        return []
-    }
-
-    return infoList
-}
-
-/**
- * getListByUserIdForPage 接口
- * @param {*} companyId
- * @param {*} userId 
+ * @param {*} channelId
+ * @param {*} userIdList
  * @param {*} fields
  * @param {*} page
  * @param {*} pageSize
- */
-const getListByUserIdForPage = async function({companyId, userId}, fields, page, pageSize){
-    if(!userId){
-        tlConsoleError(TableName, "请求service参数userId为空")
+ * @returns
+ **/
+const getListByChannelIdAndUserIdListForPage = async function({companyId, channelId, userIdList}, fields, page, pageSize){
+    if(!channelId){
+        tlConsoleError(TableName, "请求service参数channelId为空")
         return []
     }
 
     if(!companyId){
         tlConsoleError(TableName, "请求service参数companyId为空")
+        return []
+    }
+
+    if(!userIdList){
+        tlConsoleError(TableName, "请求service参数userIdList为空")
         return []
     }
 
@@ -338,10 +284,78 @@ const getListByUserIdForPage = async function({companyId, userId}, fields, page,
 
     const infoList = await TlChannelUserDao.getListForPage({
         [TlChannelUserDef.companyId]: companyId,
-        [TlChannelUserDef.userId]: userId
+        [TlChannelUserDef.channelId]: channelId,
+        [TlChannelUserDef.userId]: userIdList
     }, fields, [
         [TlChannelUserDef.createdAt, "DESC"]
     ], page, pageSize)
+
+    if(infoList == null) {
+        return []
+    }
+
+    return infoList
+}
+
+/**
+ * getCountByChannelIdAndUserIdList 接口
+ * @param {*} companyId
+ * @param {*} channelId
+ * @param {*} userIdList
+ * @returns
+ * */
+const getCountByChannelIdAndUserIdList = async function({companyId, channelId, userIdList}){
+    if(!channelId){
+        tlConsoleError(TableName, "请求service参数channelId为空")
+        return 0
+    }
+
+    if(!companyId){
+        tlConsoleError(TableName, "请求service参数companyId为空")
+        return 0
+    }
+
+    if(!userIdList){
+        tlConsoleError(TableName, "请求service参数userIdList为空")
+        return 0
+    }
+
+    const count = await TlChannelUserDao.getCount({
+        [TlChannelUserDef.companyId]: companyId,
+        [TlChannelUserDef.channelId]: channelId,
+        [TlChannelUserDef.userId]: userIdList
+    })
+
+    if(count == null) {
+        return 0
+    }
+
+    return count
+}
+
+/**
+ * getListByUserId 接口
+ * @param {*} companyId
+ * @param {*} userId 
+ * @param {*} fields
+ */
+const getListByUserId = async function({companyId, userId}, fields){
+    if(!userId){
+        tlConsoleError(TableName, "请求service参数userId为空")
+        return []
+    }
+
+    if(!companyId){
+        tlConsoleError(TableName, "请求service参数companyId为空")
+        return []
+    }
+
+    const infoList = await TlChannelUserDao.getList({
+        [TlChannelUserDef.companyId]: companyId,
+        [TlChannelUserDef.userId]: userId
+    }, fields, [
+        [TlChannelUserDef.createdAt, "DESC"]
+    ])
 
     if(infoList == null) {
         return []
@@ -389,71 +403,6 @@ const getListByTypeUserIdList = async function({companyId, type, userIdList}, fi
 }
 
 /**
- * getListByTypeUserIdListForPage 接口
- * @param {*} companyId
- * @param {*} type
- * @param {*} userIdList
- * @param {*} fields
- * @param {*} page
- * @param {*} pageSize
- */
-const getListByTypeUserIdListForPage = async function({companyId, type, userIdList}, fields, page, pageSize){
-    if(!userIdList){
-        tlConsoleError(TableName, "请求service参数userIdList为空")
-        return []
-    }
-
-    if(!companyId){
-        tlConsoleError(TableName, "请求service参数companyId为空")
-        return []
-    }
-
-    if(!type){
-        tlConsoleError(TableName, "请求service参数type为空")
-        return []
-    }
-
-    if(!page){
-        tlConsoleError(TableName, "请求service参数page为空")
-        return []
-    }
-
-    if(!pageSize){
-        tlConsoleError(TableName, "请求service参数pageSize为空")
-        return []
-    }
-
-    if(page <= 0){
-        tlConsoleError(TableName, "请求service参数page不合法")
-        return []
-    }
-
-    if(pageSize <= 0){
-        tlConsoleError(TableName, "请求service参数pageSize不合法")
-        return []
-    }
-
-    if(pageSize > 1000){
-        tlConsoleError(TableName, "请求service参数pageSize过大")
-        return []
-    }
-
-    const infoList = await TlChannelUserDao.getListForPage({
-        [TlChannelUserDef.companyId]: companyId,
-        [TlChannelUserDef.type]: type,
-        [TlChannelUserDef.userId]: userIdList
-    }, fields, [
-        [TlChannelUserDef.createdAt, "DESC"]
-    ], page, pageSize)
-
-    if(infoList == null) {
-        return []
-    }
-
-    return infoList
-}
-
-/**
  * getListByTypeUserId 接口
  * @param {*} companyId
  * @param {*} type
@@ -492,71 +441,6 @@ const getListByTypeUserId = async function({companyId, type, userId}, fields){
 }
 
 /**
- * getListByTypeUserIdForPage 接口
- * @param {*} companyId
- * @param {*} type
- * @param {*} userId
- * @param {*} fields
- * @param {*} page
- * @param {*} pageSize
- */
-const getListByTypeUserIdForPage = async function({companyId, type, userId}, fields, page, pageSize){
-    if(!userId){
-        tlConsoleError(TableName, "请求service参数userId为空")
-        return []
-    }
-
-    if(!companyId){
-        tlConsoleError(TableName, "请求service参数companyId为空")
-        return []
-    }
-
-    if(!type){
-        tlConsoleError(TableName, "请求service参数type为空")
-        return []
-    }
-
-    if(!page){
-        tlConsoleError(TableName, "请求service参数page为空")
-        return []
-    }
-
-    if(!pageSize){
-        tlConsoleError(TableName, "请求service参数pageSize为空")
-        return []
-    }
-
-    if(page <= 0){
-        tlConsoleError(TableName, "请求service参数page不合法")
-        return []
-    }
-
-    if(pageSize <= 0){
-        tlConsoleError(TableName, "请求service参数pageSize不合法")
-        return []
-    }
-
-    if(pageSize > 1000){
-        tlConsoleError(TableName, "请求service参数pageSize过大")
-        return []
-    }
-
-    const infoList = await TlChannelUserDao.getListForPage({
-        [TlChannelUserDef.companyId]: companyId,
-        [TlChannelUserDef.type]: type,
-        [TlChannelUserDef.userId]: userId
-    }, fields, [
-        [TlChannelUserDef.createdAt, "DESC"]
-    ], page, pageSize)
-
-    if(infoList == null) {
-        return []
-    }
-
-    return infoList
-}
-
-/**
  * getListByChannelUserIdList 接口
  * @param {*} companyId
  * @param {*} channelId
@@ -586,172 +470,6 @@ const getListByChannelUserIdList = async function({companyId, channelId, userIdL
     }, fields, [
         [TlChannelUserDef.createdAt, "DESC"]
     ])
-
-    if(infoList == null) {
-        return []
-    }
-
-    return infoList
-}
-
-/**
- * getListByChannelUserIdListForPage 接口
- * @param {*} companyId
- * @param {*} channelId
- * @param {*} userIdList 
- * @param {*} fields
- * @param {*} page
- * @param {*} pageSize
- */
-const getListByChannelUserIdListForPage = async function({companyId, channelId, userIdList}, fields, page, pageSize){
-    if(!userIdList){
-        tlConsoleError(TableName, "请求service参数userIdList为空")
-        return []
-    }
-
-    if(!companyId){
-        tlConsoleError(TableName, "请求service参数companyId为空")
-        return []
-    }
-
-    if(!channelId){
-        tlConsoleError(TableName, "请求service参数channelId为空")
-        return []
-    }
-
-    if(!page){
-        tlConsoleError(TableName, "请求service参数page为空")
-        return []
-    }
-
-    if(!pageSize){
-        tlConsoleError(TableName, "请求service参数pageSize为空")
-        return []
-    }
-
-    if(page <= 0){
-        tlConsoleError(TableName, "请求service参数page不合法")
-        return []
-    }
-
-    if(pageSize <= 0){
-        tlConsoleError(TableName, "请求service参数pageSize不合法")
-        return []
-    }
-
-    if(pageSize > 1000){
-        tlConsoleError(TableName, "请求service参数pageSize过大")
-        return []
-    }
-
-    const infoList = await TlChannelUserDao.getListForPage({
-        [TlChannelUserDef.companyId]: companyId,
-        [TlChannelUserDef.channelId]: channelId,
-        [TlChannelUserDef.userId]: userIdList
-    }, fields, [
-        [TlChannelUserDef.createdAt, "DESC"]
-    ], page, pageSize)
-
-    if(infoList == null) {
-        return []
-    }
-
-    return infoList
-}
-
-/**
- * getListByTypeChannelIdList 接口
- * @param {*} companyId
- * @param {*} type
- * @param {*} channelIdList
- * @param {*} fields
- */
-const getListByTypeChannelIdList = async function({companyId, type, channelIdList}, fields){
-    if(!channelIdList){
-        tlConsoleError(TableName, "请求service参数channelIdList为空")
-        return []
-    }
-
-    if(!companyId){
-        tlConsoleError(TableName, "请求service参数companyId为空")
-        return []
-    }
-
-    if(!type){
-        tlConsoleError(TableName, "请求service参数type为空")
-        return []
-    }
-
-    const infoList = await TlChannelUserDao.getList({
-        [TlChannelUserDef.companyId]: companyId,
-        [TlChannelUserDef.type]: type,
-        [TlChannelUserDef.channelId]: channelIdList
-    }, fields, [
-        [TlChannelUserDef.createdAt, "DESC"]
-    ])
-
-    if(infoList == null) {
-        return []
-    }
-
-    return infoList
-}
-
-/**
- * getListByTypeChannelIdListForPage 接口
- * @param {*} companyId
- * @param {*} type
- * @param {*} channelIdList
- * @param {*} fields
- */
-const getListByTypeChannelIdListForPage = async function({companyId, type, channelIdList}, fields, page, pageSize){
-    if(!channelIdList){
-        tlConsoleError(TableName, "请求service参数channelIdList为空")
-        return []
-    }
-
-    if(!companyId){
-        tlConsoleError(TableName, "请求service参数companyId为空")
-        return []
-    }
-
-    if(!type){
-        tlConsoleError(TableName, "请求service参数type为空")
-        return []
-    }
-
-    if(!page){
-        tlConsoleError(TableName, "请求service参数page为空")
-        return []
-    }
-
-    if(!pageSize){
-        tlConsoleError(TableName, "请求service参数pageSize为空")
-        return []
-    }
-
-    if(page <= 0){
-        tlConsoleError(TableName, "请求service参数page不合法")
-        return []
-    }
-
-    if(pageSize <= 0){
-        tlConsoleError(TableName, "请求service参数pageSize不合法")
-        return []
-    }
-
-    if(pageSize > 1000){
-        tlConsoleError(TableName, "请求service参数pageSize过大")
-        return []
-    }
-
-    const infoList = await TlChannelUserDao.getListForPage({
-        [TlChannelUserDef.companyId]: companyId,
-        [TlChannelUserDef.type]: type,
-        [TlChannelUserDef.channelId]: channelIdList
-    }, fields, [
-        [TlChannelUserDef.createdAt, "DESC"]
-    ], page, pageSize)
 
     if(infoList == null) {
         return []
@@ -803,12 +521,12 @@ const updateInfoById = async function({companyId, id}, data){
 const deleteInfoById = async function({companyId, id}){    
     if(!id){
         tlConsoleError(TableName, "请求service参数id为空")
-        return {}
+        return 0
     }
 
     if(!companyId){
         tlConsoleError(TableName, "请求service参数companyId为空")
-        return {}
+        return 0
     }
 
     const info = await TlChannelUserDao.deleteInfo({
@@ -818,7 +536,7 @@ const deleteInfoById = async function({companyId, id}){
 
     if(info == null) {
         tlConsoleError(TableName, "请求dao异常")
-        return {}
+        return 0
     }
 
     return info
@@ -880,6 +598,28 @@ const getCountByChannelIdList = async function({companyId, channelIdList}){
     return counts
 }
 
+
+/**
+ * getCountByChannelIdListNoCompanyId 接口
+ * @param {*} channelIdList
+ */
+const getCountByChannelIdListNoCompanyId = async function({channelIdList}){
+    if(!channelIdList){
+        tlConsoleError(TableName, "请求service参数channelIdList为空")
+        return {}
+    }
+
+    const counts = await TlChannelUserDao.getGroupCount({
+        [TlChannelUserDef.channelId]: channelIdList
+    }, TlChannelUserDef.channelId)
+
+    if(counts == null) {
+        return {}
+    }
+
+    return counts
+}
+
 /**
  * getListByChannelIdList 接口
  * @param {*} companyId
@@ -903,64 +643,6 @@ const getListByChannelIdList = async function({companyId, channelIdList}, fields
     }, fields, [
         [TlChannelUserDef.createdAt, "DESC"]
     ])
-
-    if(infoList == null) {
-        return []
-    }
-
-    return infoList
-}
-
-/**
- * getListByChannelIdListForPage 接口
- * @param {*} companyId
- * @param {*} channelIdList
- * @param {*} fields
- * @param {*} page
- * @param {*} pageSize
- */
-const getListByChannelIdListForPage = async function({companyId, channelIdList}, fields, page, pageSize){
-    if(!channelIdList){
-        tlConsoleError(TableName, "请求service参数channelIdList为空")
-        return []
-    }
-
-    if(!companyId){
-        tlConsoleError(TableName, "请求service参数companyId为空")
-        return []
-    }
-
-    if(!page){
-        tlConsoleError(TableName, "请求service参数page为空")
-        return []
-    }
-
-    if(!pageSize){
-        tlConsoleError(TableName, "请求service参数pageSize为空")
-        return []
-    }
-
-    if(page <= 0){
-        tlConsoleError(TableName, "请求service参数page不合法")
-        return []
-    }
-
-    if(pageSize <= 0){
-        tlConsoleError(TableName, "请求service参数pageSize不合法")
-        return []
-    }
-
-    if(pageSize > 1000){
-        tlConsoleError(TableName, "请求service参数pageSize过大")
-        return []
-    }
-
-    const infoList = await TlChannelUserDao.getListForPage({
-        [TlChannelUserDef.companyId]: companyId,
-        [TlChannelUserDef.channelId]: channelIdList
-    }, fields, [
-        [TlChannelUserDef.createdAt, "DESC"]
-    ], page, pageSize)
 
     if(infoList == null) {
         return []
@@ -1006,6 +688,156 @@ const getInfoByChannelIdAndUserId = async function({companyId, channelId, userId
 }
 
 
+/**
+ * getListByUserIdAndChannelIdList 接口
+ * @param {*} companyId
+ * @param {*} userId
+ * @param {*} channelIdList
+ * @param {*} fields 
+ * @returns 
+ */
+const getListByUserIdAndChannelIdList = async function({
+    companyId, userId, channelIdList
+}, fields){
+    if(!userId){
+        tlConsoleError(TableName, "请求service参数userId为空")
+        return []
+    }
+
+    if(!companyId){
+        tlConsoleError(TableName, "请求service参数companyId为空")
+        return []
+    }
+
+    if(!channelIdList){
+        tlConsoleError(TableName, "请求service参数channelIdList为空")
+        return []
+    }
+
+    const infoList = await TlChannelUserDao.getList({
+        [TlChannelUserDef.companyId]: companyId,
+        [TlChannelUserDef.userId]: userId,
+        [TlChannelUserDef.channelId]: channelIdList
+    }, fields, [
+        [TlChannelUserDef.createdAt, "DESC"]
+    ])
+
+    if(infoList == null) {
+        return []
+    }
+
+    return infoList
+}
+
+/**
+ * getListByChannelIdAndRoleId 接口
+ * @param {*} companyId
+ * @param {*} channelId
+ * @param {*} roleId 
+ * @returns 
+ */
+const getListByChannelIdAndRoleId = async function({companyId, channelId, roleId}, fields){
+    if(!channelId){
+        tlConsoleError(TableName, "请求service参数channelId为空")
+        return []
+    }
+
+    if(!companyId){
+        tlConsoleError(TableName, "请求service参数companyId为空")
+        return []
+    }
+
+    if(!roleId){
+        tlConsoleError(TableName, "请求service参数roleId为空")
+        return []
+    }
+
+    const list = await TlChannelUserDao.getList({
+        [TlChannelUserDef.companyId]: companyId,
+        [TlChannelUserDef.channelId]: channelId,
+        [TlChannelUserDef.roleId]: roleId
+    }, fields)
+
+    if(list == null) {
+        return []
+    }
+
+    return list
+}
+
+/**
+ * getListByUserIdAndRoleId 接口
+ * @param {*} companyId
+ * @param {*} userId
+ * @param {*} roleId 
+ * @param {*} fields 
+ * @returns 
+ */
+const getListByUserIdAndRoleId = async function({companyId, userId, roleId}, fields){
+    if(!companyId){
+        tlConsoleError(TableName, "请求service参数companyId为空")
+        return {}
+    }
+
+    if(!userId){
+        tlConsoleError(TableName, "请求service参数userId为空")
+        return {}
+    }
+
+    if(!roleId){
+        tlConsoleError(TableName, "请求service参数roleId为空")
+        return {}
+    }
+
+    const list = await TlChannelUserDao.getList({
+        [TlChannelUserDef.companyId]: companyId,
+        [TlChannelUserDef.userId]: userId,
+        [TlChannelUserDef.roleId]: roleId
+    }, fields)
+
+    if(list == null) {
+        return []
+    }
+
+    return list
+}
+
+
+/**
+ * deleteInfoByChannelIdAndUserId 接口
+ * @param {*} companyId
+ * @param {*} channelId
+ * @param {*} userId 
+ * @returns 
+ */
+const deleteInfoByChannelIdAndUserId = async function({companyId, channelId, userId}){
+    if(!channelId){
+        tlConsoleError(TableName, "请求service参数channelId为空")
+        return 0
+    }
+
+    if(!companyId){
+        tlConsoleError(TableName, "请求service参数companyId为空")
+        return 0
+    }
+
+    if(!userId){
+        tlConsoleError(TableName, "请求service参数userId为空")
+        return 0
+    }
+
+    const info = await TlChannelUserDao.deleteInfo({
+        [TlChannelUserDef.companyId]: companyId,
+        [TlChannelUserDef.channelId]: channelId,
+        [TlChannelUserDef.userId]: userId
+    })
+
+    if(info == null) {
+        return 0
+    }
+
+    return info
+}
 
 
 module.exports = {
@@ -1013,23 +845,23 @@ module.exports = {
     addInfoList, 
     updateInfoById, 
     deleteInfoById,
-    getInfoById, 
     getInfoByChannelIdAndUserId, 
     getCountByChannelId,
     getCountByChannelIdList, 
+    getCountByChannelIdListNoCompanyId,
+    deleteInfoByChannelIdAndUserId,
 
     getListByChannelId, 
-    getListByChannelIdForPage, 
-    getListByUserId, 
-    getListByUserIdForPage,
-    getListByChannelUserIdList, 
-    getListByChannelUserIdListForPage, 
+    getListByChannelIdForPage,
+    getListByUserId,
+    getListByUserIdAndChannelIdList,
+    getListByChannelUserIdList,
     getListByChannelIdList,
-    getListByChannelIdListForPage,
     getListByTypeUserIdList, 
-    getListByTypeUserIdListForPage,
-    getListByTypeUserId, 
-    getListByTypeUserIdForPage, 
-    getListByTypeChannelIdList,
-    getListByTypeChannelIdListForPage,
+    getListByTypeUserId,
+    getListByChannelIdAndRoleId,
+    getListByUserIdAndRoleId,
+
+    getCountByChannelIdAndUserIdList,
+    getListByChannelIdAndUserIdListForPage
 }

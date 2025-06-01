@@ -1,18 +1,11 @@
 <p align="center">
-  <img src="web-v2-res/image/tlrtcapp-logo.svg" alt="TL-RTC-APP Logo">
+  <img src="web-res/image/tlrtcapp-logo.svg" alt="TL-RTC-APP Logo">
 </p>
 
-### 预览
+<p align="center">
+  <img src="web-res/image/channel-chat.png" alt="TL-RTC-APP Channel Chat">
+</p>
 
-<img src="web-v2-res/image/homepage.png" alt="homepage">
-
-### 准备
-
-1. 安装nodejs环境
-
-2. 安装mysql环境
-
-3. 安装redis环境
 
 ### 安装步骤
 
@@ -34,28 +27,50 @@
     npm install
     ```
 
+4. 安装pm2:
+
+    ```bash
+    npm install pm2 -g
+    ```
+
+5. 启动后台管理服务：
+
+    ```bash
+    pm2 start npm --name=tl-rtc-app-super-api -- run http-super-api
+    ```
+    或者
+
+    ```bash
+    pm2 start npm --name=tl-rtc-app-super-api -- run https-super-api
+    ```
+
+6. 启动Api服务：
+
+    ```bash
+    pm2 start npm --name=tl-rtc-app-api -- run http-api
+    ```
+    或者
+
+    ```bash
+    pm2 start npm --name=tl-rtc-app-api -- run https-api
+    ```
+
+7. 启动Socket服务：
+
+    ```bash
+    pm2 start npm --name=tl-rtc-app-socket -- run http-socket
+    ```
+    或者
+
+    ```bash
+    pm2 start npm --name=tl-rtc-app-socket -- run https-socket
+    ```
+
 ### 使用说明
-1. 启动应用 - Api
 
-    ```bash
-    npm run http-api
+1. 打开浏览器并访问 `http://localhost:9096` (默认)。
 
-    或者
-
-    npm run https-api
-    ```
-
-2. 启动应用 - Socket
-
-    ```bash
-    npm run http-socket
-
-    或者
-
-    npm run https-socket
-    ```
-   
-3. 打开浏览器并访问 `http://localhost:9096`。
+2. 通过管理端应用进行IM应用管理 `http://localhost:9098` (默认)。
 
 
 ### 许可证

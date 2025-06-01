@@ -2,7 +2,6 @@ const {
     tlResponseArgsError, tlResponseForbidden, tlResponseSvrError, 
     tlResponseTimeout, tlResponseNotFound, tlResponseSuccess
 } = require('../../utils/utils')
-const userService = require('../../service/user/tl_user_service')
 const userSessionService = require('../../service/user/tl_user_session_service')
 
 

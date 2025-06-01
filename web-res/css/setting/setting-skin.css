@@ -1,0 +1,206 @@
+/***********************************************************************************
+************************************************************************************
+                                设置中心 - 皮肤设置 start
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-right-setting-content-skin{
+    height: calc(100% - 55px);
+    overflow-y: auto;
+}
+
+.tl-rtc-app-right-setting-content-top-export{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tl-rtc-app-right-setting-content-top-export svg{
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 16px;
+    height: 16px;
+    padding: 5px;
+    background: var(--skin-setting-content-top-export-background);
+    fill: var(--skin-setting-content-top-export-fill-color);
+    border-radius: 4px;
+}
+
+.tl-rtc-app-right-setting-content-top-export svg:hover{
+    scale: 1.3;
+}
+
+.tl-rtc-app-right-setting-content-skin .tl-rtc-app-right-setting-content-skin-block{
+    padding: 10px;
+}
+
+.tl-rtc-app-right-setting-content-skin .tl-rtc-app-right-setting-content-skin-block-title{
+    font-size: 13px;
+    font-weight: bold;
+    user-select: none;
+    padding-left: 10px;
+}
+
+.tl-rtc-app-right-setting-content-skin .tl-rtc-app-right-setting-content-skin-block-content{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 5px;
+    background: var(--skin-setting-content-block-background);
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.tl-rtc-app-right-setting-content-skin .tl-rtc-app-right-setting-content-skin-block-content
+.tl-rtc-app-right-setting-content-skin-block-item{
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 10px 15px;
+    margin-right: 10px;
+    align-items: center;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.tl-rtc-app-right-setting-content-skin .tl-rtc-app-right-setting-content-skin-block-content
+.tl-rtc-app-right-setting-content-skin-block-item svg{
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    user-select: none;
+}
+
+.tl-rtc-app-right-setting-content-skin .tl-rtc-app-right-setting-content-skin-block-content
+.tl-rtc-app-right-setting-content-skin-block-item:hover{
+    background: var(--skin-setting-content-block-item-hover-background);
+}
+
+.tl-rtc-app-right-setting-content-skin .tl-rtc-app-right-setting-content-skin-block-content
+.tl-rtc-app-right-setting-content-skin-block-item-active{
+    border: 1px solid var(--skin-setting-content-skin-block-item-active-border);
+    background: var(--skin-setting-content-block-item-hover-background);
+}
+
+.tl-rtc-app-right-setting-content-skin .tl-rtc-app-right-setting-content-skin-block-content
+.tl-rtc-app-right-setting-content-skin-block-item-title{
+    margin-top: 10px;
+    font-size: 12px;
+    user-select: none;
+}
+
+.tl-rtc-app-right-setting-content-skin .tl-rtc-app-right-setting-content-skin-block-custom{
+    padding: 0px 10px 20px 10px;
+}
+
+.tl-rtc-app-right-setting-content-skin .tl-rtc-app-right-setting-content-skin-block-custom-title{
+    font-size: 13px;
+    font-weight: bold;
+    user-select: none;
+    padding-left: 10px;
+}
+
+.tl-rtc-app-right-setting-content-skin .tl-rtc-app-right-setting-content-skin-block-custom-title svg{
+    scale: 1.5;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 5px;
+}
+
+.tl-rtc-app-right-setting-content-skin .tl-rtc-app-right-setting-content-skin-block-custom-title svg:hover{
+    scale: 2;
+    /* margin-left: 10px; */
+}
+
+.tl-rtc-app-right-setting-content-skin .tl-rtc-app-right-setting-content-skin-block-custom-content{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding: 5px 15px 5px 15px;
+    background: var(--skin-setting-content-block-background);
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.tl-rtc-app-right-setting-content-skin  .tl-rtc-app-right-setting-content-skin-block-custom-item{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.tl-rtc-app-right-setting-content-skin .tl-rtc-app-right-setting-content-skin-block-custom-item:last-child{
+    border-bottom: 0px;
+}
+
+.tl-rtc-app-right-setting-content-skin  .tl-rtc-app-right-setting-content-skin-block-custom-item-title{
+    user-select: none;
+    width: 60%;
+}
+
+
+.tl-rtc-app-right-setting-content-skin  .tl-rtc-app-right-setting-content-skin-block-custom-item-oper{
+    text-align: right;
+    width: 40%;
+}
+
+.tl-rtc-app-right-setting-content-skin  .tl-rtc-app-right-setting-content-skin-block-custom-item-oper svg{
+    margin-left: 7px;
+    border-radius: 50%;
+    background: var(--skin-setting-content-preview-item-svg-background);
+    width: 16px;
+    height: 16px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.tl-rtc-app-right-setting-content-skin  .tl-rtc-app-right-setting-content-skin-block-custom-item-oper svg:hover{
+    background: var(--skin-setting-content-preview-item-svg-hover-background)
+}
+
+.tl-rtc-app-right-setting-content-skin  .tl-rtc-app-right-setting-content-skin-block-custom-item-oper div{
+    border-radius: 4px;
+}
+
+
+.tl-rtc-app-right-setting-content-skin-preview{
+    height: 200px;
+}
+
+.tl-rtc-app-right-setting-content-skin-preview .tl-rtc-app-right-setting-content-skin-block-preview{
+    padding: 10px;
+    height: calc(100% - 20px);
+}
+
+.tl-rtc-app-right-setting-content-skin-preview .tl-rtc-app-right-setting-content-skin-block-title-preview{
+    font-size: 13px;
+    font-weight: bold;
+    user-select: none;
+    padding-left: 10px;
+    line-height: 20px;
+}
+
+.tl-rtc-app-right-setting-content-skin-preview .tl-rtc-app-right-setting-content-skin-block-content-preview{
+    align-content: center;
+    padding: 10px 5px;
+    background: var(--skin-setting-content-block-background);
+    border-radius: 4px;
+    margin-top: 10px;
+    height: calc(100% - 50px);
+    overflow: auto;
+    box-shadow: inset 19px 17px 100px -50px #6d919d4f;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+/***********************************************************************************
+************************************************************************************
+                                设置中心 - 皮肤设置 end 
+************************************************************************************
+************************************************************************************/

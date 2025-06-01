@@ -19,13 +19,10 @@ const tl_role_fields = {
     Type: {
         NORMAL_USER: 1, // 普通用户角色
         ADMIN_USER: 2, // 管理员角色
-        TEST_USER: 3, // 测试演示用户角色
 
         CHANNEL_CREATOR_USER: 4, // 频道群主角色
         CHANNEL_ADMIN_USER: 5, // 频道管理员角色
         CHANNEL_NORMAL_USER: 6, // 频道普通用户角色
-
-        WEBSITE_USER: 7, // 官网用户角色
     }
 }
 
@@ -138,7 +135,7 @@ const tl_inner_role = {
             ),
             description : '频道成员',
             flag : 0,
-        },
+        }
     },
 }
 

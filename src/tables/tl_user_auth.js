@@ -11,9 +11,10 @@ const tl_user_auth_fields = {
         deletedAt : 'deletedAt',
     },
     Type: {
-        EMAIL_REGISTER_CODE: 1,
-        PHONE_REGISTER_CODE: 2,
-        PHONE_LOGIN_CODE: 3,
+        EMAIL_REGISTER_CODE: 1,     // 邮箱注册验证码
+        PHONE_REGISTER_CODE: 2,     // 手机注册验证码
+        PHONE_LOGIN_CODE: 3,        // 手机登录验证码
+        EMAIL_RESET_PASSWORD: 4,    // 邮箱重置密码
     },
 }
 
@@ -32,7 +33,7 @@ const tl_user_auth_model = function(DataTypes){
             },
             code: {
                 type: DataTypes.STRING(16),
-                comment: '认证code'
+                comment: '认证code, 验证码/密码'
             },
             type: {
                 type: DataTypes.INTEGER,

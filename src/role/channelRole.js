@@ -17,6 +17,9 @@ const userChannelCreatorPermissions = function(){
     // 频道权限
     returnPermission.push(...Object.values(channelPermission.channel))
     returnPermission.push(...Object.values(channelPermission.channelChat))
+    returnPermission.push(...Object.values(channelPermission.channelMedia))
+    returnPermission.push(...Object.values(channelPermission.channelFile))
+    returnPermission.push(...Object.values(channelPermission.channelNotice))
     returnPermission.push(...Object.values(channelPermission.channelUser))
 
     return returnPermission;
@@ -32,7 +35,8 @@ const userChannelAdminPermissions = function(){
     // 频道权限
     const channelKeys = Object.keys(channelPermission.channel).filter((key) => {
         return ![
-            channelPerfix + "UPDATE_CHANNEL_NAME"
+            channelPerfix + "UPDATE_CHANNEL_NAME",
+            channelPerfix + "UPDATE_CHANNEL_CAN_SEARCH",
         ].includes(key)
     })
     channelKeys.forEach((key) => {
@@ -52,6 +56,9 @@ const userChannelAdminPermissions = function(){
     })
 
     returnPermission.push(...Object.values(channelPermission.channelChat))
+    returnPermission.push(...Object.values(channelPermission.channelMedia))
+    returnPermission.push(...Object.values(channelPermission.channelFile))
+    returnPermission.push(...Object.values(channelPermission.channelNotice))
 
     return returnPermission;
 }
@@ -66,11 +73,21 @@ const userChannelNormalPermissions = function(){
     // 频道权限
     const channelKeys = Object.keys(channelPermission.channel).filter((key) => {
         return ![
-            channelPerfix + "UPDATE_CHANNEL_NAME"
+            channelPerfix + "UPDATE_CHANNEL_NAME",
+            channelPerfix + "UPDATE_CHANNEL_CAN_SEARCH",
         ].includes(key)
     })
     channelKeys.forEach((key) => {
         returnPermission.push(channelPermission.channel[key]);
+    })
+
+    const channelNoticeKeys = Object.keys(channelPermission.channelNotice).filter((key) => {
+        return ![
+            channelNoticePerfix + "ADD_CHANNEL_NOTICE"
+        ].includes(key)
+    })
+    channelNoticeKeys.forEach((key) => {
+        returnPermission.push(channelPermission.channelNotice[key]);
     })
 
     const channelUserKeys = Object.keys(channelPermission.channelUser).filter((key) => {
@@ -87,9 +104,12 @@ const userChannelNormalPermissions = function(){
     })
 
     returnPermission.push(...Object.values(channelPermission.channelChat))
+    returnPermission.push(...Object.values(channelPermission.channelMedia))
+    returnPermission.push(...Object.values(channelPermission.channelFile))
 
     return returnPermission;
 }
+
 
 
 module.exports = {

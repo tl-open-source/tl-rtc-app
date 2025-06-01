@@ -1,0 +1,74 @@
+/***********************************************************************************
+************************************************************************************
+                                频道公告 start
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-right-channel-notice{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100% - 20px);
+    margin-top: 10px;
+}
+
+.tl-rtc-app-layer-channel-notice{
+    background-color: var(--skin-body-background) !important;
+    color: var(--skin-body-color) !important;
+}    
+
+.tl-rtc-app-layer-channel-notice .layui-layer-title{
+    color: var(--skin-body-color) !important;
+    border-bottom: 1px solid var(--skin-body-border-color) !important;
+    border-radius: 6px;
+}
+
+.tl-rtc-app-right-channel-notice-list{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.tl-rtc-app-right-channel-notice-empty{
+    text-align: center;
+    margin-top: 100px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--skin-channel-content-notice-empty-color);
+}
+
+.tl-rtc-app-right-channel-notice-list-item{
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--skin-body-border-color);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.tl-rtc-app-right-channel-notice-list-item:hover{
+    background: var(--skin-channel-content-notice-item-hover-background);
+}
+
+.tl-rtc-app-right-channel-notice-list-item-time{
+    text-align: right;
+    color: var(--skin-channel-content-notice-item-time-color);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.tl-rtc-app-right-channel-notice-list-item-content{
+    font-weight: bold;
+    font-size: 14px;
+    text-indent: 30px;
+}
+
+.tl-rtc-app-right-channel-notice-list-item-title{
+    font-weight: bold;
+    font-size: 12px;
+    color: var(--skin-channel-content-notice-item-title-color);
+    margin-bottom: 15px;
+}
+/***********************************************************************************
+************************************************************************************
+                                频道公告 end
+************************************************************************************
+************************************************************************************/
+

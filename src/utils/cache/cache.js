@@ -4,14 +4,12 @@ const {
 
 const {
     USER_KEYS,
-    SOCKET_KEYS
 } = require('./cache_key');
-const { tlConsole } = require('../../utils/utils');
 const {
     LOGIN : {
         LOGIN_TOKEN_EXPIRE,
 
-        WEBSITE_LOGIN_TOKEN_EXPIRE
+        SYSTEM_LOGIN_TOKEN_EXPIRE
     }
 } = require('../../utils/constant');
 
@@ -21,10 +19,10 @@ const {
  * 1小时过期
  * @param {*} token 
  * @param {*} loginInfo 
- * @param {*} isWebsite 
+ * @param {*} isSystem
  */
 const setLoginInfo = async function({
-    token, loginInfo, isWebsite = false
+    token, loginInfo, isSystem = false
 }){
     const key = USER_KEYS.USER_LOGIN_INFO + token;
 
@@ -32,8 +30,8 @@ const setLoginInfo = async function({
 
     await redisClient.set(key, loginInfo);
 
-    if(isWebsite){
-        await redisClient.expire(key, WEBSITE_LOGIN_TOKEN_EXPIRE);
+    if(isSystem){
+        await redisClient.expire(key, SYSTEM_LOGIN_TOKEN_EXPIRE);
     }else{
         await redisClient.expire(key, LOGIN_TOKEN_EXPIRE);
     }
@@ -58,10 +56,10 @@ const getLoginInfo = async function({token}){
  * 1小时过期
  * @param {*} userId 
  * @param {*} status 
- * @param {*} isWebsite 
+ * @param {*} isSystem
  */
 const setLoginStatus = async function({
-    userId, status, isWebsite
+    userId, status, isSystem = false
 }){
     const key = USER_KEYS.USER_LOGIN_STATUS + userId;
 
@@ -69,8 +67,8 @@ const setLoginStatus = async function({
 
     await redisClient.set(key, status);
 
-    if(isWebsite){
-        await redisClient.expire(key, WEBSITE_LOGIN_TOKEN_EXPIRE);
+    if(isSystem){
+        await redisClient.expire(key, SYSTEM_LOGIN_TOKEN_EXPIRE);
     }else{
         await redisClient.expire(key, LOGIN_TOKEN_EXPIRE);
     }
@@ -105,21 +103,21 @@ const getLoginStatusList = async function({userIdList}){
  * 设置用户信息
  * 1小时过期
  * @param {*} userId 
- * @param {*} userInfo 
- * @param {*} isWebsite 
+ * @param {*} userInfo
+ * @param {*} isSystem
  * @returns 
  */
 const setUserInfo = async function({
-    userId, userInfo, isWebsite = false
+    userId, userInfo, isSystem = false
 }){
     const cacheKey = USER_KEYS.USER_INFO + userId;
 
     const redisClient = getRedisClient();
 
     await redisClient.set(cacheKey, userInfo);
-    
-    if(isWebsite){
-        await redisClient.expire(cacheKey, WEBSITE_LOGIN_TOKEN_EXPIRE);
+
+    if(isSystem){
+        await redisClient.expire(cacheKey, SYSTEM_LOGIN_TOKEN_EXPIRE);
     }else{
         await redisClient.expire(cacheKey, LOGIN_TOKEN_EXPIRE);
     }
@@ -146,10 +144,10 @@ const getUserInfo = async function({userId}){
  * @param {*} socketId 
  * @param {*} userId 
  * @param {*} companyId
- * @param {*} isWebsite 
+ * @param {*} isSystem
  */
 const setUserIdSocketIdMap = async function({
-    companyId, userId, socketId, isWebsite = false
+    companyId, userId, socketId, isSystem = false
 }){
     const cacheKey = USER_KEYS.USER_ID_SOCKET_ID_MAP + companyId;
 
@@ -159,8 +157,8 @@ const setUserIdSocketIdMap = async function({
         [userId]: socketId
     });
 
-    if(isWebsite){
-        await redisClient.expire(cacheKey, WEBSITE_LOGIN_TOKEN_EXPIRE);
+    if(isSystem){
+        await redisClient.expire(cacheKey, SYSTEM_LOGIN_TOKEN_EXPIRE);
     }else{
         await redisClient.expire(cacheKey, LOGIN_TOKEN_EXPIRE);
     }

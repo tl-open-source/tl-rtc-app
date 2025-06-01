@@ -1,0 +1,359 @@
+/***********************************************************************************
+************************************************************************************
+                                联系人列表 start 
+************************************************************************************
+************************************************************************************/
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-top{
+    height: var(--left-contact-top);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-top-header{
+    display: flex;
+    padding: 15px 10px 15px 0px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-top-header-block{
+    display: flex;
+    align-items: flex-end;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-top-header-title{
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--skin-top-header-title-color);
+    margin-right: 10px;
+    margin-left: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+    width: 70%;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-top-header-tool{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: var(--skin-top-header-tool-background);
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-top-header-tool:hover{
+    box-shadow: var(--skin-contact-header-tool-hover-shadow);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-top-header-tool svg{
+    width: 14px;
+    height: 14px;
+    fill: var(--skin-contact-header-tool-svg-fill-color);
+    transition: all 0.3s;
+    scale: 1.5;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-top-header-tool:hover svg{
+    fill: var(--skin-contact-header-tool-svg-hover-fill-color);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-top-search{
+    padding: 5px 0;
+    line-height: 0px;
+    width: 96%;
+    margin-left: 2%;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-top-search i{
+    position: relative;
+    margin-left: 8px;
+    top: 16px;
+    color: var(--skin-contact-top-search-i-color);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-top-search svg{
+    color: var(--skin-contact-top-search-i-color);
+    position: relative;
+    float: right;
+    right: 8px;
+    margin-top: -22px;
+    cursor: pointer;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-top-search input{
+    width: 100%;
+    height: 30px;
+    padding-left: 30px !important;
+    border-radius: 4px;
+    background: var(--skin-contact-top-search-input-background);
+    color: var(--skin-contact-top-search-input-color);
+    font-size: 13px;
+    letter-spacing: 1px;
+    border-width: 0.5px;
+    border-color: var(--skin-contact-top-search-input-background);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact{
+    height: calc(100% - var(--left-contact-top) - 5px);
+    overflow-y: auto;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item{
+    border-bottom: 1px solid var(--skin-body-border-color);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 4px 0;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.1s;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item:hover{
+    background: var(--skin-contact-list-item-hover-background);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-img{
+    width: 20%;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-img img{
+    height: 32px;
+    width: 32px;
+    margin: 20%;
+    -webkit-user-drag: none;
+    border-radius: 3px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-content{
+    width: 50%;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-content div{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-content-nickname{
+    font-weight: bold;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-content-state{
+    font-size: 11px;
+    color: var(--skin-contact-content-item-message-color);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-content-message{
+    font-size: 12px;
+    margin-top: 10px;
+    color: var(--skin-contact-content-item-message-color);
+    letter-spacing: 0.5px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-other{
+    width: 30%;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-other div{
+    text-align: right;
+    font-size: 12px;
+    scale: 0.9;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-other-status{
+    margin-top: 10px;
+    color: var(--skin-contact-content-item-other-status-color);
+    padding-right: 8px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-other-unread{
+    padding-right: 8px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-contact-item-other-unread div{
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    font-size: 7px;
+    transition: right 0.3s;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content{
+    padding: 5px 10px;
+    transition: padding 0.3s;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content .goBack{
+    top: 17px;
+    left: 15px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-info{
+    display: flex;
+    flex-direction: row;
+    padding: 30px 20px;
+    border-bottom: solid 1px var(--skin-body-border-color);
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-other{
+    padding: 0px 20px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-other-item{
+    padding: 20px 0px;
+    border-bottom: solid 1px var(--skin-body-border-color);
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-other-item-value{
+    margin-left: 5px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-other-item-value-avatar{
+    height: 32px;
+    width: 32px;
+    padding-left: 5px;
+    -webkit-user-drag: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-info-type{
+    position: absolute;
+    right: 40px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-info-type svg{
+    width: 18px;
+    height: 18px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-info-type svg:hover{
+    fill: var(--skin-contact-content-other-item-badge-background);
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-other-item-value-badge{
+    background-color: var(--skin-contact-content-other-item-badge-background) !important;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-info-avatar{
+    margin-right: 20px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-info-avatar img{
+    width: 60px;
+    height: 60px;
+    user-select: none;
+    -webkit-user-drag: none;
+    border-radius: 3px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-info-more-item{
+    margin-bottom: 10px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-info-more-item b{
+    font-size: 18px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-tool-btn{
+    text-align: center;
+    padding: 25px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-tool-btn button{
+    font-size: 12px;
+    border-radius: 4px;
+    width: 100px;
+    letter-spacing: 1px;
+    background-color: var(--skin-contact-content-apply-button-background);
+    color: var(--skin-contact-content-apply-button-color);
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-tool{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    text-align: center;
+    padding: 30px 20px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-tool 
+.tl-rtc-app-right-contact-content-tool-item{
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-tool 
+.tl-rtc-app-right-contact-content-tool-item svg{
+    width: 18px;
+    height: 18px;
+    padding: 5px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-tool-item:hover{
+    color: var(--skin-contact-content-tool-item-hover-background);
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-top{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--skin-body-border-color);
+    padding-bottom: 10px;
+    height: 30px;
+    margin-left: 15px;
+}
+
+#tl-rtc-app .tl-rtc-app-right .tl-rtc-app-right-contact-content-top-title{
+    font-size: 15px;
+    font-weight: bold;
+    user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+}
+
+.tl-rtc-app-right-contact-content-friend{
+    height: 100%;
+    padding: 5px 0;
+    width: 100%;
+}
+
+.tl-rtc-app-right-contact-content-apply{
+    height: 100%;
+    padding: 5px 0;
+    width: 100%;
+}
+
+.tl-rtc-app-right-contact-content-search{
+    height: 100%;
+    padding: 5px 0;
+    width: 100%;
+}
+
+.tl-rtc-app-right-contact-content-group{
+    height: 100%;
+    padding: 5px 0;
+    width: 100%;
+}
+/***********************************************************************************
+************************************************************************************
+                                联系人列表 end 
+************************************************************************************
+************************************************************************************/

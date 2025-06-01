@@ -1,5 +1,7 @@
 const path = require("path");
 const dotEnv = require("dotenv");
+const fs = require("fs");
+const { exec } = require("child_process");
 
 /**
  * 从.env文件中加载环境变量
@@ -44,23 +46,68 @@ const get_env_config = function () {
             value = value === 'true'
         }
 
-        //openai keys转换为数组
-        if(key === 'openai_keys'){
-            value = value.split(',')
-        }
-
-        //企业微信通知 keys转换为数组
-        if(key === 'notify_qiwei_normal' || key === 'notify_qiwei_error'){
-            value = value.split(',')
-        }
-
         defaultConfJson[key] = value
     })
     
     return defaultConfJson
 }
 
+/**
+ * 设置环境变量
+ * @param {*} key 配置项的键名（不含 tl_rtc_app_ 前缀）
+ * @param {*} value 配置项的新值
+ */
+const set_env_config = function (key, value) {
+    // 构建完整的环境变量名
+    const fullKey = `tl_rtc_app_${key}`;
+    
+    // 获取 .env 文件路径
+    const envFilePath = path.resolve(__dirname, "../tlrtcapp.env");
+    
+    try {
+        // 读取 .env 文件内容
+        let envContent = fs.readFileSync(envFilePath, 'utf8');
+        
+        // 准备正则表达式，匹配键值对
+        const regex = new RegExp(`^${fullKey}=.*$`, 'm');
+        
+        // 检查键是否存在
+        if (regex.test(envContent)) {
+            // 如果键存在，则替换其值
+            envContent = envContent.replace(regex, `${fullKey}=${value}`);
+        } else {
+            // 如果键不存在，则在文件末尾添加
+            console.error(`Config not found: ${fullKey}`);
+            return {
+                success: false,
+                message: `Config not found: ${fullKey}`
+            }
+        }
+        
+        // 写入更新后的内容
+        fs.writeFileSync(envFilePath, envContent, 'utf8');
+        
+        // 更新当前进程中的环境变量
+        process.env[fullKey] = value;
+
+        console.log(`Config updated: ${fullKey}=${value}`);
+
+        return {
+            success: true,
+            message: `Config updated: ${fullKey}=${value}`
+        }
+    } catch (error) {
+        console.error(`Failed to update config ${fullKey}:`, error)
+        return {
+            success: false,
+            message: `Failed to update config ${fullKey}: ${error}`
+        }
+    }
+}
+
+
 module.exports = {
     get_env_config,
-    load_env_config
+    load_env_config,
+    set_env_config,
 }

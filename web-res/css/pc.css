@@ -1,0 +1,355 @@
+html {
+    box-sizing: border-box;
+
+    --body-width: 80%;
+    --body-max-width: 1200px;
+    --body-height: 90%;
+
+    --sidebar-width: 65px;
+    --left-width: 315px;
+    --left-channel-top: 130px;
+    --left-p2p-channel-top: 90px;
+    --left-contact-top: 100px;
+    --left-cut-paste-top: 90px;
+    --left-login-top: 30px;
+
+    --right-channel-content-more-width: 260px;
+    --right-channel-content-top: 49px;
+    --right-channel-editor-height: 30%;
+    --right-channel-content-body: calc(100% - var(--right-channel-content-top) - var(--right-channel-editor-height));
+
+    /* 主界面配色 */
+    --skin-top-header-title-color: #333333;
+    --skin-top-header-tool-background: #ffffff;
+    --skin-top-header-tool-fill-color: #959595;
+    --skin-top-header-tool-hover-fill-color: #333333;
+    --skin-top-header-tool-hover-shadow: 0 4px 40px #00000026;
+    --skin-body-color: #000000;
+    --skin-body-background: #f6f6f6;
+    --skin-body-shadow: 0 4px 40px #00000026;
+    --skin-body-border-color: #eae2e28f;
+
+    /* layer消息提示配色 */
+    --skin-layer-msg-background: #f6f6f6;
+    --skin-layer-msg-color: #000000;
+    --skin-layer-msg-success-color: #04dd04;
+    --skin-layer-msg-warning-color: #bfbf5d;
+    --skin-layer-msg-error-color: #ff0000;
+
+    /* layer-tips提示配色 */
+    --skin-layer-tips-background: #4f4f4f;
+    --skin-layer-tips-color: #ffffff;
+
+    /* 侧边栏相关配色 */
+    --skin-sidebar-tool-background: #f4f4f4;
+    --skin-sidebar-tool-hover-background: #a7a4a435;
+    --skin-sidebar-tool-fill-color: #000000;
+    --skin-sidebar-tool-hover-fill-color: #000000;
+    --skin-sidebar-tool-color: #7c7b7b;
+    --skin-sidebar-tool-hover-color: #000000;
+    --skin-sidebar-tool-more-border-color: #fbe6e6;
+
+    /* 快捷面板相关配色 */
+    --skin-quick-oper-panel-background: #f6f6f6;
+    --skin-quick-oper-panel-item-color: #797e7e;
+    --skin-quick-oper-panel-item-hover-background: #eae6e1;
+    --skin-quick-oper-panel-item-hover-color: #000000;
+
+    /* 频道相关配色 */
+    --skin-channel-list-no-channel-color: #00000047;
+    --skin-channel-list-item-hover-background: #d2deff96;
+    --skin-channel-list-item-top-background: #e5ebfc96;
+    --skin-channel-list-item-message-color: #777777;
+    --skin-channel-list-item-message-at-user-text-color: #ff0000;
+    --skin-channel-list-item-message-at-me-text-color: #ff0000;
+    --skin-channel-list-item-time-color: #b8b8b8;
+    --skin-channel-list-item-quick-mark-unread-background: #6b95be;
+    --skin-channel-list-item-quick-mark-unread-color: #ffffff;
+    --skin-channel-list-item-quick-top-background: #75b963;
+    --skin-channel-list-item-quick-top-color: #ffffff;
+    --skin-channel-list-item-quick-delete-background: #da5d5d;;
+    --skin-channel-list-item-quick-delete-color: #ffffff;
+    --skin-channel-list-item-quick-hidden-background: #88adac;;
+    --skin-channel-list-item-quick-hidden-color: #ffffff;
+    --skin-channel-list-item-quick-un-notify-background: #c2b862;
+    --skin-channel-list-item-quick-un-notify-color: #ffffff;
+    --skin-channel-top-search-i-color: #c8c8c8;
+    --skin-channel-top-search-input-background: #F8F9FB;
+    --skin-channel-top-search-input-color: #3333339e;
+    --skin-channel-content-top-more-fill-color: #4A4BDB;
+    --skin-channel-content-body-message-background: #d9deff;
+    --skin-channel-content-body-message-color: #000000;
+    --skin-channel-content-body-item-message-at-user-text-color: #4A4BDB;
+    --skin-channel-content-body-message-system-color: #b7bbc7;
+    --skin-channel-content-body-message-time-color: #b7bbc7;
+    --skin-channel-content-body-message-load-more-color: #b7bbc7;
+    --skin-channel-content-body-message-load-more-hover-color: #4A4BDB;
+    --skin-channel-content-body-message-name-color: #7a7777;
+    --skin-channel-content-body-message-name-hover-color: #4A4BDB;
+    --skin-channel-content-body-message-name-at-color: #4A4BDB;
+    --skin-channel-content-body-message-menu-icon-background: #ffffff;
+    --skin-channel-content-body-message-menu-icon-color: #000000;
+    --skin-channel-content-body-message-menu-icon-hover-background: #ffffff;
+    --skin-channel-content-body-message-menu-icon-hover-color: #000000;
+    --skin-channel-content-body-reply-content-block-color: #939392;
+    --skin-channel-content-body-reply-content-block-background: #dbe6e378;
+
+    /* 频道更多侧边栏相关配色 */
+    --skin-channel-content-more-background: #ffffff;
+    --skin-channel-content-more-shadow: -2px 3px 6px rgba(0,0,0,.15);
+    --skin-channel-content-more-list-item-hover-color: #7575bd;
+    --skin-channel-content-more-list-item-oper-channel-name-color: #0000008a;
+    --skin-channel-content-more-share-tool-item-hover-background: #00c3ff1e;
+    --skin-channel-content-more-list-item-border-color: #f9f9f9;
+    --skin-channel-content-more-list-user-item-oper-hover-background: #eeeeee;
+    --skin-channel-content-more-list-user-item-oper-hover-fill-color: #557189;
+
+    /* 频道邀请好友相关配色 */
+    --skin-channel-content-invite-search-i-color: #c8c8c8;
+    --skin-channel-content-invite-search-input-background: #F8F9FB;
+    --skin-channel-content-invite-search-input-color: #3333339e;
+    --skin-channel-content-invite-choose-list-item-hover-background: #d2deff96;
+    --skin-channel-content-invite-choose-list-empty-color: #b3aaaa;
+    /* 频道公告相关配色 */
+    --skin-channel-content-notice-empty-color: #00000047;
+    --skin-channel-content-notice-item-hover-background: #f7f6f6;
+    --skin-channel-content-notice-item-time-color: #b7bbc7;
+    --skin-channel-content-notice-item-title-color: #b6c1bb;
+
+    /* 音视频相关配色 */
+    --skin-media-video-other-item-shadow: 1px 1px 50px rgba(0,0,0,.3);
+    --skin-media-video-tool-list-svg-fill-color: #ffffff;
+    --skin-media-video-tool-list-svg-background: #00000069;
+    --skin-media-video-tool-list-svg-hover-background: #000000db;
+    --skin-media-video-tool-list-svg-hover-fill-color: #ffffff;
+    --skin-media-video-tool-list-ysq-close-background: #9ba498c7;
+    
+    /* 联系人相关配色 */
+    --skin-contact-header-tool-hover-shadow: 0 4px 40px #00000026;
+    --skin-contact-header-tool-svg-fill-color: #959595;
+    --skin-contact-header-tool-svg-hover-fill-color: #333333;
+    --skin-contact-top-search-i-color: #c8c8c8;
+    --skin-contact-top-search-input-background: #F8F9FB;
+    --skin-contact-top-search-input-color: #3333339e;
+    --skin-contact-list-item-hover-background: #d2deff96;
+    --skin-contact-content-tool-item-hover-background: #6263FB;
+    --skin-contact-content-other-item-badge-background: #1e9fff;
+    --skin-contact-content-item-message-color: #777777;
+    --skin-contact-content-item-other-status-color: #b8b8b8;
+    --skin-contact-content-apply-button-background: #6263FB;
+    --skin-contact-content-apply-button-color: #ffffff;
+
+    /* 登陆相关配色 */
+    --skin-login-button-background: #6263FB;
+    --skin-login-list-item-hover-background: #d2deff96;
+    --skin-login-list-item-hover-color: #1e71ee;
+    --skin-login-content-form-input-color: #3333339e;
+    --skin-login-content-body-bottom-color: #5c8dd7;
+    --skin-login-content-body-bottom-hover-color: #1e71ee;
+    --skin-login-content-body-scan-title-color: #939ea6;
+    --skin-login-content-body-scan-title-background: azure;
+    --skin-login-content-body-scan-code-item-disabled-background: #e6e8ea7a;
+    --skin-login-content-body-scan-code-item-focus-background: #007bff;
+    --skin-login-content-body-scan-code-item-focus-border-color: #007bff;
+    --skin-login-email-code-btn-color: #ffffff;
+    --skin-login-email-code-btn-disabled-background: #ccc;
+    --skin-login-help-mobile-color: #8b8b9e;
+    --skin-login-help-mobile-hover-color: #1e71ee;
+    --skin-login-body-clean-color: #1e71ee;
+    --skin-login-body-clean-hover-color: #1e71ee;
+    --skin-login-item-mobile-icon-background: #bddcff47;
+
+    /* 设置相关配色 */
+    --skin-setting-list-item-hover-background: #d2deff96;
+    --skin-setting-list-item-active-background: #d2deff96;
+    --skin-setting-top-search-i-color: #c8c8c8;
+    --skin-setting-top-search-input-background: #F8F9FB;
+    --skin-setting-top-search-input-color: #3333339e;
+    --skin-setting-content-top-export-background: #ffffff;
+    --skin-setting-content-top-export-fill-color: #000000;
+    --skin-setting-content-block-background: #ffffff69;
+    --skin-setting-content-block-badge-background: white;
+    --skin-setting-content-block-badge-color: black;
+    --skin-setting-content-block-badge-hover-background: #6263FB;
+    --skin-setting-content-block-badge-hover-color: #ffffff;
+    --skin-setting-content-block-item-hover-background: #e6f4ff;
+    --skin-setting-content-bind-icon-hover-color: #1e71ee;
+    --skin-setting-content-bind-icon-tip-fill-color: #c4c4f4;
+    --skin-setting-content-preview-item-svg-background: #ffffff;
+    --skin-setting-content-preview-item-svg-hover-background: #e1f3ff;
+    --skin-setting-content-account-bind-email-btn-background: #7878c5;
+    --skin-setting-content-account-bind-email-btn-color: #ffffff;
+    --skin-setting-content-account-bind-email-input-background: #F8F9FB;
+    --skin-setting-content-account-bind-email-input-color: #3333339e;
+    --skin-setting-content-account-bind-email-btn-disabled-background: #ccc;
+    --skin-setting-content-account-bind-email-btn-disabled-color: #ffffff;
+
+    /* 音视频弹窗相关配色 - 暂不处理 */
+
+    /* macos弹窗相关配色 - 暂不处理 */
+
+    /* 用户信息弹窗相关配色 暂不处理 */
+
+    /* 历史频道消息相关配色 */
+    --skin-channel-history-message-top-search-i-color: #c8c8c8;
+    --skin-channel-history-message-top-search-input-background: #F8F9FB;
+    --skin-channel-history-message-top-search-input-color: #3333339e;
+    --skin-channel-history-message-header-tool-item-title-color: #0000004d;
+    --skin-channel-history-message-search-param-badge-color: #000000;
+    --skin-channel-history-message-search-param-badge-hover-background: #5c84e9;
+    --skin-channel-history-message-search-param-badge-hover-color: #fff3f3;
+    --skin-channel-history-message-search-param-badge-active-background: #6e8fe4;
+    --skin-channel-history-message-search-param-badge-active-color: #ffffff;
+    --skin-channel-history-message-list-item-time-color: #000000;
+    --skin-channel-history-message-content-body-message-background: #d9deff;
+    --skin-channel-history-message-content-body-message-color: #000000;
+    --skin-channel-history-message-footer-total-color: #00000091;
+    --skin-channel-history-message-footer-load-more-color: #00000080;
+    --skin-channel-history-message-footer-load-more-hover-color: #7b85df;
+
+    /* 表情弹窗相关配色 */
+    --skin-face-item-hover-background: #d2deff96;
+    --skin-face-item-hover-color: #000000;
+    --skin-face-tab-background: #f6f6f6;
+    --skin-face-tab-color: #736d6d;
+    --skin-face-tab-hover-background: #d2deff96;
+    --skin-face-tab-hover-color: #000000;
+    --skin-face-search-input-background: #F8F9FB;
+    --skin-face-search-input-color: #3333339e;
+    --skin-face-content-title-color: #999;
+}
+
+
+[v-cloak] {
+    visibility: hidden !important; 
+}
+
+.vc-switch{
+    right: 10px !important;
+    bottom: 100px !important;
+}
+
+::-webkit-scrollbar{
+    width: 0.1px;
+    height: 4px;
+    background-color: var(--skin-body-background)
+}
+::-webkit-scrollbar-track{
+    border-radius: 10px;
+    background-color: var(--skin-body-background)
+}
+::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.2);
+    background-color: var(--skin-body-background)
+}
+
+.tl-rtc-app-left-show{
+    opacity: 1;
+}
+.tl-rtc-app-left-hidden{
+    opacity: 0;
+}
+
+.tl-rtc-app-right-show{
+    right: 0;
+}
+.tl-rtc-app-right-hidden{
+    right: -100%;
+}
+
+.tl-rtc-app-sidebar-show{
+    opacity: 1;
+}
+.tl-rtc-app-sidebar-hidden{
+    opacity: 0;
+}
+
+.goBack{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.simulated-focus-outline {
+    outline: -webkit-focus-ring-color auto 1px;
+    outline: Highlight auto 1px; 
+    outline-offset: 1px;
+}
+
+#simulated-caret {
+    position: absolute;
+    display: none;
+    width: 1px;
+    background-color: black;
+    z-index: 99999999; 
+    pointer-events: none;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.blinking-caret {
+    animation: blink 1s step-end infinite;
+}
+
+/***********************************************************************************
+************************************************************************************
+                                主界面布局 start
+************************************************************************************
+************************************************************************************/
+.tl-rtc-body{
+    overflow: hidden;
+    width: var(--body-width);
+    max-width: var(--body-max-width);
+    height: var(--body-height);
+    position: absolute;
+
+    top: calc((100% - var(--body-height)) / 2);
+    left: calc((100% - var(--body-width)) / 2);
+
+    box-shadow: var(--skin-body-shadow);
+    z-index: 1000;
+    background-color: var(--skin-body-background);
+    color: var(--skin-body-color);
+    border-radius: 12px;
+    min-height: 500px;
+    transition: all 0.3s;
+}
+
+#tl-rtc-app{
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+#tl-rtc-app .tl-rtc-app-left{
+    width: var(--left-width);
+    display: flex;
+    user-select: none;
+    transition: width 0.3s, opacity 0.5s;
+    background-color: var(--skin-body-background);
+    border-right: 1px solid var(--skin-body-border-color);
+}
+
+#tl-rtc-app .tl-rtc-app-right{
+    width: calc(100% - var(--left-width) - var(--sidebar-width));
+    transition: width 0.3s, right 0.5s;
+    height: 100%;
+    background-color: var(--skin-body-background);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel{
+    width: 100%;
+    height: 100%;
+}
+/***********************************************************************************
+************************************************************************************
+                                主界面布局 end 
+************************************************************************************
+************************************************************************************/
