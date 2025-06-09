@@ -21,16 +21,19 @@ const redisInit = async function() {
     const RDS_HOST = conf.redis_host;
     const RDS_PORT = conf.redis_port;
     const RDS_PWD = conf.redis_password;
+    const RDS_DB = conf.redis_db;
     const RDS_OPTS = {
         auth_pass: RDS_PWD,
     };
 
     if(RDS_PWD){
         redisClientInstance = createClient({
-            url: `redis://:${RDS_PWD}@${RDS_HOST}:${RDS_PORT}/0`,
+            url: `redis://:${RDS_PWD}@${RDS_HOST}:${RDS_PORT}/${RDS_DB}`, 
         });
     }else{
-        redisClientInstance = createClient({});
+        redisClientInstance = createClient({
+            url: `redis://${RDS_HOST}:${RDS_PORT}/${RDS_DB}`,
+        });
     }
     
     redisClientInstance.on('error', err => {
