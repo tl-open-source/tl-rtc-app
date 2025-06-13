@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>共享剪贴板</title>
+
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/css/default.min.css">
+
+    <link rel="stylesheet" href="lib-css-sdk.min.css" media="all">
+
+    <!-- 引入一些基础库 -->
+    <script type="text/javascript" src="/static/js/localforage.min.js"></script>
+    <script type="text/javascript" src="/static/js/vue.min.js"></script>
+    <script type="text/javascript" src="/static/js/axios.js"></script>
+    <script type="text/javascript" src="/static/js/highlight.min.js"></script>
+    <script type="text/javascript" src="/static/js/clipboard.min.js"></script>
+    <script type="text/javascript" src="/static/js/qrcode.min.js"></script>
+    <script type="text/javascript" src="/static/layui/font-ext/iconfont.js"></script>
+    <script type="text/javascript" src="/static/layui/layui.js"></script>
+    <script></script>
+
+    <script>
+        window.subModule = new Vue({})
+    </script>
+
+    <script type="text/javascript" src="lib-basic-sdk.min.js"> </script>
+
+    <style>
+        html {
+            box-sizing: border-box;
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+            color: var(--skin-body-color);
+            background: var(--skin-body-background);
+            overflow: hidden;
+        }
+
+        .icon {
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
+        }
+
+        #tl-rtc-app-cut-paste-vistor-html {
+            height: 100%;
+            width: 100%;
+        }
+
+        .tl-rtc-app-right-cut-paste-no-content{
+            height: 50%;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            font-size: 20px;
+            color: #d5d1cc;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="tl-rtc-app-cut-paste-vistor-html" v-cloak>
+        <div class="tl-rtc-app-right-cut-paste-content" v-if="showPage">
+            <div class="tl-rtc-app-right-cut-paste-content-top">
+                <div class="tl-rtc-app-right-cut-paste-content-top-title" style="margin-left: 10px !important;"> 
+                    {{title}}
+                </div>
+                <div class="tl-rtc-app-right-cut-paste-content-top-tool">
+                    <div class="tl-rtc-app-right-cut-paste-content-top-tool-item" 
+                        id="cut-paste-share-type-pool"
+                        @mouseenter="mouseEnter(event, '分享')"
+                        @mouseleave="mouseLeave"
+                        @click="shareCutPaste()"
+                    >
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#tl-rtc-app-icon-fenxiang"></use>
+                        </svg>
+                    </div>
+
+                    <div class="tl-rtc-app-right-cut-paste-content-top-tool-item" 
+                        id="cut-paste-history-type-pool"
+                        @mouseenter="mouseEnter(event, '历史记录')"
+                        @mouseleave="mouseLeave"
+                        v-show="showMode === 'textarea'"
+                        @click="showMode = 'histroy'"
+                    >
+                        <svg class="icon" aria-hidden="true" style="scale: 1.2">
+                            <use xlink:href="#tl-rtc-app-icon-zuijinliulan"></use>
+                        </svg>
+                    </div>
+
+                    <div class="tl-rtc-app-right-cut-paste-content-top-tool-item" 
+                        id="cut-paste-textarea-type-pool"
+                        @mouseenter="mouseEnter(event, '粘贴内容')"
+                        @mouseleave="mouseLeave"
+                        v-show="showMode === 'histroy'"
+                        @click="showMode = 'textarea'"
+                    >
+                        <svg class="icon" aria-hidden="true" style="scale: 1.2">
+                            <use xlink:href="#tl-rtc-app-icon-shuru"></use>
+                        </svg>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="tl-rtc-app-right-cut-paste-content-body" v-show="showMode === 'textarea'">
+                <div class="tl-rtc-app-right-cut-paste-content-title">
+                    <div class="tl-rtc-app-right-cut-paste-content-limit">
+                        {{currentCutPaste.curFormatContent?.length}} / {{maxInputContentLength}}
+                    </div>
+                    <div class="tl-rtc-app-right-cut-paste-content-time" v-show="currentCutPaste.inputContentSaveTime">
+                        {{currentCutPaste.inputContentSaveTime}} 已自动保存 
+                        <svg class="icon" aria-hidden="true" style="fill:#4de04d">
+                            <use xlink:href="#tl-rtc-app-icon-70chenggong"></use>
+                        </svg>
+                    </div>
+                </div>
+
+                <pre class="tl-rtc-app-right-cut-paste-content-body-textarea tool-code hljs html" @input="cutPastePreChange" 
+                    :contenteditable="true">
+                </pre>
+
+            </div>
+
+            <div class="tl-rtc-app-right-cut-paste-content-body" v-show="showMode === 'histroy'">
+                <div v-show="cutPasteDetailList.length === 0" class="tl-rtc-app-right-cut-paste-content-body-no-history">
+                    暂无记录
+                </div>
+                <div v-for="(item, index) in cutPasteDetailList" 
+                    v-show="cutPasteDetailList.length > 0"
+                    class="tl-rtc-app-right-cut-paste-content-body-textarea-view" 
+                    :id="'cut-paste-content-history-' + item.id"
+                    @click="copyCutPasteContent(item)"
+                >
+                    <div class="tl-rtc-app-right-cut-paste-content-body-time">
+                        {{item.createTimeFormat}}
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#tl-rtc-app-icon-leixing"></use>
+                        </svg><small>: {{item.type}}</small>
+                    </div>
+                    
+                    <div class="tl-rtc-app-right-cut-paste-content-body-title">
+                        <div class="tl-rtc-app-right-cut-paste-content-body-info">
+                            <small>{{item.content.length}}个字符</small>
+                        </div>
+                    </div>
+                    <div class="tl-rtc-app-right-cut-paste-content-body-detail" v-html="initHighlightContent(item.content)"></div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="tl-rtc-app-right-cut-paste-no-content" v-else>
+            {{errorMsg}}
+        </div>
+    </div>
+</body>
+
+<script>
+
+    layui.use([
+        'layedit', 'form', 'layer', 'laytpl', 'upload',
+        'dropdown', 'carousel', 'util', 'colorpicker',
+        'slider', 'carousel', 'element', 'laydate'
+    ], function () {
+        window.layer = layui.layer;
+        window.form = layui.form;
+        window.laydate = layui.laydate;
+        window.$ = layui.$;
+        window.layedit = layui.layedit;
+        window.laytpl = layui.laytpl;
+        window.upload = layui.upload;
+        window.dropdown = layui.dropdown;
+        window.carousel = layui.carousel;
+        window.util = layui.util;
+        window.colorpicker = layui.colorpicker;
+        window.slider = layui.slider;
+        window.element = layui.element;
+
+        window.tl_rtc_app_comm.loadJS('lib-component-sdk.min.js', function () {
+            new Vue({
+                el: '#tl-rtc-app-cut-paste-vistor-html',
+                data: {
+                    title: '共享剪贴板',
+                    cutPasteId: '',
+                    code: '',
+                    cutPasteDetailList: [],
+                    maxInputContentLength: 65000, // 约等于 64kb
+                    showMode: 'textarea', // 显示界面内容，textarea, histroy
+                    cutPasteShareHashKey: 'cut-paste-share',
+                    lang: 'txt',
+                    showPage: false,
+                    errorMsg: '',
+                    password: '',
+
+                    currentCutPaste: {
+                        id: -1,
+                        content: '',
+                        curInputContent: '',
+                        curFormatContent: '',
+                        preInputContent: '',
+                        preFormatContent: '',
+                        inputContentSaveTime: '',
+                        createTimeFormat: '',
+                        type: '',
+                    }
+                },
+                methods: {
+                    /**
+                     * 统一请求包装
+                     * @param {*} url
+                     * @param {*} method
+                     * @param {*} params
+                     * @param {*} data
+                     * @param {*} useCache
+                     * @param {*} cacheTime
+                     * @param {*} headers
+                     * @param {*} delCaches
+                     * @returns
+                     */
+                    tlRequest: async function ({
+                        url, method, params, data, headers,
+                        useCache, cacheTime, delCaches
+                    }) {
+                        return await new Promise((resolve, reject) => {
+                            window.subModule.$emit('component-api-request', {
+                                url, method, params, data, headers,
+                                useCache, cacheTime, delCaches,
+                                callback: resolve
+                            })
+                        })
+                    },
+                    popSuccessMsg: function (msg) {
+                        window.subModule.$emit('component-popup-add-toast-msg', {
+                            type: 'success',
+                            message: msg
+                        });
+                    },
+                    popWarningMsg: function (msg) {
+                        window.subModule.$emit('component-popup-add-toast-msg', {
+                            type: 'warning',
+                            message: msg
+                        });
+                    },
+                    popErrorMsg: function (msg) {
+                        window.subModule.$emit('component-popup-add-toast-msg', {
+                            type: 'error',
+                            message: msg
+                        });
+                    },
+                    mouseEnter: function (event, title) {
+                        tl_rtc_app_comm.mouseEnterTips({
+                            id: event.target.id,
+                            text: title,
+                            position: 'bottom'
+                        });
+                    },
+                    mouseLeave: function () {
+                        tl_rtc_app_comm.mouseLeaveTips();
+                    },
+                    /**
+                     * 分享剪贴板
+                     */
+                    shareCutPaste: function () {
+                        let that = this
+                        layer.open({
+                            type: 1,
+                            title: '分享剪贴板',
+                            closeBtn: 0,
+                            skin: 'tl-rtc-app-layer-cut-paste-share',
+                            content: `
+                                    <div>
+                                        <div id="tl-rtc-app-cut-paste-share-image"></div>
+                                        <div class="tl-rtc-app-cut-paste-share-tools">
+                                            <div class="tl-rtc-app-cut-paste-share-tools-item" id="copyCutPasteShareLink">复制链接</div>
+                                            <div class="tl-rtc-app-cut-paste-share-tools-item" id="saveCutPasteShareImage">保存图片</div>
+                                        </div>
+                                    </div>
+                                `,
+                            area: ['300px', '350px'],
+                            shadeClose: true,
+                            resize: false,
+                            yes: function (index) {
+                                layer.close(index)
+                            },
+                            success: function (layero, index) {
+                                layero.css({
+                                    'border-radius': '6px',
+                                })
+                                let _that = that
+                                const { skinBodyBackground, skinBodyColor } = window.tl_rtc_app_comm.getPropertyValues([
+                                    { key: "skinBodyBackground", value: "skin-body-background" },
+                                    { key: "skinBodyColor", value: "skin-body-color" },
+                                ])
+
+                                let content = window.tl_rtc_app_comm.addUrlHashParams({
+                                    [that.cutPasteShareHashKey]: that.code
+                                })
+
+                                if(content.indexOf('#') !== -1){
+                                    let res = content.split('#')
+                                    content = res[0] + '/cut-paste.html#' + res[1]
+                                }else if(content.indexOf('?') !== -1){
+                                    let res = content.split('?')
+                                    content = res[0] + '/cut-paste.html?' + res[1]
+                                }else{
+                                    content = content + '/cut-paste.html'
+                                }
+
+                                window.tl_rtc_app_comm.getQrCode(
+                                    "tl-rtc-app-cut-paste-share-image", content, skinBodyColor, skinBodyBackground
+                                )
+
+                                document.getElementById('copyCutPasteShareLink').addEventListener('click', function () {
+                                    window.tl_rtc_app_comm.copyTxt('copyCutPasteShareLink', content)
+
+                                    that.popSuccessMsg('复制成功')
+
+                                    layer.close(index)
+                                })
+
+                                document.getElementById('saveCutPasteShareImage').addEventListener('click', function () {
+                                    window.tl_rtc_app_comm.saveQrCode('tl-rtc-app-cut-paste-share-image')
+
+                                    layer.close(index)
+                                })
+                            }
+                        })
+                    },
+                    /**
+                     * 获取剪贴板内容详情列表
+                     */
+                    getCutPasteDetailList: async function () {
+                        let that = this
+
+                        const params = {
+                            code: this.code,
+                            typeList: [],
+                        }
+                        if (!window.tl_rtc_app_comm.checkRequestParams(params)) {
+                            this.popErrorMsg("请求参数非法")
+                            this.errorMsg = "请求异常"
+                            return
+                        }
+
+                        const { data: cutPasteRes } = await this.tlRequest({
+                            url: '/api/web/cut-paste-share/share-get-cut-paste-list',
+                            method: 'post',
+                            useCache: false,
+                            data: params
+                        })
+
+                        let password = ''
+                        if(cutPasteRes.code === 403 && cutPasteRes.msg === '密码错误'){
+                            password = await new Promise(resolve => {
+                                layer.prompt({
+                                    formType: 0,
+                                    title: "输入密码",
+                                    btn : ['确定', '取消'],
+                                    value: "",
+                                    shadeClose : true,
+                                    skin: 'layui-layer-prompt tl-rtc-app-layer-cut-paste-set-password',
+                                    maxlength : 15,
+                                }, async function (value, index, elem) {
+                                    value = value.trim()
+                                    layer.close(index)
+                                    resolve(value)
+                                })
+                            })
+
+                            this.password = password
+
+                            await this.getCutPasteDetailListWithPassword(password)
+                            
+                            return
+                        }
+
+                        if (!cutPasteRes.success) {
+                            this.popErrorMsg(cutPasteRes.msg)
+                            this.errorMsg = cutPasteRes.msg
+                            return
+                        }
+
+                        // 处理时间
+                        cutPasteRes.data.forEach(item => {
+                            item.createTimeFormat = window.util.timeAgo(item.createdTime)
+                        })
+
+                        this.cutPasteDetailList = cutPasteRes.data
+
+                        this.showPage = true
+                    },
+                    /**
+                     * 获取剪贴板内容详情列表
+                     */
+                     getCutPasteDetailListWithPassword: async function (password) {
+                        let that = this
+
+                        const params = {
+                            code: this.code,
+                            typeList: [],
+                            password: password
+                        }
+                        if (!window.tl_rtc_app_comm.checkRequestParams(params)) {
+                            this.popErrorMsg("请求参数非法")
+                            this.errorMsg = "请求异常"
+                            return
+                        }
+
+                        const { data: cutPasteRes } = await this.tlRequest({
+                            url: '/api/web/cut-paste-share/share-get-cut-paste-list',
+                            method: 'post',
+                            useCache: false,
+                            data: params
+                        })
+
+                        if (!cutPasteRes.success) {
+                            this.popErrorMsg(cutPasteRes.msg)
+                            this.errorMsg = cutPasteRes.msg
+                            return
+                        }
+
+                        // 处理时间
+                        cutPasteRes.data.forEach(item => {
+                            item.createTimeFormat = window.util.timeAgo(item.createdTime)
+                        })
+
+                        this.cutPasteDetailList = cutPasteRes.data
+
+                        this.showPage = true
+                    },
+                    /**
+                     * 保存剪贴板内容
+                     */
+                    autoSaveCutPasteContent: async function () {
+                        // 获取当前输入内容
+                        const content = this.currentCutPaste.curFormatContent
+                        if(!content){
+                            console.log('内容为空，不保存')
+                            return
+                        }
+
+                        // 如果内容没有变化，则不保存
+                        if(this.currentCutPaste.preFormatContent === content){
+                            console.log('内容没有变化，不保存')
+                            return
+                        }
+
+                        if(content && content.length > this.maxInputContentLength){
+                            this.popErrorMsg("内容超出限制")
+                            return
+                        }
+
+                        let params = {
+                            code: this.code,
+                            password: this.password
+                        }
+                        if(!window.tl_rtc_app_comm.checkRequestParams(params)){
+                            this.popErrorMsg("请求参数非法")
+                            return
+                        }
+                        params.content = content
+
+                        const { data: cutPasteRes } = await this.tlRequest({
+                            url: '/api/web/cut-paste-share/share-add-cut-paste-detail',
+                            method: 'post',
+                            useCache: false,
+                            data: params
+                        })
+
+                        if (!cutPasteRes.success) {
+                            this.popErrorMsg(cutPasteRes.msg)
+                            return
+                        }
+
+                        // 更新
+                        let newData = cutPasteRes.data
+                        newData.createTimeFormat = window.util.timeAgo(newData.createdTime)
+                        this.cutPasteDetailList.unshift(newData)
+                        
+                        // 保存成功后，更新preInputContent
+                        this.currentCutPaste.preInputContent = content
+                        this.currentCutPaste.preFormatContent = this.currentCutPaste.curFormatContent
+                        this.currentCutPaste.inputContentSaveTime = new Date().toLocaleString()
+                    },
+                    /**
+                     * 复制内容
+                     * @param {*} item 
+                     */
+                    copyCutPasteContent: function (item) {
+                        let that = this;
+                        window.tl_rtc_app_comm.copyTxt('cut-paste-content-history-' + item.id, item.content, function () {
+                            that.popSuccessMsg('复制成功')
+                        })
+                    },
+                    /**
+                     * 初始化代码高亮
+                     * @param {*} content 
+                     * @returns 
+                     */
+                    initHighlightContent: function(content){
+                        if (typeof hljs.getLanguage(this.lang) === "undefined") {
+                            return content
+                        }
+
+                        let transferContent = hljs.highlight(content, { language: this.lang }).value;
+                        return '<pre><code class="hljs ' + this.lang + '">' + transferContent + '</code></pre>'
+                    },
+                    /**
+                     * 编辑内容
+                     * @param {*} event
+                     */
+                    cutPastePreChange(event) {
+                        this.currentCutPaste.curInputContent = event.target.innerText;
+                        this.currentCutPaste.curFormatContent = hljs.highlight(
+                            this.lang, this.currentCutPaste.curInputContent
+                        ).value;
+                    },
+                },
+                mounted: async function () {
+                    // 获取剪贴板code
+                    this.code = window.tl_rtc_app_comm.getRequestHashArgs(this.cutPasteShareHashKey)
+
+                    if(!this.code){
+                        this.popErrorMsg('剪贴板为空')
+                        return
+                    }
+
+                    // 获取剪贴板内容详情列表
+                    await this.getCutPasteDetailList()
+
+                    // 定时，每隔5秒保存一次输入内容
+                    setInterval(async () => {
+                        await this.autoSaveCutPasteContent()
+                    }, 1000 * 5);
+                },
+            })
+        });
+    });
+
+</script>
+
+</html>

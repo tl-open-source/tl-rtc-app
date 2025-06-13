@@ -117,6 +117,15 @@ const tl_rtc_app_module_sidebar = {
                     handler: this.handlerContact
                 },
                 {
+                    svg : '#tl-rtc-app-icon-jianqie',
+                    title : '剪贴板',
+                    active: this.leftModule === 'cut_paste',
+                    name: 'cut_paste',
+                    unread: 0,
+                    show: false,
+                    handler: this.handlerCutPaste
+                },
+                {
                     svg : '#tl-rtc-app-icon-shezhi',
                     title : '设置',
                     active: this.leftModule === 'setting',
@@ -182,6 +191,12 @@ const tl_rtc_app_module_sidebar = {
          */
         handlerContact: function(){
             this.$emit('left-module-change', 'contact')
+        },
+        /**
+         * 点击剪贴板
+         */
+        handlerCutPaste: function(){
+            this.$emit('left-module-change', 'cut_paste')
         },
         /**
          * 点击设置
@@ -286,6 +301,8 @@ const tl_rtc_app_module_sidebar = {
                     return this.propsUser.normalSetting.sidebarChannelOpen;
                 case 'contact':
                     return this.propsUser.normalSetting.sidebarContactOpen;
+                case 'cut_paste':
+                    return this.propsUser.normalSetting.sidebarCutPasteOpen;
                 case 'setting':
                     return true; // 设置按钮默认显示
                 default:
@@ -380,6 +397,9 @@ const tl_rtc_app_module_sidebar = {
                 }
                 if(item.name === 'contact'){
                     item.show = this.propsUser.normalSetting.sidebarContactOpen
+                }
+                if(item.name === 'cut_paste'){
+                    item.show = this.propsUser.normalSetting.sidebarCutPasteOpen
                 }
                 
                 // 保存每个工具的原始显示状态（基于用户设置）

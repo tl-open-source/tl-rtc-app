@@ -1,14 +1,10 @@
 {
 	"name": "tl-rtc-app",
-	"version": "0.0.2",
-	"description": "webrtc, video, draw, chat",
+	"version": "0.0.3",
+	"description": "webrtc, p2p, file, video, draw, chat",
 	"scripts": {
-		"http-api": "cross-env tl_rtc_app_env_mode=http node tlapi",
-		"http-super-api": "cross-env tl_rtc_app_env_mode=http node tlsuperapi",
-		"http-socket": "cross-env tl_rtc_app_env_mode=http node tlsocket",
-		"https-api": "cross-env tl_rtc_app_env_mode=https node tlapi",
-		"https-super-api": "cross-env tl_rtc_app_env_mode=https node tlsuperapi",
-		"https-socket": "cross-env tl_rtc_app_env_mode=https node tlsocket"
+		"http": "pm2 start pm2.config.http.json",
+		"https": "pm2 start pm2.config.https.json"
 	},
 	"repository": {
 		"type": "git",

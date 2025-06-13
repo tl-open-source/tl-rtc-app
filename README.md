@@ -1,3 +1,5 @@
+中文: [README_ZH.md](README_ZH.md)
+
 <p align="center">
   <img src="web-res/image/tlrtcapp-logo.svg" alt="TL-RTC-APP Logo">
 </p>
@@ -8,72 +10,62 @@
 
 ### Installation Steps
 
-1. Clone the repository:
+1. Prerequisites
+
+    ```bash
+    Make sure Node.js (v16+), npm, MySQL (5.7+), and Redis (4.0+) are installed.
+    ```
+
+2. Clone the repository:
 
     ```bash
     git clone https://github.com/tl-open-source/tl-rtc-app.git
     ```
-   
-2. Navigate into the project directory:
+
+3. Enter the project directory:
 
     ```bash
     cd tl-rtc-app
     ```
 
-3. Install dependencies:
+4. Install dependencies:
 
     ```bash
     npm install
     ```
 
-4. Install pm2 globally:
+5. Install pm2 globally:
 
     ```bash
     npm install pm2 -g
     ```
 
-5. Start the super admin API service:
+6. Start the service:
 
     ```bash
-    pm2 start npm --name=tl-rtc-app-super-api -- run http-super-api
+    npm run http
     ```
-    or
+    Or (for audio/video, screen sharing, live streaming, etc.):
 
     ```bash
-    pm2 start npm --name=tl-rtc-app-super-api -- run https-super-api
+    npm run https
     ```
 
-6. Start the API service:
+7. Build frontend resources:
 
     ```bash
-    pm2 start npm --name=tl-rtc-app-api -- run http-api
-    ```
-    or
-
-    ```bash
-    pm2 start npm --name=tl-rtc-app-api -- run https-api
+    gulp default
     ```
 
-7. Start the Socket service:
+### Usage Instructions
 
-    ```bash
-    pm2 start npm --name=tl-rtc-app-socket -- run http-socket
-    ```
-    or
+1. Open your browser and visit `http://localhost:9096` (by default).
 
-    ```bash
-    pm2 start npm --name=tl-rtc-app-socket -- run https-socket
-    ```
-
-### Usage
-
-1. Open your browser and visit `http://localhost:9096` (default).
-
-2. Use the admin panel for managing the IM application at `http://localhost:9098` (default).
+2. Manage IM applications through the admin panel at `http://localhost:9098/system.html` (by default).
 
 ### License
 
-This project is licensed under the MIT License. For more information, please refer to the [LICENSE](LICENSE) file.
+This project is licensed under the MIT License. For more details, please refer to the [LICENSE](LICENSE) file.
 
 ### Disclaimer
 

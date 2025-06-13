@@ -28,6 +28,8 @@ const tl_user_config_fields = {
         sidebarChannelOpen: 'sidebarChannelOpen',
         // 侧边栏-联系人
         sidebarContactOpen: 'sidebarContactOpen',
+        // 侧边栏-剪贴板
+        sidebarCutPasteOpen: 'sidebarCutPasteOpen',
         // 侧边栏-设置
         sidebarSettingOpen: 'sidebarSettingOpen',
         // 首页

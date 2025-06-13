@@ -39,6 +39,11 @@ const channelMedia = require('./channel/channel_media_controller')
 // 文件
 const cloudFile = require('./cloud/cloud_file_controller')
 
+// 剪贴板
+const cutPaste = require('./cut_paste/cut_paste_controller')
+const cutPasteShare = require('./cut_paste/cut_paste_share_controller')
+
+
 module.exports = {
     "system-web-config" : systemWebConfig,
     "system-web-company" : systemWebCompany,
@@ -67,6 +72,9 @@ module.exports = {
     "channel-notice" : channelNotice,
     "channel-file" : channelFile,
     "channel-media" : channelMedia,
+
+    "cut-paste" : cutPaste,
+    "cut-paste-share" : cutPasteShare,
 
     "cloud-file" : cloudFile,
 }

@@ -5,6 +5,7 @@ const {
     userPermission,
     companyPermission,
     configPermission,
+    cutPastePermission,
 
     channelPerfix,
     channelNoticePerfix,
@@ -67,6 +68,10 @@ const userNormalPermissions = function(){
     Object.keys(configPermission).forEach((key) => {
         returnPermission.push(...Object.values(configPermission[key]));
     })
+    // 剪切板权限
+    Object.keys(cutPastePermission).forEach((key) => {
+        returnPermission.push(...Object.values(cutPastePermission[key]));
+    })
 
     return returnPermission;
 }
@@ -101,6 +106,10 @@ const userAdminPermissions = function(){
     // 配置权限
     Object.keys(configPermission).forEach((key) => {
         returnPermission.push(...Object.values(configPermission[key]));
+    })
+    // 剪切板权限
+    Object.keys(cutPastePermission).forEach((key) => {
+        returnPermission.push(...Object.values(cutPastePermission[key]));
     })
 
     return returnPermission;

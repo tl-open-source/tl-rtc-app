@@ -211,6 +211,13 @@ const web_module_js = () => {
         './web-res/js/module/contact/content/search_group.js',
         './web-res/js/module/contact/content.js',
 
+        //cut_paste模块
+        './web-res/js/module/cut_paste/top.js',
+        './web-res/js/module/cut_paste/list.js',
+        './web-res/js/module/cut_paste/cut_paste.js',
+        // cut_paste-content模块
+        './web-res/js/module/cut_paste/content.js',
+
         //setting模块
         './web-res/js/module/setting/list.js',
         './web-res/js/module/setting/setting.js',

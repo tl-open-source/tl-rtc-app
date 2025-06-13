@@ -143,6 +143,9 @@ let load_tl_rtc_app_js = async function(){
             // 频道
             'tl_rtc_app_module_channel': window.tl_rtc_app_module_channel,
             'tl_rtc_app_module_channel_content': window.tl_rtc_app_module_channel_content,
+            // 剪贴板
+            'tl_rtc_app_module_cut_paste': window.tl_rtc_app_module_cut_paste,
+            'tl_rtc_app_module_cut_paste_content': window.tl_rtc_app_module_cut_paste_content,
             // 设置
             'tl_rtc_app_module_setting': window.tl_rtc_app_module_setting,
             'tl_rtc_app_module_setting_content': window.tl_rtc_app_module_setting_content,

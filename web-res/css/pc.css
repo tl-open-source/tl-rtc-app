@@ -8,7 +8,6 @@ html {
     --sidebar-width: 65px;
     --left-width: 315px;
     --left-channel-top: 130px;
-    --left-p2p-channel-top: 90px;
     --left-contact-top: 100px;
     --left-cut-paste-top: 90px;
     --left-login-top: 30px;
@@ -217,6 +216,16 @@ html {
     --skin-face-search-input-background: #F8F9FB;
     --skin-face-search-input-color: #3333339e;
     --skin-face-content-title-color: #999;
+
+    /* 剪贴板相关配色 */
+    --skin-cut-paste-top-search-i-color: #c8c8c8;
+    --skin-cut-paste-top-search-input-background: #F8F9FB;
+    --skin-cut-paste-top-search-input-color: #3333339e;
+    --skin-cut-paste-list-item-hover-background: #d2deff96;
+    --skin-cut-paste-list-item-top-background: #e5ebfc96;
+    --skin-cut-paste-list-item-message-color: #777777;
+    --skin-cut-paste-list-item-time-color: #b8b8b8;
+
 }
 
 

@@ -11,6 +11,7 @@ const cloudPermissionIdBase = 200000
 const companyPermissionIdBase = 300000
 const userPermissionIdBase = 400000
 const configPermissionIdBase = 500000
+const cutPastePermissionIdBase = 600000
 
 // key前缀
 const systemWebConfigPerfix = 'SYSTEM_WEB_CONFIG:'
@@ -37,6 +38,7 @@ const userLoginPerfix = 'USER_LOGIN:'
 const userLogoutPerfix = 'USER_LOGOUT:'
 const userClearPerfix = 'USER_CLEAR:'
 const configSkinPerfix = 'CONFIG_SKIN:'
+const cutPastePerfix = 'CUT_PASTE:'
 
 
 // 补充前缀
@@ -335,6 +337,33 @@ const configPermission = {
 }
 
 
+// 剪切板权限 600000 - 699999
+const cutPastePermission = {
+    cutPaste: { // 600000 ~ 699999
+        // 添加剪切板
+        ADD_CUT_PASTE: cutPastePermissionIdBase + 1,
+        // 获取剪切板列表
+        GET_CUT_PASTE_LIST: cutPastePermissionIdBase + 2,
+        // 删除剪切板
+        DELETE_CUT_PASTE: cutPastePermissionIdBase + 3,
+        // 更新剪切板标题
+        UPDATE_CUT_PASTE_TITLE: cutPastePermissionIdBase + 4,
+        // 更新剪切板密码
+        UPDATE_CUT_PASTE_PASSWORD: cutPastePermissionIdBase + 5,
+        // 关闭剪切板
+        CLOSE_CUT_PASTE: cutPastePermissionIdBase + 6,
+        // 开启剪切板
+        OPEN_CUT_PASTE: cutPastePermissionIdBase + 7,
+        // 添加剪切板内容详情
+        ADD_CUT_PASTE_DETAIL: cutPastePermissionIdBase + 8,
+        // 获取剪切板内容详情列表
+        GET_CUT_PASTE_DETAIL_LIST: cutPastePermissionIdBase + 9,
+        // 删除剪切板内容详情
+        DELETE_CUT_PASTE_DETAIL: cutPastePermissionIdBase + 10,
+    }
+}
+
+
 addPerfix(systemPermission.systemWebConfig, systemWebConfigPerfix)
 addPerfix(systemPermission.systemWebCompany, systemWebCompanyPerfix)
 addPerfix(systemPermission.systemWebUser, systemWebUserPerfix)
@@ -364,6 +393,8 @@ addPerfix(userPermission.userTag, userTagPerfix)
 addPerfix(userPermission.userClear, userClearPerfix)
 addPerfix(configPermission.skin, configSkinPerfix)
 
+addPerfix(cutPastePermission.cutPaste, cutPastePerfix)
+
 
 module.exports = {
     systemPermission,
@@ -372,6 +403,7 @@ module.exports = {
     companyPermission,
     userPermission,
     configPermission,
+    cutPastePermission,
 
     systemWebConfigPerfix,
     systemWebCompanyPerfix,
@@ -395,4 +427,5 @@ module.exports = {
     userLogoutPerfix,
     userTagPerfix,
     configSkinPerfix,
+    cutPastePerfix,
 }

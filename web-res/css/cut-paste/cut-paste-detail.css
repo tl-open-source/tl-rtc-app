@@ -1,0 +1,230 @@
+/***********************************************************************************
+************************************************************************************
+                                剪贴板详情 start
+************************************************************************************
+************************************************************************************/
+.tl-rtc-app-right-cut-paste-content{
+    height: 100%;
+    width: 100%;
+}
+
+.tl-rtc-app-layer-cut-paste-share{
+    background: var(--skin-body-background) !important;
+    color: var(--skin-body-color) !important;
+}
+
+.tl-rtc-app-layer-cut-paste-share .layui-layer-title{
+    background: var(--skin-body-background) !important;
+    color: var(--skin-body-color) !important;
+    border-radius: 6px;
+}
+
+.tl-rtc-app-right-cut-paste-content-top{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--skin-body-border-color);
+    padding: 5px 10px 5px 10px;
+    height: 40px;
+}
+
+.tl-rtc-app-right-cut-paste-content-top-title{
+    font-size: 15px;
+    font-weight: 700;
+    user-select: none;
+    width: 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+}
+
+.tl-rtc-app-right-cut-paste-content-top-tool{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    font-size: 12px;
+    width: 60%;
+    align-items: center;
+}
+
+.tl-rtc-app-right-cut-paste-content-top-tool-item{
+    padding: 2px 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 4px;
+    user-select: none;
+    margin-left: 6px;
+    border: 0.5px solid var(--skin-body-border-color);
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.tl-rtc-app-right-cut-paste-content-top-tool-item svg{
+    width: 18px;
+    height: 18px;
+}
+
+.tl-rtc-app-right-cut-paste-content-body{
+    width: calc(100% - 10px);
+    height: calc(100% - 56px);
+    padding: 0px 5px 5px 5px;
+    overflow: auto;
+}
+
+.tl-rtc-app-right-cut-paste-content-title{
+    line-height: 40px;
+    font-weight: 700;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 10px;
+    color: #a2a8ac;
+}
+
+.tl-rtc-app-right-cut-paste-content-time{
+    color: #9ba8a4;
+    font-size: 12px;
+    margin-left: 20px;
+}
+
+.tl-rtc-app-right-cut-paste-content-body-textarea{
+    width: calc(100% - 32.5px);
+    height: calc(100% - 61.5px);
+    padding: 5px 15px;
+    border: unset;
+    border-radius: 4px;
+    background: var(--skin-body-background);
+    color: var(--skin-body-color);
+    font-size: 14px;
+    resize: none;
+    letter-spacing: 0.5px;
+    overflow: auto;
+    outline: unset;
+}
+
+.tl-rtc-app-right-cut-paste-content-body-textarea-view{
+    width: calc(100% - 32.5px);
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 14px;
+    resize: none;
+    letter-spacing: .5px;
+    overflow: hidden;
+    word-break: break-all;
+
+    border: 1px solid var(--skin-body-border-color);
+    background: var(--skin-meeting-content-history-item-background);
+    border-radius: 2px;
+    color: var(--skin-body-color);
+}
+
+.tl-rtc-app-right-cut-paste-content-body-time{
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.tl-rtc-app-right-cut-paste-content-body-time svg{
+    margin-left: 5px;
+}
+
+.tl-rtc-app-right-cut-paste-content-body-title{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tl-rtc-app-right-cut-paste-content-body-info{
+    padding: 5px 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.tl-rtc-app-right-cut-paste-content-body-info svg{
+    width: 20px;
+    height: 20px;
+    padding-left: 5px;
+}
+
+.tl-rtc-app-right-cut-paste-content-body-tools svg{
+    margin-right: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    scale: 1.1;
+}
+
+.tl-rtc-app-right-cut-paste-content-body-tools svg:hover{
+    scale: 1.2;
+}
+
+.tl-rtc-app-right-cut-paste-content-body-detail{
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.tl-rtc-app-right-cut-paste-content-body-no-history{
+    text-align: center;
+    margin-top: 50px;
+    font-size: 16px;
+    color: #c1bac7;
+}
+
+
+.tl-rtc-app-layer-cut-paste-share{
+    background: var(--skin-body-background) !important;
+    color: var(--skin-body-color) !important;
+}
+
+
+.tl-rtc-app-layer-cut-paste-share .layui-layer-title{
+    color: var(--skin-body-color) !important;
+    border-color: var(--skin-body-border-color) !important;
+    border-radius: 6px;
+}
+
+.tl-rtc-app-layer-cut-paste-share #tl-rtc-app-cut-paste-share-image{
+    text-align: center;
+    user-select: none;
+}
+
+.tl-rtc-app-layer-cut-paste-share #tl-rtc-app-cut-paste-share-image img{
+    width: 70%;
+    height: 70%;
+    margin-left: 15%;
+    margin-top: 7%;
+    -webkit-user-drag: none;
+}
+
+.tl-rtc-app-layer-cut-paste-share .tl-rtc-app-cut-paste-share-tools{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8%;
+}
+
+.tl-rtc-app-layer-cut-paste-share .tl-rtc-app-cut-paste-share-tools-item{
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin: 0 10px;
+    border: 1px solid var(--skin-body-border-color);
+}
+/***********************************************************************************
+************************************************************************************
+                                剪贴板详情 end
+************************************************************************************
+************************************************************************************/
