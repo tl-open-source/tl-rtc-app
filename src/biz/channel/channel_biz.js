@@ -398,7 +398,7 @@ const initChannelListInfo = async function({
         }
 
         // 如果有备注，显示备注
-        const channelReName = friendInfo[TlUserFriendDef.rename] 
+        const channelReName = friendInfo[TlUserFriendDef.rename] || channelName
 
         let channelAvatar = '/image/friend-default-avatar.png'
         if(channelType === TlChannelType.GROUP){
