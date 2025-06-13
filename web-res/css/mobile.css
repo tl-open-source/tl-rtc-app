@@ -254,6 +254,11 @@
     .tl-rtc-app-right-channel-content-body-reply-content-block{
         width: calc(100% - 20px) !important;
     }
+
+    .tl-rtc-app-right-cut-paste-content-top-title
+    {
+        margin-left: 30px;
+    }
     /***********************************************************************************
     ************************************************************************************
                                     主界面布局 end 

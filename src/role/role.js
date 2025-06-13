@@ -5,6 +5,7 @@ const {
     userPermission,
     companyPermission,
     configPermission,
+    cutPastePermission
 } = require('./permission');
 
 const {
@@ -57,7 +58,9 @@ const getAllPermissionsMap = function(){
     returnPermissionMap = Object.assign(returnPermissionMap, userPermission.userClear)
     // 配置权限
     returnPermissionMap = Object.assign(returnPermissionMap, configPermission.skin)
-
+    // 剪切板权限
+    returnPermissionMap = Object.assign(returnPermissionMap, cutPastePermission.cutPaste)
+    
     return returnPermissionMap;
 }
 

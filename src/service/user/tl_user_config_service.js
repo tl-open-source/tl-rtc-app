@@ -94,6 +94,7 @@ const addDefaultInfo = async function({companyId, userId}){
         normal: JSON.stringify({
             sidebarChannelOpen: true,
             sidebarContactOpen: true,
+            sidebarCutPasteOpen: true,
             sidebarSettingOpen: true,
             homePage: 'channel',
         }),

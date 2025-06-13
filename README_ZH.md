@@ -1,3 +1,5 @@
+英文: [README.md](README.md)
+
 <p align="center">
   <img src="web-res/image/tlrtcapp-logo.svg" alt="TL-RTC-APP Logo">
 </p>
@@ -6,71 +8,61 @@
   <img src="web-res/image/channel-chat.png" alt="TL-RTC-APP Channel Chat">
 </p>
 
-
 ### 安装步骤
 
-1. 克隆仓库：
+1. 前提条件
+
+    ```bash
+    确保已安装 Node.js （v16+） 和 npm，mysql(5.7+), redis(4.0+)。
+    ```
+
+2. 克隆仓库：
 
     ```bash
     git clone https://github.com/tl-open-source/tl-rtc-app.git
     ```
-   
-2. 进入项目目录：
+
+3. 进入项目目录：
 
     ```bash
     cd tl-rtc-app
     ```
-   
-3. 安装依赖：
+
+4. 安装依赖：
 
     ```bash
     npm install
     ```
 
-4. 安装pm2:
+5. 安装pm2:
 
     ```bash
     npm install pm2 -g
     ```
 
-5. 启动后台管理服务：
+6. 启动服务：
 
     ```bash
-    pm2 start npm --name=tl-rtc-app-super-api -- run http-super-api
+    npm run http
     ```
-    或者
+    或者 (如需体验音视频/屏幕共享/直播等功能):
 
     ```bash
-    pm2 start npm --name=tl-rtc-app-super-api -- run https-super-api
+    npm run https
     ```
 
-6. 启动Api服务：
+7. 打包前端资源:
 
     ```bash
-    pm2 start npm --name=tl-rtc-app-api -- run http-api
-    ```
-    或者
-
-    ```bash
-    pm2 start npm --name=tl-rtc-app-api -- run https-api
+    gulp default
     ```
 
-7. 启动Socket服务：
-
-    ```bash
-    pm2 start npm --name=tl-rtc-app-socket -- run http-socket
-    ```
-    或者
-
-    ```bash
-    pm2 start npm --name=tl-rtc-app-socket -- run https-socket
-    ```
 
 ### 使用说明
 
 1. 打开浏览器并访问 `http://localhost:9096` (默认)。
 
-2. 通过管理端应用进行IM应用管理 `http://localhost:9098` (默认)。
+2. 通过管理端应用进行IM应用管理 `http://localhost:9098/system.html` (默认)。
 
 
 ### 许可证

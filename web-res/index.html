@@ -26,6 +26,7 @@
     <script type="text/javascript" src="/static/js/axios.js"></script>
     <script type="text/javascript" src="/static/js/clipboard.min.js"></script>
 
+    <script type="text/javascript" src="/static/js/highlight.min.js"></script>
     <script type="text/javascript" src="/static/js/qrcode.min.js"></script>
     <script type="text/javascript" src="/static/layui/font-ext/iconfont.js"></script>
     <script type="text/javascript" src="/static/layui/layui.js"></script>
@@ -95,6 +96,20 @@
                     v-cloak> 
                 </tl_rtc_app_module_contact>
 
+                <tl_rtc_app_module_cut_paste
+                    @right-module-change="rightModuleChange"
+                    @left-module-change="leftModuleChange"
+                    v-show="leftModule == 'cut_paste'"
+                    :socket="socket"
+                    :is-mobile="isMobile"
+                    :user="user"
+                    :company="company"
+                    :right-module="rightModule"
+                    :left-module="leftModule"
+                    v-cloak>
+
+                </tl_rtc_app_module_cut_paste>
+
                 <tl_rtc_app_module_setting
                     @right-module-change="rightModuleChange"
                     @left-module-change="leftModuleChange"
@@ -146,6 +161,19 @@
                     :left-module="leftModule"
                     v-cloak> 
                 </tl_rtc_app_module_contact_content>
+
+                <tl_rtc_app_module_cut_paste_content
+                    @right-module-change="rightModuleChange"
+                    @left-module-change="leftModuleChange"
+                    v-show="leftModule == 'cut_paste' && rightModule == 'content'"
+                    :socket="socket"
+                    :is-mobile="isMobile"
+                    :user="user"
+                    :company="company"
+                    :right-module="rightModule"
+                    :left-module="leftModule"
+                    v-cloak> 
+                </tl_rtc_app_module_cut_paste_content>
 
                 <tl_rtc_app_module_setting_content
                     @right-module-change="rightModuleChange"

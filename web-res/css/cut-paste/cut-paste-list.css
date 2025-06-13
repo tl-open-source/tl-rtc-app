@@ -1,0 +1,239 @@
+
+/***********************************************************************************
+************************************************************************************
+                                剪贴板列表 start 
+************************************************************************************
+************************************************************************************/
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste .tl-rtc-app-left-panel-no-cut-paste{
+    text-align: center;
+    line-height: 70px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--skin-body-color); /** TODO **/
+}
+
+.tl-rtc-app-left-panel-no-cut-paste button{
+    color: var(--skin-body-color); /** TODO **/
+}
+
+.tl-rtc-app-left-panel-no-cut-paste button:hover{
+    color: var(--skin-body-color); /** TODO **/
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-top{
+    height: var(--left-cut-paste-top);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-top-header{
+    display: flex;
+    padding: 15px 10px 15px 0px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-top-header-title{
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--skin-top-header-title-color);
+    margin-right: 10px;
+    margin-left: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+    width: 70%;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-top-header-tool{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: var(--skin-top-header-tool-background);
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-top-header-tool svg{
+    width: 14px;
+    height: 14px;
+    fill: #959595;
+    transition: all 0.3s;
+    scale: 1.5;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-top-header-tool:hover{
+    box-shadow: 0 4px 40px #00000026;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-top-header-tool:hover svg{
+    fill: #333333;
+    scale: 1.7;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-top-search{
+    padding: 5px 0;
+    line-height: 0px;
+    width: 96%;
+    margin-left: 2%;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-top-search i{
+    position: relative;
+    margin-left: 8px;
+    top: 16px;
+    color: var(--skin-cut-paste-top-search-i-color);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-top-search svg{
+    color: var(--skin-cut-paste-top-search-i-color);
+    position: relative;
+    float: right;
+    right: 8px;
+    margin-top: -22px;
+    cursor: pointer;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-top-search input{
+    width: 100%;
+    height: 30px;
+    padding-left: 30px !important;
+    border-radius: 4px;
+    background: var(--skin-cut-paste-top-search-input-background);
+    color: var(--skin-cut-paste-top-search-input-color);
+    font-size: 13px;
+    letter-spacing: 1px;
+    border-width: 0.5px;
+    border-color: var(--skin-cut-paste-top-search-input-background);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste{
+    height: calc(100% - var(--left-cut-paste-top));
+}
+
+#tl-rtc-app .tl-rtc-app-left #cutPasteListSwiper{
+    height: calc(100% - 180px);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.1s;
+}
+
+.tl-rtc-app-left-panel-cut-paste-item-actions{
+    display: flex;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item:hover{
+    background: var(--skin-cut-paste-list-item-hover-background);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-active{
+    background: var(--skin-cut-paste-list-item-hover-background);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-top{
+    background: var(--skin-cut-paste-list-item-top-background);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-img{
+    width: 64px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-img img{
+    height: 32px;
+    width: 32px;
+    margin: 25% 20%;
+    -webkit-user-drag: none;
+    border-radius: 3px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-content{
+    width: calc(100% - 64px);
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-content div{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-content-nickname{
+    font-weight: bold;
+    font-size: 13px;
+    margin-top: 5px;
+    letter-spacing: 0.5px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-content-message{
+    font-size: 12px;
+    margin-top: 10px;
+    color: var(--skin-cut-paste-list-item-time-color);
+    letter-spacing: 0.5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-content-message svg{
+    height: 15px;
+    width: 14px;
+    margin-right: 3px;
+    margin-left: -4px;
+    fill: #6bd16b;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-content-message 
+.tl-rtc-app-left-panel-cut-paste-item-content-message-file{
+    display: flex;
+    align-items: center;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-content-message img{
+    width: 24px !important;
+    height: 24px !important;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-other{
+    width: 25%;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-other div{
+    text-align: right;
+    font-size: 12px;
+    scale: 0.9;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-other-time{
+    margin-top: 10px;
+    color: #b8b8b8;
+    padding-right: 8px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-other-unread{
+    margin-top: 10px;
+    padding-right: 8px;
+}
+
+#tl-rtc-app .tl-rtc-app-left .tl-rtc-app-left-panel-cut-paste-item-other-unread div{
+    width: 10px !important;
+    line-height: 16px !important;
+    height: 16px !important;
+    border-radius: 12px;
+    padding-left: 2px;
+    padding-right: 5px;
+}
+/***********************************************************************************
+************************************************************************************
+                                剪贴板列表 end
+************************************************************************************
+************************************************************************************/

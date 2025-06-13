@@ -14,6 +14,7 @@ const tl_rtc_app_module_setting_content_normal = {
                 homePage: 'channel',
                 sidebarChannelOpen: true,
                 sidebarContactOpen: true,
+                sidebarCutPasteOpen: true,
                 sidebarSettingOpen: true,
             }
         },
@@ -56,6 +57,7 @@ const tl_rtc_app_module_setting_content_normal = {
             settingFields: [
                 'sidebarChannelOpen',
                 'sidebarContactOpen',
+                'sidebarCutPasteOpen',
                 'sidebarSettingOpen',
                 'homePage'
             ]
@@ -178,6 +180,18 @@ const tl_rtc_app_module_setting_content_normal = {
                         <div class="tl-rtc-app-right-setting-content-normal-block-item">
                             <div class="tl-rtc-app-right-setting-content-normal-block-item-title"> 
                                 <svg class="icon" aria-hidden="true" style="padding-right: 5px;">
+                                    <use xlink:href="#tl-rtc-app-icon-jianqie"></use>
+                                </svg>
+                                剪贴板 
+                            </div>
+                            <div class="tl-rtc-app-right-setting-content-normal-block-item-oper">
+                                <input type="radio" name="homePage" value="cut_paste">
+                            </div>
+                        </div>
+
+                        <div class="tl-rtc-app-right-setting-content-normal-block-item">
+                            <div class="tl-rtc-app-right-setting-content-normal-block-item-title"> 
+                                <svg class="icon" aria-hidden="true" style="padding-right: 5px;">
                                     <use xlink:href="#tl-rtc-app-icon-shezhi"></use>
                                 </svg>
                                 设置 
@@ -224,6 +238,18 @@ const tl_rtc_app_module_setting_content_normal = {
                             </div>
                             <div class="tl-rtc-app-right-setting-content-normal-block-item-oper">
                                 <input type="checkbox" name="sidebarContactOpen" lay-skin="switch">
+                            </div>
+                        </div>
+
+                        <div class="tl-rtc-app-right-setting-content-normal-block-item">
+                            <div class="tl-rtc-app-right-setting-content-normal-block-item-title"> 
+                                <svg class="icon" aria-hidden="true" style="padding-right: 5px;">
+                                    <use xlink:href="#tl-rtc-app-icon-jianqie"></use>
+                                </svg>
+                                剪贴板 
+                            </div>
+                            <div class="tl-rtc-app-right-setting-content-normal-block-item-oper">
+                                <input type="checkbox" name="sidebarCutPasteOpen" lay-skin="switch">
                             </div>
                         </div>
 
