@@ -2,7 +2,8 @@
 	"apps": [
 		{
 			"name": "tl-rtc-app-super-api",
-			"script": "node tlsuperapi",
+			"script": "tlsuperapi.js",
+			"interpreter": "node",
 			"instances": 1,
 			"max_memory_restart": "500M",
 			"env": {
@@ -11,7 +12,8 @@
 		},
 		{
 			"name": "tl-rtc-app-api",
-			"script": "node tlapi",
+			"script": "tlapi.js",
+			"interpreter": "node",
 			"instances": 1,
 			"max_memory_restart": "500M",
 			"env": {
@@ -20,7 +22,8 @@
 		},
 		{
 			"name": "tl-rtc-app-socket",
-			"script": "node tlsocket",
+			"script": "tlsocket.js",
+			"interpreter": "node",
 			"instances": 1,
 			"max_memory_restart": "500M",
 			"env": {
