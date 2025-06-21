@@ -15,6 +15,10 @@ const tl_rtc_app_module_login_content = {
         rightModule: {
             type: String,
             default: ''
+        },
+        codeList: {
+            type: Array,
+            default: () => []
         }
     },
     computed: {
@@ -30,6 +34,9 @@ const tl_rtc_app_module_login_content = {
         propsRightModule() {
             return this.rightModule;
         },
+        propsCodeList() {
+            return this.codeList;
+        }
     },
     watch: {
         leftModule: function (val) {
@@ -105,6 +112,7 @@ const tl_rtc_app_module_login_content = {
                 :socket="propsSocket"
                 :left-module="propsLeftModule"
                 :right-module="propsRightModule"
+                :code-list="propsCodeList"
                 @left-module-change="leftModuleChange"
                 @right-module-change="rightModuleChange"
             >
@@ -116,6 +124,7 @@ const tl_rtc_app_module_login_content = {
                 :socket="propsSocket"
                 :left-module="propsLeftModule"
                 :right-module="propsRightModule"
+                :code-list="propsCodeList"
                 @left-module-change="leftModuleChange"
                 @right-module-change="rightModuleChange"
             >

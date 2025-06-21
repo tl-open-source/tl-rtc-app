@@ -2,6 +2,7 @@ const { fields } = require('../../tables/tl_company')
 const TlCompanyDao = require('../../dao/tl_company_dao')
 const TlCompanyDef = fields.Def
 const TableName = fields.Name
+const TableFields = Object.keys(fields.Def).map(key => fields.Def[key])
 const { tlConsoleError, tlConsole } = require("../../../src/utils/utils");
 const { Op } = require('sequelize')
 
@@ -11,7 +12,7 @@ const { Op } = require('sequelize')
  * @param {*} data
  */
 const addInfo = async function ({
-    name, address, phone, email, website, logo, description, code
+    name, address, phone, email, website, logo, description, code, flag
 }) {
     // 参数校验
     if (!name) {
@@ -49,6 +50,11 @@ const addInfo = async function ({
         return {}
     }
 
+    if(flag == undefined || flag == null){
+        tlConsoleError(TableName, "请求service参数flag为空")
+        return {}
+    }
+
     const info = await TlCompanyDao.addInfo({
         [TlCompanyDef.name]: name,
         [TlCompanyDef.address]: address,
@@ -57,6 +63,7 @@ const addInfo = async function ({
         [TlCompanyDef.website]: website,
         [TlCompanyDef.logo]: logo,
         [TlCompanyDef.code]: code,
+        [TlCompanyDef.flag]: flag,
         [TlCompanyDef.description]: description
     });
 

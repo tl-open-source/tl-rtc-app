@@ -524,7 +524,7 @@ const tl_rtc_app_module_contact_list = {
             await this.getApplyContactList()
 
             // 有浏览器系统桌面消息通知
-            if(webNotify && window.Notification && Notification.permission === 'granted'){
+            if(this.webNotify && window.Notification && Notification.permission === 'granted'){
                 new Notification("好友申请提醒", {
                     body: '收到新的好友申请，快去看看吧',
                     dir: 'auto',
@@ -544,7 +544,7 @@ const tl_rtc_app_module_contact_list = {
             await this.getApplyContactList()
 
             // 有浏览器系统桌面消息通知
-            if(webNotify && window.Notification && Notification.permission === 'granted'){
+            if(this.webNotify && window.Notification && Notification.permission === 'granted'){
                 new Notification("好友申请提醒", {
                     body: 'ta通过了你的好友申请',
                     dir: 'auto',
@@ -564,7 +564,7 @@ const tl_rtc_app_module_contact_list = {
             await this.getApplyContactList()
 
             // 有浏览器系统桌面消息通知
-            if(webNotify && window.Notification && Notification.permission === 'granted'){
+            if(this.webNotify && window.Notification && Notification.permission === 'granted'){
                 new Notification("好友申请提醒", {
                     body: 'ta拒绝了你的好友申请',
                     dir: 'auto',
@@ -582,7 +582,7 @@ const tl_rtc_app_module_contact_list = {
             await this.getApplyGroupList()
 
             // 有浏览器系统桌面消息通知
-            if(webNotify && window.Notification && Notification.permission === 'granted'){
+            if(this.webNotify && window.Notification && Notification.permission === 'granted'){
                 new Notification("群聊申请提醒", {
                     body: '收到新的群聊申请，快去看看吧',
                     dir: 'auto',
@@ -598,7 +598,7 @@ const tl_rtc_app_module_contact_list = {
             await this.getApplyGroupList()
 
             // 有浏览器系统桌面消息通知
-            if(webNotify && window.Notification && Notification.permission === 'granted'){
+            if(this.webNotify && window.Notification && Notification.permission === 'granted'){
                 new Notification("群聊申请提醒", {
                     body: 'ta通过了你的群聊申请',
                     dir: 'auto',
@@ -614,7 +614,7 @@ const tl_rtc_app_module_contact_list = {
             await this.getApplyGroupList()
 
             // 有浏览器系统桌面消息通知
-            if(webNotify && window.Notification && Notification.permission === 'granted'){
+            if(this.webNotify && window.Notification && Notification.permission === 'granted'){
                 new Notification("群聊申请提醒", {
                     body: 'ta拒绝了你的群聊申请',
                     dir: 'auto',

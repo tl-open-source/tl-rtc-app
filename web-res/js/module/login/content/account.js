@@ -11,6 +11,10 @@ const tl_rtc_app_module_login_content_account = {
         rightModule: {
             type: String,
             default: ''
+        },
+        codeList: {
+            type: Array,
+            default: () => []
         }
     },
     computed: {
@@ -23,6 +27,9 @@ const tl_rtc_app_module_login_content_account = {
         propsRightModule() {
             return this.rightModule;
         },
+        propsCodeList() {
+            return this.codeList;
+        }
     },
     watch: {
         leftModule: function (val) {
@@ -36,7 +43,7 @@ const tl_rtc_app_module_login_content_account = {
         return {
             account: '',
             password: '',
-            inviteCode: 'tlrtcappdemo',
+            inviteCode: '请输入邀请码',
             btnType : 'login',
             requesting : false
         }
@@ -92,6 +99,7 @@ const tl_rtc_app_module_login_content_account = {
             let params = {
                 account: Base64.encode(this.account),
                 password: Base64.encode(this.password),
+                inviteCode: this.inviteCode,
                 fps: fps,
             }
             if(!window.tl_rtc_app_comm.checkRequestParams(params)){
@@ -182,10 +190,11 @@ const tl_rtc_app_module_login_content_account = {
                 开始注册帐号
             </div>
             <div class="tl-rtc-app-right-login-content-body-form">
-                <div class="tl-rtc-app-right-login-content-body-form-item" v-show="btnType === 'register'">
-                    <input
-                        v-model="inviteCode"
-                        type="text" autocomplete="off" placeholder="邀请码" class="layui-input" maxlength="60">
+                <div class="tl-rtc-app-right-login-content-body-form-item">
+                    <select class="layui-input" lay-search="" v-model="inviteCode">
+                        <option key="请输入邀请码" value="请输入邀请码">请输入邀请码</option>
+                        <option v-for="code in propsCodeList" :key="code.value" :value="code.value">{{ code.value }} ({{ code.name }})</option>
+                    </select>
                 </div>
                 <div class="tl-rtc-app-right-login-content-body-form-item">
                     <input id='loginAccountInput'

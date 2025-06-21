@@ -13,7 +13,7 @@ let load_tl_rtc_app_js = async function(){
     }
 
     let {
-        wsHost, logo, version, rtcConfig, options,
+        wsHost, logo, version, rtcConfig, options, codeList
     } = configInitRes.data
 
     let {
@@ -195,15 +195,7 @@ let load_tl_rtc_app_js = async function(){
                 })
             }
 
-            let langMode = 'zh'
-            let langArgs = tl_rtc_app_comm.getRequestHashArgs("lang")
-            if (langArgs && ['zh','en'].includes(langArgs)) {
-                langMode = langArgs;
-            }
-
             return {
-                langMode : langMode, // 默认中文
-                lang : tl_rtc_app_lang, // 语言包
                 logo : logo, // 打印logo
                 version : version,// 项目当前版本
                 socket: socket, // socket
@@ -211,6 +203,7 @@ let load_tl_rtc_app_js = async function(){
                 options: options, // rtc配置
                 wsHost : wsHost, // ws地址
                 isLogin : isLogin, // 是否登录
+                codeList: codeList, // 开放的邀请码列表
                 user: {
                     userId : userId, // 用户id
                     username: username, // 用户名称

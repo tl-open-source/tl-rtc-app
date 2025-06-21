@@ -128,7 +128,14 @@ const tl_rtc_app_api = new Vue({
                 options.responseType = responseType;
             }
 
-            let response = await axios(options)
+            let response = null
+            try{
+                response = await axios(options)
+            }catch(e){
+                console.error("request error: ", e.message)
+                callback && callback(null)
+                return null
+            }
 
             if(useCache && this.defaultOpenCache){
                 await this.setData({

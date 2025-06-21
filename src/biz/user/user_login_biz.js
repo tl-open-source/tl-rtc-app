@@ -21,7 +21,7 @@ const { Def: TlUserDef, Flag: TlUserFlag } = userFields
 const { fields: userFingerPrintFields } = require('../../tables/tl_user_finger_print')
 const { Def: TlUserFingerPrintDef } = userFingerPrintFields
 const { fields: channelUserFields } = require('../../tables/tl_channel_user')
-const { Def: TlChannelUserDef } = channelUserFields
+const { Def: TlChannelUserDef, Type: TlChannelUserType } = channelUserFields
 const { inner: TlRoleInner } = require('../../tables/tl_role')
 
 
@@ -30,14 +30,19 @@ const { inner: TlRoleInner } = require('../../tables/tl_role')
  * @param {*} account
  * @param {*} password
  * @param {*} fps
+ * @param {*} inviteCode
  */
-const userLoginByAccount = async function({account, password, fps}){
+const userLoginByAccount = async function({account, password, fps, inviteCode}){
     if(!account){
         return tlResponseArgsError("用户名或密码错误")
     }
 
     if(!password){
         return tlResponseArgsError("用户名或密码错误")
+    }
+
+    if(!inviteCode){
+        return tlResponseArgsError("邀请码错误")
     }
 
     // base64解码
@@ -52,7 +57,26 @@ const userLoginByAccount = async function({account, password, fps}){
         return tlResponseArgsError("用户名或密码错误")
     }
 
-    const user = await userService.getInfoByNameForLogin({
+    const company = await companyService.getInfoByCode({
+        code: inviteCode
+    }, [
+        TlCompanyDef.id,
+        TlCompanyDef.name
+    ])
+
+    if(Object.keys(company).length === 0){
+        return tlResponseArgsError("邀请码无效")
+    }
+
+    const companyId = company[TlCompanyDef.id]
+    const companyName = company[TlCompanyDef.name]
+
+    if(!companyId){
+        return tlResponseForbidden("非法用户")
+    }
+
+    const user = await userService.getInfoByName({
+        companyId: companyId,
         name: account
     }, [
         TlUserDef.id,
@@ -76,20 +100,6 @@ const userLoginByAccount = async function({account, password, fps}){
         salt: user[TlUserDef.salt]
     })){
         return tlResponseArgsError("用户名或密码错误")
-    }
-
-    const company = await companyService.getInfoById({
-        id: user[TlUserDef.companyId]
-    }, [
-        TlCompanyDef.id,
-        TlCompanyDef.name,
-    ])
-
-    const companyId = company[TlCompanyDef.id]
-    const companyName = company[TlCompanyDef.name]
-
-    if(!companyId){
-        return tlResponseForbidden("非法用户")
     }
 
     const token = userSessionService.generateLoginToken();
@@ -122,14 +132,19 @@ const userLoginByAccount = async function({account, password, fps}){
  * @param {*} email
  * @param {*} password
  * @param {*} fps
+ * @param {*} inviteCode
  */
-const userLoginByEmail = async function({email, password, fps}){
+const userLoginByEmail = async function({email, password, fps, inviteCode}){
     if(!email){
         return tlResponseArgsError("邮箱或密码错误")
     }
 
     if(!password){
         return tlResponseArgsError("邮箱或密码错误")
+    }
+
+    if(!inviteCode){
+        return tlResponseArgsError("邀请码错误")
     }
 
     // base64解码
@@ -144,7 +159,26 @@ const userLoginByEmail = async function({email, password, fps}){
         return tlResponseArgsError("邮箱或密码错误")
     }
 
-    const user = await userService.getInfoByEmailForLogin({
+    const company = await companyService.getInfoByCode({
+        code: inviteCode
+    }, [
+        TlCompanyDef.id,
+        TlCompanyDef.name
+    ])
+
+    if(Object.keys(company).length === 0){
+        return tlResponseArgsError("邀请码无效")
+    }
+
+    const companyId = company[TlCompanyDef.id]
+    const companyName = company[TlCompanyDef.name]
+
+    if(!companyId){
+        return tlResponseForbidden("非法用户")
+    }
+
+    const user = await userService.getInfoByEmail({
+        companyId: companyId,
         email
     }, [
         TlUserDef.id,
@@ -160,20 +194,6 @@ const userLoginByEmail = async function({email, password, fps}){
 
     if(!user[TlUserDef.id]){
         return tlResponseArgsError("邮箱或密码错误")
-    }
-
-    const company = await companyService.getInfoById({
-        id: user[TlUserDef.companyId]
-    }, [
-        TlCompanyDef.id,
-        TlCompanyDef.name
-    ])
-
-    const companyId = company[TlCompanyDef.id]
-    const companyName = company[TlCompanyDef.name]
-
-    if(!companyId){
-        return tlResponseForbidden("非法用户")
     }
 
     if(!verifyEncryptStr({
@@ -214,6 +234,7 @@ const userLoginByEmail = async function({email, password, fps}){
  * 通过指纹登录接口 - 一键登录
  * @param {*} fps
  * @param {*} username
+ * @param {*} inviteCode
  */
 const userLoginByFingerPrint = async function({fps, username}){
     if(!fps){
@@ -223,7 +244,7 @@ const userLoginByFingerPrint = async function({fps, username}){
     if(!username){
         return tlResponseArgsError("一键登录失败, 请使用其他登录方式登录")
     }
-
+    
     if(username.length > 20){
         return tlResponseArgsError("一键登录失败, 请使用其他登录方式登录")
     }

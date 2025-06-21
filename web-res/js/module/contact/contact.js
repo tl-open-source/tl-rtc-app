@@ -15,7 +15,11 @@ const tl_rtc_app_module_contact = {
         rightModule: {
             type: String,
             default: ''
-        }
+        },
+        user: {
+            type: Object,
+            default: {}
+        },
     },
     computed: {
         propsSocket(){
@@ -29,6 +33,9 @@ const tl_rtc_app_module_contact = {
         },
         propsRightModule() {
             return this.rightModule;
+        },
+        propsUser(){
+            return this.user;
         },
     },
     watch: {
@@ -74,6 +81,7 @@ const tl_rtc_app_module_contact = {
                 :left-module="propsLeftModule"
                 :right-module="propsRightModule"
                 :socket="propsSocket"
+                :user="propsUser"
                 @left-module-change="leftModuleChange"
                 @right-module-change="rightModuleChange"
                 v-cloak> 
@@ -84,6 +92,7 @@ const tl_rtc_app_module_contact = {
                 :right-module="propsRightModule"
                 :is-mobile="propsIsMobile"
                 :socket="propsSocket"
+                :user="propsUser"
                 @left-module-change="leftModuleChange"
                 @right-module-change="rightModuleChange"
                 v-cloak> 

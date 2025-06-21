@@ -21,6 +21,7 @@ Vue.component('company-component', {
                 description: '',
                 expiredStatus: false,
                 authStatus: false,
+                openRegister: false,
                 createTime: ''
             },
             companySearch: {        // 企业搜索条件
@@ -175,7 +176,8 @@ Vue.component('company-component', {
                 logo: '',
                 description: '',
                 expiredStatus: false,
-                authStatus: false
+                authStatus: false,
+                openRegister: false
             };
             
             this.showCompanyDialog('添加企业');
@@ -198,7 +200,8 @@ Vue.component('company-component', {
                 logo: company.logo || '',
                 description: company.description || '',
                 authStatus: company.authStatus || false,
-                expiredStatus: company.expiredStatus || false
+                expiredStatus: company.expiredStatus || false,
+                openRegister: company.openRegister || false
             };
             
             this.showCompanyDialog('编辑企业');
@@ -274,6 +277,12 @@ Vue.component('company-component', {
                                 <input type="checkbox" name="expiredStatus" lay-skin="switch" lay-text="已过期|未过期" ${this.companyForm.expiredStatus ? 'checked' : ''}>
                             </div>
                         </div>
+                        <div class="layui-form-item" style="${isAdd ? 'display:none;' : ''}">
+                            <label class="layui-form-label">注册通道</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="openRegister" lay-skin="switch" lay-text="关闭|开放" ${this.companyForm.openRegister ? 'checked' : ''}>
+                            </div>
+                        </div>
                         <div class="layui-form-item layui-form-text">
                             <label class="layui-form-label">企业描述</label>
                             <div class="layui-input-block">
@@ -295,6 +304,8 @@ Vue.component('company-component', {
                             that.companyForm.authStatus = data.elem.checked;
                         }else if(data.elem.name === 'expiredStatus'){
                             that.companyForm.expiredStatus = data.elem.checked;
+                        }else if(data.elem.name === 'openRegister'){
+                            that.companyForm.openRegister = data.elem.checked;
                         }
                     });
                 },
@@ -311,7 +322,8 @@ Vue.component('company-component', {
                         logo: $('input[name="logo"]').val(),
                         description: $('textarea[name="description"]').val(),
                         authStatus: that.companyForm.authStatus,
-                        expiredStatus: that.companyForm.expiredStatus
+                        expiredStatus: that.companyForm.expiredStatus,
+                        openRegister: that.companyForm.openRegister
                     };
                     
                     // 保存企业信息

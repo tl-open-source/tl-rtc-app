@@ -119,7 +119,7 @@ const loadSystemJs = function(){
                 username: username,     // 用户名
                 userAvatar: userAvatar, // 用户头像
                 showUserPanel: false,   // 显示用户面板
-                activeTab: '',          // 当前激活的Tab
+                activeTab: 'service',   // 当前激活的Tab
                 sidebarCollapsed: false,// 侧边栏是否收缩
                 loginForm: {            // 登录表单
                     username: '',

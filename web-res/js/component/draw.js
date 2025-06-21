@@ -1394,6 +1394,7 @@ const tl_rtc_app_draw = new Vue({
             parentDom.appendChild(textarea);
             textarea.focus();
 
+            let that = this;
             textarea.addEventListener('blur', function () {
                 if (textarea.value !== '') {
                     drawTextHandler(textarea.value);

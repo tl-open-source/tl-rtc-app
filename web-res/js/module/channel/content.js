@@ -1394,6 +1394,8 @@ const tl_rtc_app_module_channel_content = {
                     update_types: ['channelInfo'],
                 }
             })
+
+            this.channelGroupCanBeSearch = !this.channelGroupCanBeSearch
         },
     },
     mounted() {

@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const { get_env_config } = require("./../../conf/env_config");
 const { 
-    tlConsoleWarn, encryptStr, verifyEncryptStr,
+    tlConsoleWarn, encryptStr, verifyEncryptStr, setBit
 } = require("./../../src/utils/utils");
 //获取环境变量
 const conf = get_env_config();
@@ -14,6 +14,7 @@ const { fields: companyFields } = require('../tables/tl_company')
 
 const TlUserDef = userFields.Def
 const TlCompanyDef = companyFields.Def
+const TlCompanyFlag = companyFields.Flag
 
 
 /**
@@ -45,7 +46,8 @@ const checkDefaultBeforStartServer = async function(){
             website: 'https://github.com/tl-open-source/tl-rtc-app',
             description: 'TL-RTC-APP默认企业',
             logo: '/image/tlrtcapp-logo.svg',
-            code: 'tl-rtc-app'
+            code: 'tl-rtc-app',
+            flag: setBit(0, TlCompanyFlag.IS_OPEN_REGISTER, true)
         })
 
         if(Object.keys(result).length === 0){

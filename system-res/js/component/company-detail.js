@@ -110,6 +110,10 @@ Vue.component('company-detail', {
                                     <span class="info-value">{{ currentCompany.authStatus ? '已认证' : '未认证' }}</span>
                                 </div>
                                 <div class="info-item">
+                                    <span class="info-label">注册通道：</span>
+                                    <span class="info-value">{{ currentCompany.openRegister ? '已开放' : '已关闭' }}</span>
+                                </div>
+                                <div class="info-item">
                                     <span class="info-label">创建时间：</span>
                                     <span class="info-value">{{ window.util.timeAgo(currentCompany.createTime) }}</span>
                                 </div>

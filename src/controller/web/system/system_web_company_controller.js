@@ -1,5 +1,6 @@
 const {
-	tlResponseSvrError, tlConsoleError, tlResponseArgsError, checkRequestParams,
+	tlConsole, tlResponseSvrError, tlConsoleError, tlResponseArgsError, checkRequestParams,
+    encryptData
 } = require("../../../utils/utils");
 const express = require('express');
 const router = express.Router();
@@ -14,10 +15,10 @@ const companyBiz = require('../../../biz/company/company_biz');
  */
 router.post('/add-company', async function(request, response) {
     try {
-        const { name, address, phone, email, website, logo, description } = request.body;
+        const { name, address, phone, email, website, logo, description, openRegister } = request.body;
 
         if (!checkRequestParams({
-            name, address, phone, email, website, logo, description
+            name, address, phone, email, website, logo, description, openRegister
         })) {
             response.json(tlResponseArgsError("请求参数非法"));
             return;
@@ -25,7 +26,7 @@ router.post('/add-company', async function(request, response) {
 
         const loginInfo = request.ctx || {}
         const result = await companyBiz.adminAddCompany({
-            name, address, phone, email, website, logo, description, loginInfo
+            name, address, phone, email, website, logo, description, loginInfo, openRegister
         });
 
         response.json(result);
@@ -46,7 +47,7 @@ router.post('/update-company', async function(request, response) {
     try {
         const { 
             id, name, address, phone, email, website, logo, 
-            description, code, authStatus, expiredStatus 
+            description, code, authStatus, expiredStatus, openRegister
         } = request.body;
 
         if (!checkRequestParams({
@@ -60,7 +61,7 @@ router.post('/update-company', async function(request, response) {
         const loginInfo = request.ctx || {}
         const result = await companyBiz.adminUpdateCompany({
             id, name, address, phone, email, website, 
-            logo, description, loginInfo, code, authStatus, expiredStatus
+            logo, description, loginInfo, code, authStatus, expiredStatus, openRegister
         });
 
         response.json(result);

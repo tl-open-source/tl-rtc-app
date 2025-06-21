@@ -20,6 +20,7 @@ const tl_company_fields = {
     Flag: {
         IS_PASS_AUTH: 0x1, //是否通过认证
         IS_EXPIRED: 0x2, //是否过期
+        IS_OPEN_REGISTER: 0x4, // 是否开放注册
     },
 }
 

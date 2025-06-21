@@ -100,12 +100,12 @@ const addChannelUser = async function({
         TlUserDef.name
     ])
 
-    let message = '<p>' + userInfo[TlUserDef.name] + "加入频道" + '</p>';
+    let message = '<p>' + userInfo[TlUserDef.name] + "加入群聊" + '</p>';
     if(isInvite){
-        message = '<p>' + loginUsername + "邀请 " + userInfo[TlUserDef.name] + "加入频道" + '</p>';
+        message = '<p>' + loginUsername + "邀请 " + userInfo[TlUserDef.name] + "加入群聊" + '</p>';
     }
     if(isShare){
-        message = '<p>' + loginUsername + "通过分享加入频道" + '</p>';
+       message = '<p>' + userInfo[TlUserDef.name] + "通过" + loginUsername + "的分享加入群聊" + '</p>';
     }
 
     // 生成邀请消息
@@ -255,7 +255,7 @@ const addChannelUserList = async function({ loginInfo, channelId, userIdList, ro
         channelId,
         message: '<p>' + loginUsername + "邀请 " + userInfoList.map(
             item => item[TlUserDef.name]
-        ).join(",") + " 共" + userInfoList.length + "人加入频道" + '</p>',
+        ).join(",") + " 共" + userInfoList.length + "人加入群聊" + '</p>',
         other: JSON.stringify({
             [TlChannelChatOther.ip]: '',
         }),

@@ -8,7 +8,10 @@
 			"max_memory_restart": "500M",
 			"env": {
 				"tl_rtc_app_env_mode": "https"
-			}
+			},
+			"out_file": "./logs/tl-rtc-app-super-api.log",
+			"error_file": "./logs/tl-rtc-app-super-api.error.log",
+			"merge_logs": false
 		},
 		{
 			"name": "tl-rtc-app-api",
@@ -18,7 +21,10 @@
 			"max_memory_restart": "500M",
 			"env": {
 				"tl_rtc_app_env_mode": "https"
-			}
+			},
+			"out_file": "./logs/tl-rtc-app-api.log",
+			"error_file": "./logs/tl-rtc-app-api.error.log",
+			"merge_logs": false
 		},
 		{
 			"name": "tl-rtc-app-socket",
@@ -28,7 +34,10 @@
 			"max_memory_restart": "500M",
 			"env": {
 				"tl_rtc_app_env_mode": "https"
-			}
+			},
+			"out_file": "./logs/tl-rtc-app-socket.log",
+			"error_file": "./logs/tl-rtc-app-socket.error.log",
+			"merge_logs": false
 		}
 	]
 }

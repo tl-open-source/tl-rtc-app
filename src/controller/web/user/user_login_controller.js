@@ -1,4 +1,4 @@
-const { 
+const {
     tlResponseSvrError, tlConsoleError, 
     tlResponseArgsError, checkRequestParams,
     tlResponseSuccess
@@ -11,7 +11,6 @@ const {
     LOGIN : {
         LOGIN_TOKEN_KEY,
         LOGIN_TOKEN_EXPIRE,
-        
         SYSTEM_LOGIN_TOKEN_EXPIRE,
         SYSTEM_LOGIN_TOKEN_KEY
     }
@@ -46,7 +45,7 @@ router.get('/login-state', async function(request, response) {
  */
 router.post('/login-by-account', async function(request, response) {
     try {
-        const { account, password, fps } = request.body;
+        const { account, password, fps, inviteCode } = request.body;
         const { [LOGIN_TOKEN_KEY]: token  } = request.cookies;
 
         if(token){
@@ -59,14 +58,14 @@ router.post('/login-by-account', async function(request, response) {
         }
 
         if (!checkRequestParams({
-            account, password, fps
+            account, password, fps, inviteCode
         })) {
             response.json(tlResponseArgsError("请求参数非法"));
             return;
         }
 
         const result = await userLoginBiz.userLoginByAccount({
-            account, password, fps
+            account, password, fps, inviteCode
         });
 
         response.cookie(LOGIN_TOKEN_KEY, result.data, { 
@@ -88,7 +87,7 @@ router.post('/login-by-account', async function(request, response) {
  */
 router.post('/login-by-email', async function(request, response) {
     try {
-        const { email, password, fps } = request.body;
+        const { email, password, fps, inviteCode } = request.body;
         const { [LOGIN_TOKEN_KEY]: token  } = request.cookies;
 
         if(token){
@@ -101,14 +100,14 @@ router.post('/login-by-email', async function(request, response) {
         }
 
         if (!checkRequestParams({
-            email, password, fps
+            email, password, fps, inviteCode
         })) {
             response.json(tlResponseArgsError("请求参数非法"));
             return;
         }
 
         const result = await userLoginBiz.userLoginByEmail({
-            email, password, fps
+            email, password, fps, inviteCode
         });
         
         response.cookie(LOGIN_TOKEN_KEY, result.data, { 
@@ -131,7 +130,7 @@ router.post('/login-by-email', async function(request, response) {
  */
 router.post('/login-by-fp', async function(request, response) {
     try {
-        const { username, fps} = request.body;
+        const { username, fps, inviteCode } = request.body;
         const { [LOGIN_TOKEN_KEY]: token  } = request.cookies;
 
         if(token){
@@ -144,14 +143,14 @@ router.post('/login-by-fp', async function(request, response) {
         }
 
         if (!checkRequestParams({
-            username, fps
+            username, fps, inviteCode
         })) {
             response.json(tlResponseArgsError("请求参数非法"));
             return;
         }
 
         const result = await userLoginBiz.userLoginByFingerPrint({
-            username, fps
+            username, fps, inviteCode
         });
 
         response.cookie(LOGIN_TOKEN_KEY, result.data, { 

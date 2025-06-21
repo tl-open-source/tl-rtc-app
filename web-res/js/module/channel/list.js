@@ -228,7 +228,7 @@ const tl_rtc_app_module_channel_list = {
             }
 
             // 有浏览器系统桌面消息通知
-            if(webNotify && window.Notification && Notification.permission === 'granted'){
+            if(this.webNotify && window.Notification && Notification.permission === 'granted'){
                 const channelInfo = this.channels.find(item => item.channelId === channelId)
                 new Notification(channelInfo.channelName, {
                     body: '收到新消息啦，快去看看吧',

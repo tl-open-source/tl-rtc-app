@@ -1,14 +1,64 @@
-
 const crypto = require("crypto")
 const {
-	tlResponseSuccess, tlResponseForbidden
+	checkBit, tlResponseSuccess, tlResponseForbidden
 } = require("../../utils/utils");
 const { get_env_config, set_env_config } = require("../../../conf/env_config");
 const conf = get_env_config()
 
+const companyService = require('../../service/company/tl_company_service')
 const userSessionService = require('../../service/user/tl_user_session_service')
 const { inner: TlRoleInner } = require('../../tables/tl_role')
 
+const { fields: TlCompanyFields } = require('../../tables/tl_company')
+
+const {
+    Def: TlCompanyDef, Flag: TlCompanyFlag
+} = TlCompanyFields
+
+
+/**
+ * 获取所有企业邀请码 - 最多返回10个
+ * @returns
+ */
+const getAllCompanyInviteCode = async function () {
+    const companyList = await companyService.getListForPage({}, [
+        TlCompanyDef.id,
+        TlCompanyDef.code,
+        TlCompanyDef.name,
+        TlCompanyDef.flag
+    ], 1, 10)
+
+    const resultList = []
+
+    for(let i = 0; i < companyList.length; i++) {
+        const item = companyList[i];
+        // 处理每个企业的邀请码
+        const flag = item[TlCompanyDef.flag] || 0
+        const code = item[TlCompanyDef.code] || ''
+        const name = item[TlCompanyDef.name] || ''
+
+        // 过滤掉没有邀请码的企业
+        if(code.length === 0) {
+            continue
+        }
+
+        const authStatus = checkBit(flag, TlCompanyFlag.IS_PASS_AUTH)
+        const expiredStatus = checkBit(flag, TlCompanyFlag.IS_EXPIRED)
+        const openRegister = checkBit(flag, TlCompanyFlag.IS_OPEN_REGISTER)
+
+        // 没有通过认证、已过期、未开放注册的企业，不算在内
+        if(!authStatus && !expiredStatus && !openRegister) {
+            continue
+        }
+
+        resultList.push({
+            value: code,
+            name: name
+        })
+    }
+
+    return resultList
+}
 
 
 /**
@@ -19,6 +69,8 @@ const { inner: TlRoleInner } = require('../../tables/tl_role')
  * @param {*} loginInfo 登录信息
  */
 const initData = async function({openTurn, useSecret, ip, token}){
+    const inviteCodeList = await getAllCompanyInviteCode()
+
     if(!token){
         return tlResponseSuccess("获取成功",{
             version : conf.version,
@@ -26,6 +78,7 @@ const initData = async function({openTurn, useSecret, ip, token}){
             rtcConfig: { iceServers: [] },
             options: {},
             logo : genClientLogo(),
+            codeList: inviteCodeList
         })
     }
 
@@ -40,6 +93,7 @@ const initData = async function({openTurn, useSecret, ip, token}){
             rtcConfig: { iceServers: [] },
             options: {},
             logo : genClientLogo(),
+            codeList: inviteCodeList
         })
     }
 
@@ -57,6 +111,7 @@ const initData = async function({openTurn, useSecret, ip, token}){
                 "offerToReceiveVideo": 1
             },
             logo : genClientLogo(),
+            codeList: inviteCodeList
         })
 	}
 
@@ -70,6 +125,7 @@ const initData = async function({openTurn, useSecret, ip, token}){
             "offerToReceiveVideo": 1
         },
         logo : genClientLogo(),
+        codeList: inviteCodeList
     })
 }
 
@@ -156,14 +212,6 @@ const adminGetSystemEnvConfig = async function({
         host: conf.redis_host,
         port: conf.redis_port,
         password: conf.redis_password,
-    }
-
-    // 队列配置
-    const queueConfig = {
-        type: conf.task_queue_type,
-        host: conf.task_queue_host,
-        port: conf.task_queue_port,
-        password: conf.task_queue_password,
     }
 
     // webrtc配置

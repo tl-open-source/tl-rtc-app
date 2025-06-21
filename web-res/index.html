@@ -69,6 +69,7 @@
                     :is-mobile="isMobile"
                     :right-module="rightModule"
                     :left-module="leftModule"
+                    :code-list="codeList"
                     v-cloak> 
                 </tl_rtc_app_module_login>
 
@@ -90,6 +91,8 @@
                     @left-module-change="leftModuleChange"
                     v-show="leftModule == 'contact'"
                     :socket="socket"
+                    :company="company"
+                    :user="user"
                     :is-mobile="isMobile"
                     :right-module="rightModule"
                     :left-module="leftModule"
@@ -133,6 +136,7 @@
                     :is-mobile="isMobile"
                     :right-module="rightModule"
                     :left-module="leftModule"
+                    :code-list="codeList"
                     v-cloak> 
                 </tl_rtc_app_module_login_content>
 

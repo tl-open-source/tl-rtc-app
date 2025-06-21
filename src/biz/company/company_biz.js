@@ -26,7 +26,7 @@ const {
  * @param {*} description
  */
 const adminAddCompany = async function ({
-    loginInfo, name, address, phone, email, website, logo, description
+    loginInfo, name, address, phone, email, website, logo, description, openRegister
 }) {
     const {
         loginUserCompanyId, loginUserId, loginUserRoleId
@@ -66,6 +66,11 @@ const adminAddCompany = async function ({
 
     const code = uuid.v4().replace(/-/g, '')
 
+    let flag = 0
+    if(openRegister !== null && openRegister !== undefined){
+        flag = setBit(flag, TlCompanyFlag.IS_OPEN_REGISTER, openRegister)
+    }
+
     const info = await companyService.addInfo({
         name,
         address,
@@ -74,7 +79,8 @@ const adminAddCompany = async function ({
         website,
         logo,
         description,
-        code
+        code,
+        flag
     })
 
     if(Object.keys(info).length == 0){
@@ -99,10 +105,11 @@ const adminAddCompany = async function ({
  * @param {*} code
  * @param {*} authStatus
  * @param {*} expiredStatus
+ * @param {*} openRegister
  */
 const adminUpdateCompany = async function ({
     id, loginInfo, name, address, phone, email, 
-    website, logo, description, code, authStatus, expiredStatus
+    website, logo, description, code, authStatus, expiredStatus, openRegister
 }) {
     const {
         loginUserCompanyId, loginUserId, loginUserRoleId
@@ -148,6 +155,10 @@ const adminUpdateCompany = async function ({
         return tlResponseArgsError("请求参数错误")
     }
 
+    if(openRegister == undefined || openRegister == null){
+        return tlResponseArgsError("请求参数错误")
+    }
+
     const info = await companyService.getInfoById({
         id
     })
@@ -168,6 +179,8 @@ const adminUpdateCompany = async function ({
     }else{
         flag = setBit(flag, TlCompanyFlag.IS_EXPIRED, false)
     }
+
+    flag = setBit(flag, TlCompanyFlag.IS_OPEN_REGISTER, openRegister)
 
     const result = await companyService.updateInfoById({
         id: id,
@@ -301,6 +314,7 @@ const adminGetCompanyList = async function ({
 
         const authStatus = checkBit(flag, TlCompanyFlag.IS_PASS_AUTH)
         const expiredStatus = checkBit(flag, TlCompanyFlag.IS_EXPIRED)
+        const openRegister = checkBit(flag, TlCompanyFlag.IS_OPEN_REGISTER)
 
         resultList.push({
             id: item[TlCompanyDef.id],
@@ -314,6 +328,7 @@ const adminGetCompanyList = async function ({
             code: item[TlCompanyDef.code],
             authStatus,
             expiredStatus,
+            openRegister,
             createTime: item[TlCompanyDef.createdAt],
         })
     }
@@ -396,6 +411,7 @@ const adminGetCompanyInfo = async function ({
 
     const authStatus = checkBit(flag, TlCompanyFlag.IS_PASS_AUTH)
     const expiredStatus = checkBit(flag, TlCompanyFlag.IS_EXPIRED)
+    const openRegister = checkBit(flag, TlCompanyFlag.IS_OPEN_REGISTER)
 
     return tlResponseSuccess("获取成功", {
         id: info[TlCompanyDef.id],
@@ -409,9 +425,12 @@ const adminGetCompanyInfo = async function ({
         code: info[TlCompanyDef.code],
         authStatus,
         expiredStatus,
+        openRegister,
         createTime: info[TlCompanyDef.createdAt],
     })
 }
+
+
 
 
 module.exports = {
@@ -421,5 +440,5 @@ module.exports = {
     adminUpdateCompany,
     adminGetCompanyList,
     adminDeleteCompany,
-    adminGetCompanyInfo
+    adminGetCompanyInfo,
 }

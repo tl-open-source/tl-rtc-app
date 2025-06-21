@@ -11,6 +11,10 @@ const tl_rtc_app_module_login_content_email = {
         rightModule: {
             type: String,
             default: ''
+        },
+        codeList: {
+            type: Array,
+            default: () => []
         }
     },
     computed: {
@@ -29,6 +33,9 @@ const tl_rtc_app_module_login_content_email = {
         propsRightModule() {
             return this.rightModule;
         },
+        propsCodeList() {
+            return this.codeList;
+        }
     },
     watch: {
         leftModule: function (val) {
@@ -43,7 +50,7 @@ const tl_rtc_app_module_login_content_email = {
             code: '',
             email: '',
             password: '',
-            inviteCode: 'tlrtcappdemo',
+            inviteCode: '请输入邀请码',
             btnType : 'login',
             requesting : false,
             getCodeTime: 0,
@@ -99,7 +106,8 @@ const tl_rtc_app_module_login_content_email = {
 
             let params = {
                 email: Base64.encode(this.email),
-                password: Base64.encode(this.password)
+                password: Base64.encode(this.password),
+                inviteCode: this.inviteCode
             }
             if(!window.tl_rtc_app_comm.checkRequestParams(params)){
                 this.popErrorMsg("请求参数非法")
@@ -314,8 +322,11 @@ const tl_rtc_app_module_login_content_email = {
                 开始重置密码
             </div>
             <div class="tl-rtc-app-right-login-content-body-form">
-                <div class="tl-rtc-app-right-login-content-body-form-item" v-show="btnType === 'register' || btnType === 'forgot'">
-                    <input v-model="inviteCode" type="text" autocomplete="off" placeholder="邀请码" class="layui-input" maxlength="60">
+                <div class="tl-rtc-app-right-login-content-body-form-item">
+                    <select class="layui-input" lay-search="" v-model="inviteCode">
+                        <option key="请输入邀请码" value="请输入邀请码">请输入邀请码</option>
+                        <option v-for="code in propsCodeList" :key="code.value" :value="code.value">{{ code.value }} ({{ code.name }})</option>
+                    </select>
                 </div>
                 <div class="tl-rtc-app-right-login-content-body-form-item">
                     <input id='loginEmailInput' v-model="email" type="text" autocomplete="off" placeholder="邮箱" class="layui-input" maxlength="48">
